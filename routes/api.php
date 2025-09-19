@@ -13,6 +13,10 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 */
+Route::get('/', function () {
+    return view('welcome');
+});
+
 Route::apiResource('admins', AdminController::class);
 Route::apiResource('candidats', CandidatController::class);
 Route::apiResource('editions', EditionController::class);
