@@ -11,6 +11,10 @@ class Candidat extends Model
 {
     protected $table = 'candidats';
 
+    protected $fillable = [
+        'nom_complet', 'photo_url', 'description', 'categorie_id', 'edition_id'
+    ];
+
     public function categorie() {
         return $this->belongsTo(Categorie::class, 'categorie_id');
     }
