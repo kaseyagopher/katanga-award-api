@@ -4,15 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller implements HasMiddleware
+class UserController extends Controller 
 {
-    public static function middleware()
+    public function __construct()
     {
-        return new Middleware('auth:sanctum', except:['index', 'show']);
+        $this->middleware('auth:sanctum')->except(['index', 'show']);
     }
     /**
      * Liste tous les utilisateurs

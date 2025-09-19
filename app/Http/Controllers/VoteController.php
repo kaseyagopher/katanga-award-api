@@ -4,14 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Vote;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 
-class VoteController extends Controller implements HasMiddleware
+class VoteController extends Controller 
 {
-    public static function middleware()
+    public function __construct()
     {
-        return new Middleware('auth:sanctum', except:['index', 'show']);
+        $this->middleware('auth:sanctum')->except(['index', 'show']);
     }
     /**
      * Display a listing of the resource.

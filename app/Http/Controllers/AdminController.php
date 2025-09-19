@@ -5,14 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Hash;
 
-class AdminController extends Controller implements HasMiddleware
+class AdminController extends Controller 
 {
-    public static function middleware()
+    public function __construct()
     {
-        return new Middleware('auth:sanctum', except:['index', 'show']);
+        $this->middleware('auth:sanctum')->except(['index', 'show']);
     }
     /**
      * Display a listing of the resource.

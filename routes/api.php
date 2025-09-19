@@ -23,6 +23,7 @@ Route::apiResource('editions', EditionController::class);
 Route::apiResource('users', UserController::class);
 
 Route::post('loginAdmin', [AuthController::class, 'loginAdmin']);
+
 Route::post('loginUser',[AuthController::class, 'loginUser']);
 
 Route::post('logout',[AuthController::class,'logout'])->middleware('auth:sanctum');
