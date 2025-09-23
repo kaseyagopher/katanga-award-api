@@ -9,10 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller 
 {
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum')->except(['index', 'show']);
-    }
+    
     /**
      * Display a listing of the resource.
      */
@@ -20,7 +17,6 @@ class AdminController extends Controller
     {
         // Retourne tous les admins
         $admins = Admin::all();
-        return response()->json($admins);
     }
 
     /**

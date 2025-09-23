@@ -15,10 +15,10 @@ Route::get('/user', function (Request $request) {
 */
 
 
-Route::apiResource('admins', AdminController::class);
-Route::apiResource('candidats', CandidatController::class);
-Route::apiResource('editions', EditionController::class);
-Route::apiResource('users', UserController::class);
+Route::apiResource('/admins', AdminController::class);
+Route::apiResource('/candidats', CandidatController::class);
+Route::apiResource('/editions', EditionController::class);
+Route::apiResource('/users', UserController::class);
 
 Route::post('loginAdmin', [AuthController::class, 'loginAdmin']);
 
