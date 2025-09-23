@@ -8,7 +8,7 @@
 <body class="bg-light d-flex justify-content-center align-items-center vh-100">
 
     <div class="card p-4 shadow-sm" style="width: 400px;">
-        <h3 class="text-center mb-4">Connexion Admin</h3>
+        <h3 class="text-center mb-4">Connexion</h3>
 
         @if (session('error'))
             <div class="alert alert-danger">
@@ -20,20 +20,15 @@
             @csrf
 
             <div class="mb-3">
-                <label for="email" class="form-label">Adresse e-mail</label>
-                <input type="email" name="email" id="email" class="form-control" required autofocus value="{{ old('email') }}">
-                @error('email')
+                <label for="telephone" class="form-label">Numéro de téléphone</label>
+                <input type="text" name="telephone" id="telephone" class="form-control"
+                    placeholder="Ex: +243854721056" value="{{ old('telephone') }}">
+                @error('telephone')
                     <div class="text-danger small">{{ $message }}</div>
                 @enderror
             </div>
 
-            <div class="mb-3">
-                <label for="password" class="form-label">Mot de passe</label>
-                <input type="password" name="password" id="password" class="form-control" required>
-                @error('password')
-                    <div class="text-danger small">{{ $message }}</div>
-                @enderror
-            </div>
+
 
             <button type="submit" class="btn btn-primary w-100">Se connecter</button>
         </form>

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Candidat;
+use App\Models\Categorie;
+use App\Models\Edition;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Hash;
@@ -15,8 +18,11 @@ class AdminController extends Controller
      */
     public function index()
     {
-        // Retourne tous les admins
-        $admins = Admin::all();
+        $Editions = Edition::all();
+        $Categories = Categorie::all();
+        $Candidats = Candidat::all();
+        
+        return view('admin.dashboard', compact('Editions', 'Candidats','Categories'));
     }
 
     /**

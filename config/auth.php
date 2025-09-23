@@ -42,15 +42,16 @@ return [
     ],
 
     'admin' => [
-        'driver' => 'sanctum',
+        'driver' => 'session',   // <-- ici on change de sanctum à session
         'provider' => 'admins',
     ],
 
     'user' => [
-        'driver' => 'sanctum',
+        'driver' => 'session',   // <-- idem
         'provider' => 'users',
     ],
 ],
+
 
 'providers' => [
     'users' => [

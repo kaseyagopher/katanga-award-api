@@ -6,9 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Admin;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    public function admin(){
+        return view('auth.loginAdmin');
+    }
     // Admin login
     public function loginAdmin(Request $request)
     {
@@ -20,16 +24,13 @@ class AuthController extends Controller
         $admin = Admin::where('email', $validated['email'])->first();
 
         if (!$admin || !Hash::check($validated['password'], $admin->password)) {
-            return response()->json(['message' => 'Identifiants invalides'], 401);
+            return back()->withErrors(['email' => 'Identifiants invalides'])->withInput();
         }
 
-        $token = $admin->createToken('admin_token')->plainTextToken;
-
-        return response()->json([
-            'message' => 'Connexion réussie',
-            'token' => $token,
-            'admin' => $admin
-        ]);
+        // Connexion classique via guard admin
+        Auth::guard('admin')->loginUsingId($admin->id);
+        
+        return to_route('admin.index');
     }
 
     public function index(){
@@ -37,28 +38,50 @@ class AuthController extends Controller
     }
 
     // User login (numéro seulement)
-    public function loginUser(Request $request)
+   public function loginUser(Request $request)
     {
+        // 1️⃣ Validation du numéro
         $validated = $request->validate([
-            'numero' => 'required|exists:users,numero',
+            'telephone' => [
+                'required',
+                'regex:/^(?:\+243|0)(81|82|83|84|85|89|97|99)\d{7}$/'
+            ]
+        ], [
+            'telephone.regex' => 'Le numéro doit être Vodacom, Orange ou Airtel'
         ]);
 
-        $user = User::where('numero', $validated['numero'])->first();
+        // 2️⃣ Vérifier si l'utilisateur existe
+        $user = User::where('numero', $validated['telephone'])->first();
 
-        $token = $user->createToken('user_token')->plainTextToken;
+        // 3️⃣ Si l'utilisateur n'existe pas, le créer
+        if (!$user) {
+            $user = User::create([
+                'numero' => $validated['telephone'],
+                // tu peux ajouter d'autres champs par défaut ici
+            ]);
+        }
 
-        return response()->json([
-            'message' => 'Connexion réussie',
-            'token' => $token,
-            'user' => $user
-        ]);
+        // 4️⃣ Connecter l'utilisateur
+        Auth::login($user);
+        
+        // 5️⃣ Rediriger vers la page d'accueil ou dashboard
+        return view('auth.status');
     }
 
     // Logout (Admin ou User)
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        if (Auth::guard('admin')->check()) {
+            Auth::guard('admin')->logout();
+            return redirect()->route('admin.login')->with('success', 'Déconnecté !');
+        }
 
-        return response()->json(['message' => 'Déconnexion réussie']);
+        if (Auth::guard('web')->check()) {
+            Auth::guard('web')->logout();
+            return redirect()->route('login')->with('success', 'Déconnecté !');
+        }
+
+        return redirect()->route('login');
     }
+
 }
