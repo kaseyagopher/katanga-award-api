@@ -84,4 +84,26 @@ class AuthController extends Controller
         return redirect()->route('login');
     }
 
+    public function createAdmin(Request $request)
+    {
+        // Validation
+        $validated = $request->validate([
+            'email' => 'required|email|unique:admins,email',
+            'password' => 'required|string|min:6',
+            'pseudo' => 'required|string|max:50',
+        ]);
+
+        // Création de l'admin
+        $admin = Admin::create([
+            'email' => $validated['email'],
+            'pseudo' => $validated['pseudo'],
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        return response()->json([
+            'message' => 'Admin créé avec succès !',
+            'admin' => $admin
+        ]);
+    }
+
 }
