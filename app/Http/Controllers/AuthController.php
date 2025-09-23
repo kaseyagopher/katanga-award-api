@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Admin;
 
-class AuthController extends Controller 
+class AuthController extends Controller
 {
     // Admin login
     public function loginAdmin(Request $request)
@@ -30,6 +30,10 @@ class AuthController extends Controller
             'token' => $token,
             'admin' => $admin
         ]);
+    }
+
+    public function index(){
+        return view('auth.login');
     }
 
     // User login (numéro seulement)

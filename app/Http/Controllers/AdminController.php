@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Hash;
 
-class AdminController extends Controller 
+class AdminController extends Controller
 {
-    
+
     /**
      * Display a listing of the resource.
      */
@@ -35,13 +35,6 @@ class AdminController extends Controller
 
         $admin = Admin::create($validated);
 
-        $token = $admin->createToken($request->pseudo);
-
-        return response()->json([
-            'message' => 'Admin créé avec succès',
-            'admin' => $admin,
-            'token' => $token->plainTextToken
-        ], 201);
     }
 
     /**
@@ -49,7 +42,7 @@ class AdminController extends Controller
      */
     public function show(Admin $admin)
     {
-        return response()->json($admin);
+        return $admin;
     }
 
     /**
@@ -70,10 +63,7 @@ class AdminController extends Controller
 
         $admin->update($validated);
 
-        return response()->json([
-            'message' => 'Admin mis à jour avec succès',
-            'admin' => $admin
-        ]);
+
     }
 
     /**
@@ -83,8 +73,6 @@ class AdminController extends Controller
     {
         $admin->delete();
 
-        return response()->json([
-            'message' => 'Admin supprimé avec succès'
-        ]);
+
     }
 }
