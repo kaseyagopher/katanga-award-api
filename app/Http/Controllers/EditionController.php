@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Edition;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EditionController extends Controller 
 {
@@ -13,34 +14,67 @@ class EditionController extends Controller
      */
     public function index()
     {
-        // Retourne toutes les éditions
-        $editions = Edition::all();
-        return response()->json($editions);
+        $Editions = Edition::all();
+        return view('admin.editions', compact('Editions'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function edit($id)
     {
-        $validated = $request->validate([
-            'titre' => ['required', 'string', 'max:255'],
-            'theme' => ['required', 'string', 'max:255'],
-            'annee' => ['required', 'integer'],
-            'statut' => ['required', 'string', 'max:50'],
-        ]);
+        $edition = Edition::find($id);
 
-        $edition = Edition::create($validated);
+        if(!$edition){
+            return response()->json([
+                'success' => false,
+                'message' => 'Édition non trouvée.'
+            ], 404);
+        }
 
         return response()->json([
-            'message' => 'Edition ajoutée avec succès',
+            'success' => true,
             'edition' => $edition
-        ], 201);
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
+    public function store(Request $request)
+    {
+        
+
+        try {
+            $validated = $request->validate([
+                'titre' => ['required', 'string', 'max:255'],
+                'theme' => ['required', 'string', 'max:255'],
+                'statut' => ['required', 'string', 'max:50'],
+            ]);
+
+            $edition = Edition::create([
+                'titre' => $validated['titre'],
+                'theme' => $validated['theme'],
+                'statut' => $validated['statut'],
+                'admin_id' => Auth::guard('admin')->id(),       // Récupère l'id de l'utilisateur connecté
+            ]);
+            
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Édition enregistrée avec succès',
+                'edition' => $edition
+            ], 201);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Retourne les erreurs de validation en JSON
+            return response()->json([
+                'success' => false,
+                'errors' => $e->errors(),
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erreur : ' . $e->getMessage(),
+                'trace' => $e->getTraceAsString(), // facultatif pour debug
+            ], 500);
+        }
+    }
+
     public function show(Edition $edition)
     {
         return response()->json($edition);
@@ -54,8 +88,7 @@ class EditionController extends Controller
         $validated = $request->validate([
             'titre' => ['sometimes', 'string', 'max:255'],
             'theme' => ['sometimes', 'string', 'max:255'],
-            'annee' => ['sometimes', 'integer'],
-            'statut' => ['sometimes', 'string', 'max:50'],
+            'statut' => ['sometimes'],
         ]);
 
         $edition->update($validated);

@@ -11,8 +11,9 @@ use Illuminate\Database\Eloquent\Model;
 class Edition extends Model
 {
     protected $table = 'editions';
+    
     protected $fillable = [
-        'titre', 'theme','annee', 'statut'
+        'titre', 'theme', 'statut', 'admin_id'
     ];
 
     // Une édition appartient à un admin

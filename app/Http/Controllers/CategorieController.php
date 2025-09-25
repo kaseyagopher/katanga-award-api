@@ -3,22 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categorie;
+use App\Models\Edition;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategorieController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum')->except(['index', 'show']);
-    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        // Retourne toutes les catégories
-        $categories = Categorie::all();
-        return response()->json($categories);
+        $Categories = Categorie::all();
+        return view('admin.categories', compact('Categories'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $Editions = Edition::where('statut', '1')->get();
+        return view('admin.create-edit', compact('Editions'));
     }
 
     /**
@@ -29,15 +35,18 @@ class CategorieController extends Controller
         $validated = $request->validate([
             'nom_categorie' => ['required', 'string', 'max:255'],
             'edition_id' => ['required', 'exists:editions,id'],
-            'admin_id' => ['required', 'exists:admins,id'],
         ]);
 
-        $categorie = Categorie::create($validated);
+        $categorie = Categorie::create([
+            'nom_categorie' => $validated['nom_categorie'],
+            'edition_id' => $validated['edition_id'],
+            'admin_id' => Auth::guard('admin')->id()
+        ]);
 
         return response()->json([
-            'message' => 'Catégorie ajoutée avec succès',
+            'message' => 'Catégorie créée avec succès',
             'categorie' => $categorie
-        ], 201);
+        ]);
     }
 
     /**
@@ -49,27 +58,39 @@ class CategorieController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Show the form for editing the specified resource.
      */
-    public function update(Request $request, Categorie $categorie)
+    public function edit($id)
     {
-        $validated = $request->validate([
-            'nom_categorie' => ['sometimes', 'string', 'max:255'],
-            'edition_id' => ['sometimes', 'exists:editions,id'],
-            'admin_id' => ['sometimes', 'exists:admins,id'],
-        ]);
+        $Categorie = Categorie::findOrFail($id);
+        $Editions = Edition::where('statut', '1')->get();
 
-        $categorie->update($validated);
-
-        return response()->json([
-            'message' => 'Catégorie mise à jour avec succès',
-            'categorie' => $categorie
-        ]);
+        return view('admin.create-edit', compact('Categorie', 'Editions'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Update the specified resource in storage.
      */
+    public function update(Request $request, $id)
+    {
+        $categorie = Categorie::findOrFail($id);
+
+        $validated = $request->validate([
+            'nom_categorie' => ['required', 'string', 'max:255'],
+            'edition_id' => ['required', 'exists:editions,id'],
+        ]);
+        
+        $categorie->update([
+            'nom_categorie' => $validated['nom_categorie'],
+            'edition_id' => $validated['edition_id'],
+            'admin_id' => Auth::guard('admin')->id()
+        ]);
+        
+        return to_route('categories.index');
+    }
+
+    
+
     public function destroy(Categorie $categorie)
     {
         $categorie->delete();
