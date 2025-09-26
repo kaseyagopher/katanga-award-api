@@ -16,10 +16,21 @@ class CandidatController extends Controller
     public function index()
     {
         // Retourne tous les candidats
-        $Candidats = Candidat::all();
+        $Candidats = Candidat::with('categorie')->get();
         return view('admin.candidats', compact('Candidats'));
     }
+    public function edit($id)
+    {
+        $Candidat = Candidat::find($id);
+        $Categories = Categorie::all();
+        $Editions = Edition::all();
 
+        if (!$Candidat) {
+            return redirect()->route('candidats.index')->with('error', 'Candidat non trouvé.');
+        }
+
+        return view('admin.create-edit-candidat', compact('Candidat', 'Categories', 'Editions'));
+    }
     /**
      * Store a newly created resource in storage.
      */

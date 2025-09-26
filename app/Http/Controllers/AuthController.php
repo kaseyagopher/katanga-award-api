@@ -30,7 +30,7 @@ class AuthController extends Controller
         // Connexion classique via guard admin
         Auth::guard('admin')->loginUsingId($admin->id);
         
-        return to_route('admin.index');
+        return to_route('admin.dashboard');
     }
 
     public function index(){
@@ -81,7 +81,7 @@ class AuthController extends Controller
             return redirect()->route('login')->with('success', 'Déconnecté !');
         }
 
-        return redirect()->route('login');
+        return redirect()->route('admin.login');
     }
 
     public function createAdmin(Request $request)

@@ -20,7 +20,7 @@ Route::post('/loginAdmin',[AuthController::class, 'loginAdmin']);
 Route::get('/logout',[AuthController::class, 'logout'])->name('admin.logout');
 
 Route::prefix('admin')->group(function () {
-    Route::get('/dashboard',[AdminController::class, 'index'])->name('admin.index');
+    Route::get('/dashboard',[AdminController::class, 'index'])->name('admin.dashboard');
     Route::resource('editions', EditionController::class);
     Route::resource('categories', CategorieController::class);
     Route::resource('candidats', CandidatController::class);

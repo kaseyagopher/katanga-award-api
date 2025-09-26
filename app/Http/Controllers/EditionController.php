@@ -8,9 +8,8 @@ use Illuminate\Support\Facades\Auth;
 
 class EditionController extends Controller 
 {
-    
     /**
-     * Display a listing of the resource.
+     * Afficher la liste des éditions (vue Blade).
      */
     public function index()
     {
@@ -18,6 +17,9 @@ class EditionController extends Controller
         return view('admin.editions', compact('Editions'));
     }
 
+    /**
+     * Récupérer une édition en JSON (pour le bouton Modifier).
+     */
     public function edit($id)
     {
         $edition = Edition::find($id);
@@ -35,25 +37,25 @@ class EditionController extends Controller
         ]);
     }
 
+    /**
+     * Créer une nouvelle édition (AJAX).
+     */
     public function store(Request $request)
     {
-        
-
         try {
             $validated = $request->validate([
                 'titre' => ['required', 'string', 'max:255'],
                 'theme' => ['required', 'string', 'max:255'],
-                'statut' => ['required', 'string', 'max:50'],
+                'statut' => ['required', 'in:0,1'],
             ]);
 
             $edition = Edition::create([
                 'titre' => $validated['titre'],
                 'theme' => $validated['theme'],
                 'statut' => $validated['statut'],
-                'admin_id' => Auth::guard('admin')->id(),       // Récupère l'id de l'utilisateur connecté
+                'admin_id' => Auth::guard('admin')->id(),
             ]);
-            
-            
+
             return response()->json([
                 'success' => true,
                 'message' => 'Édition enregistrée avec succès',
@@ -61,7 +63,6 @@ class EditionController extends Controller
             ], 201);
 
         } catch (\Illuminate\Validation\ValidationException $e) {
-            // Retourne les erreurs de validation en JSON
             return response()->json([
                 'success' => false,
                 'errors' => $e->errors(),
@@ -70,44 +71,40 @@ class EditionController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Erreur : ' . $e->getMessage(),
-                'trace' => $e->getTraceAsString(), // facultatif pour debug
             ], 500);
         }
     }
 
-    public function show(Edition $edition)
-    {
-        return response()->json($edition);
-    }
-
     /**
-     * Update the specified resource in storage.
+     * Mettre à jour une édition.
      */
     public function update(Request $request, Edition $edition)
     {
         $validated = $request->validate([
-            'titre' => ['sometimes', 'string', 'max:255'],
-            'theme' => ['sometimes', 'string', 'max:255'],
-            'statut' => ['sometimes'],
+            'titre' => ['required', 'string', 'max:255'],
+            'theme' => ['required', 'string', 'max:255'],
+            'statut' => ['required', 'in:0,1'],
         ]);
 
         $edition->update($validated);
 
         return response()->json([
-            'message' => 'Edition mise à jour avec succès',
+            'success' => true,
+            'message' => 'Édition mise à jour avec succès',
             'edition' => $edition
         ]);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprimer une édition.
      */
     public function destroy(Edition $edition)
     {
         $edition->delete();
 
         return response()->json([
-            'message' => 'Edition supprimée avec succès'
+            'success' => true,
+            'message' => 'Édition supprimée avec succès'
         ]);
     }
 }

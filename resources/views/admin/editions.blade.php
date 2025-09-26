@@ -1,46 +1,118 @@
-<div>
-    <h3>Éditions</h3>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Vote en ligne</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("-translate-x-full");
+      document.getElementById("overlay").classList.toggle("hidden");
+    }
+  </script>
+</head>
+<body class="flex min-h-screen bg-gray-100 font-sans">
 
-    <!-- Liste des éditions -->
-    <ul id="editionList">
-        @forelse ($Editions as $Edition)
-            <li data-id="{{ $Edition->id }}">
-                {{ $Edition->theme }} – {{ $Edition->created_at ?? 'Pas de date' }}
-                <button class="editBtn">✏️ Modifier</button>
-            </li>
-        @empty
-            <li>Aucune Edition</li>
-        @endforelse
-    </ul>
+  <!-- Sidebar -->
+  @include('components.aside-admin')
 
-    <!-- Bouton Ajouter -->
-    <button id="showFormBtn">➕ Ajouter une édition</button>
+  <!-- Overlay (mobile only) -->
+  <div id="overlay" 
+       class="fixed inset-0 bg-black bg-opacity-50 hidden z-40 md:hidden"
+       onclick="toggleSidebar()"></div>
 
-    <!-- Formulaire popup (caché) -->
-    <div id="editionFormContainer" hidden>
-        <form id="editionForm">
-            @csrf
-            <input type="hidden" id="editionId" name="editionId">
+  <!-- Contenu principal -->
+  <div class="flex-1 flex flex-col md:ml-64">
+    <!-- Header -->
+    <header class="bg-white shadow p-4 flex items-center justify-between md:hidden">
+      <button onclick="toggleSidebar()" class="text-blue-700 focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+             viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+      <h1 class="text-lg font-bold">Admin Dashboard</h1>
+    </header>
 
-            <label for="titre">Titre :</label>
-            <input type="text" id="titre" name="titre" required>
+    <main class="p-8 space-y-8">
 
-            <label for="theme">Thème :</label>
-            <input type="text" id="theme" name="theme" required>
+      <!-- Titre -->
+      <h1 class="text-3xl font-bold">Editions</h1>
+      <div class="flex items-center justify-between">
+          <h2 class="text-2xl font-semibold"></h2>
+          <button id="showFormBtn" class="px-5 py-2 bg-[#A28224] text-white rounded">
+             Ajouter
+          </button>
+      </div>
 
-            <label for="statut">Statut :</label>
-            <select name="statut" id="statut" required>
-                <option value="1">Active</option>
-                <option value="0">Non active</option>
+      <!-- Tableau des éditions -->
+      <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+        <table class="min-w-full">
+          <thead class="bg-black text-white">
+            <tr>
+              <th class="px-6 py-3 text-left text-sm font-semibold">#</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold">Titre</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold">Thème</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="editionList" class="divide-y divide-gray-200">
+            @forelse ($Editions as $Edition)
+            <tr data-id="{{ $Edition->id }}">
+                <td class="px-6 py-4">{{ $Edition->id }}</td>
+                <td class="px-6 py-4">{{ $Edition->titre }}</td>
+                <td class="px-6 py-4">{{ $Edition->theme }}</td>
+                <td class="px-6 py-4 text-sm flex gap-2">
+                    <button class="editBtn px-2 py-1 bg-black text-white rounded">Modifier</button>
+                    <button class="deleteBtn px-2 py-1 bg-red-500 text-white rounded">Supprimer</button>
+                </td>
+            </tr>
+            @empty
+            <tr>
+              <td colspan="4" class="p-4 bg-gray-200 text-center rounded">Aucune Édition</td>
+            </tr>
+            @endforelse
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Formulaire popup -->
+      <div id="editionFormContainer" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <form id="editionForm" class="bg-white p-6 rounded shadow-lg w-full max-w-md space-y-4">
+          @csrf
+          <input type="hidden" id="editionId" name="editionId">
+
+          <div>
+            <label for="titre" class="block font-medium mb-1">Titre :</label>
+            <input type="text" id="titre" name="titre" required class="w-full px-3 py-2 border rounded">
+          </div>
+
+          <div>
+            <label for="theme" class="block font-medium mb-1">Thème :</label>
+            <input type="text" id="theme" name="theme" required class="w-full px-3 py-2 border rounded">
+          </div>
+
+          <div>
+            <label for="statut" class="block font-medium mb-1">Statut :</label>
+            <select name="statut" id="statut" required class="w-full px-3 py-2 border rounded">
+              <option value="1">Active</option>
+              <option value="0">Non active</option>
             </select>
+          </div>
 
-            <button type="submit" id="submitBtn">Enregistrer</button>
-            <button type="button" id="closeFormBtn">Annuler</button>
+          <div class="flex justify-end gap-2">
+            <button type="submit" id="submitBtn" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Enregistrer</button>
+            <button type="button" id="closeFormBtn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Annuler</button>
+          </div>
+
+          <div id="formMessage" class="text-sm text-red-500"></div>
         </form>
+      </div>
 
-        <div id="formMessage"></div>
-    </div>
-</div>
+    </main>
+  </div>
 
 <script>
 const showFormBtn = document.getElementById('showFormBtn');
@@ -56,49 +128,83 @@ const editionList = document.getElementById('editionList');
 
 let isEditing = false;
 
-// Clic sur Ajouter
+// Ouvrir popup
 showFormBtn.addEventListener('click', () => {
     isEditing = false;
     editionForm.reset();
     editionIdInput.value = '';
-    editionFormContainer.hidden = false;
+    editionFormContainer.classList.remove('hidden');
     formMessage.innerText = '';
 });
 
-// Clic sur Annuler
+// Fermer popup
 closeFormBtn.addEventListener('click', () => {
-    editionFormContainer.hidden = true;
+    editionFormContainer.classList.add('hidden');
 });
 
-// Clic sur Modifier
-editionList.addEventListener('click', async (e) => {
-    if(!e.target.classList.contains('editBtn')) return;
+// Modifier une édition
+if (editionList) {
+    editionList.addEventListener('click', async (e) => {
+        if(!e.target.classList.contains('editBtn')) return;
 
-    const li = e.target.closest('li');
-    const id = li.dataset.id;
-    isEditing = true;
-    editionFormContainer.hidden = false;
-    formMessage.innerText = "Chargement des données...";
+        const tr = e.target.closest('tr');
+        const id = tr.dataset.id;
+        isEditing = true;
+        editionFormContainer.classList.remove('hidden');
+        formMessage.innerText = "Chargement des données...";
+
+        try {
+            const response = await fetch(`editions/${id}/edit`, {
+                headers: { "Accept": "application/json" }
+            });
+            const data = await response.json();
+
+            if(response.ok && data.success){
+                editionIdInput.value = data.edition.id;
+                titreInput.value = data.edition.titre;
+                themeInput.value = data.edition.theme;
+                statutInput.value = data.edition.statut;
+                formMessage.innerText = '';
+            } else {
+                formMessage.innerText = data.message || "Impossible de récupérer les données";
+            }
+        } catch(err){
+            formMessage.innerText = "Erreur AJAX : " + err.message;
+        }
+    });
+}
+
+// Supprimer une édition
+editionList.addEventListener('click', async (e) => {
+    if(!e.target.classList.contains('deleteBtn')) return;
+
+    if(!confirm("Voulez-vous vraiment supprimer cette édition ?")) return;
+
+    const tr = e.target.closest('tr');
+    const id = tr.dataset.id;
 
     try {
-        const response = await fetch(`editions/${id}/edit`, {
-            headers: { "Accept": "application/json" }
+        const response = await fetch(`editions/${id}`, {
+            method: "DELETE",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                "Accept": "application/json"
+            }
         });
+
         const data = await response.json();
 
         if(response.ok && data.success){
-            editionIdInput.value = data.edition.id;
-            titreInput.value = data.edition.titre;
-            themeInput.value = data.edition.theme;
-            statutInput.value = data.edition.statut;
-            formMessage.innerText = '';
+            tr.remove();
+            alert("✅ Édition supprimée avec succès");
         } else {
-            formMessage.innerText = data.message || "Impossible de récupérer les données";
+            alert("⚠️ Erreur : " + (data.message || "Impossible de supprimer"));
         }
     } catch(err){
-        formMessage.innerText = "Erreur AJAX : " + err.message;
+        alert("❌ Une erreur est survenue : " + err.message);
     }
 });
+
 
 // Envoi AJAX (create ou update)
 editionForm.addEventListener('submit', async (e) => {
@@ -112,7 +218,8 @@ editionForm.addEventListener('submit', async (e) => {
     if(isEditing){
         const id = editionIdInput.value;
         url = `editions/${id}`;
-        method = "PUT";
+        method = "POST"; // Laravel nécessite POST + _method=PUT
+        formData.append('_method', 'PUT');
     }
 
     try {
@@ -130,17 +237,31 @@ editionForm.addEventListener('submit', async (e) => {
             formMessage.innerText = isEditing ? "✅ Édition modifiée avec succès" : "✅ Édition enregistrée avec succès";
 
             if(isEditing){
-                const li = editionList.querySelector(`li[data-id='${data.edition.id}']`);
-                li.innerHTML = `${data.edition.theme} – ${data.edition.created_at} <button class="editBtn">✏️ Modifier</button>`;
+                const tr = editionList.querySelector(`tr[data-id='${data.edition.id}']`);
+                tr.innerHTML = `
+                  <td class="px-6 py-4">${data.edition.id}</td>
+                  <td class="px-6 py-4">${data.edition.titre}</td>
+                  <td class="px-6 py-4">${data.edition.theme}</td>
+                  <td class="px-6 py-4 text-sm flex gap-2">
+                      <button class="editBtn px-2 py-1 bg-black text-white rounded">Modifier</button>
+                  </td>
+                `;
             } else {
-                const li = document.createElement("li");
-                li.dataset.id = data.edition.id;
-                li.innerHTML = `${data.edition.theme} – ${data.edition.created_at} <button class="editBtn">✏️ Modifier</button>`;
-                editionList.appendChild(li);
+                const tr = document.createElement("tr");
+                tr.dataset.id = data.edition.id;
+                tr.innerHTML = `
+                  <td class="px-6 py-4">${data.edition.id}</td>
+                  <td class="px-6 py-4">${data.edition.titre}</td>
+                  <td class="px-6 py-4">${data.edition.theme}</td>
+                  <td class="px-6 py-4 text-sm flex gap-2">
+                      <button class="editBtn px-2 py-1 bg-black text-white rounded">Modifier</button>
+                  </td>
+                `;
+                editionList.appendChild(tr);
             }
 
             editionForm.reset();
-            editionFormContainer.hidden = true;
+            editionFormContainer.classList.add('hidden');
         } else {
             if(data.errors){
                 formMessage.innerText = "⚠️ Erreurs : " + Object.values(data.errors).flat().join(", ");
@@ -153,3 +274,5 @@ editionForm.addEventListener('submit', async (e) => {
     }
 });
 </script>
+</body>
+</html>
