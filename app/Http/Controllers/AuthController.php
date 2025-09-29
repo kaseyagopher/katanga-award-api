@@ -65,7 +65,7 @@ class AuthController extends Controller
         Auth::login($user);
         
         // 5️⃣ Rediriger vers la page d'accueil ou dashboard
-        return view('auth.status');
+        return to_route('user.index');
     }
 
     // Logout (Admin ou User)
@@ -83,6 +83,16 @@ class AuthController extends Controller
 
         return redirect()->route('admin.login');
     }
+
+    public function user_logout()
+    {
+        // Déconnecte l'utilisateur
+        Auth::logout();
+
+        // Redirige vers la page de login
+        return redirect()->route('login');
+    }
+
 
     public function createAdmin(Request $request)
     {

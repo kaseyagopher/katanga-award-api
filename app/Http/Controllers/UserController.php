@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Candidat;
+use App\Models\Categorie;
+use App\Models\Edition;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -14,13 +17,18 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return response()->json($users);
+        $Categories = Categorie::all();
+        return view('user.index', compact('Categories'));
     }
 
-    /**
-     * Crée un nouvel utilisateur
-     */
+    public function vote()
+    {
+        $Categories = Categorie::with('Candidats')->get(); // on charge aussi les candidats
+        $edition = Edition::latest()->first(); // par exemple l'édition active
+
+        return view('user.vote', compact('Categories', 'edition'));
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -47,17 +55,11 @@ class UserController extends Controller
         ], 201);
     }
 
-    /**
-     * Affiche un utilisateur spécifique
-     */
     public function show(User $user)
     {
         return response()->json($user);
     }
 
-    /**
-     * Met à jour un utilisateur
-     */
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
@@ -79,13 +81,10 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Supprime un utilisateur
-     */
     public function destroy(User $user)
     {
         $user->delete();
-
         return response()->json(['message' => 'Utilisateur supprimé avec succès']);
     }
+
 }

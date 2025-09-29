@@ -2,37 +2,45 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion Admin</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-light d-flex justify-content-center align-items-center vh-100">
+<body class="relative min-h-screen flex items-center justify-center" 
+      style="background-image: url('{{ asset('image-katanga.jpg') }}'); background-size: cover; background-position: center;">
 
-    <div class="card p-4 shadow-sm" style="width: 400px;">
-        <h3 class="text-center mb-4">Connexion</h3>
+    <!-- Overlay sombre -->
+    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+
+    <!-- Formulaire -->
+    <div class="relative z-10 w-full max-w-md bg-white rounded-lg shadow-lg p-6">
+        <h3 class="text-center text-2xl font-bold mb-6 text-gray-800">Connexion</h3>
 
         @if (session('error'))
-            <div class="alert alert-danger">
+            <div class="bg-red-100 text-red-700 p-2 rounded mb-4 text-center">
                 {{ session('error') }}
             </div>
         @endif
 
-        <form method="POST" action="">
+        <form method="POST" action="" class="space-y-4">
             @csrf
 
-            <div class="mb-3">
-                <label for="telephone" class="form-label">Numéro de téléphone</label>
-                <input type="text" name="telephone" id="telephone" class="form-control"
-                    placeholder="Ex: +243854721056" value="{{ old('telephone') }}">
+            <div>
+                <label for="telephone" class="block text-sm font-medium text-gray-700 mb-1">Numéro de téléphone</label>
+                <input type="text" name="telephone" id="telephone" 
+                       placeholder="Ex: +243854721056"
+                       value="{{ old('telephone') }}"
+                       class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#A28224] focus:border-[#A28224]">
                 @error('telephone')
-                    <div class="text-danger small">{{ $message }}</div>
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
             </div>
 
-
-
-            <button type="submit" class="btn btn-primary w-100">Se connecter</button>
+            <button type="submit" 
+                    class="w-full px-4 py-2 bg-[#A28224] text-white rounded-lg font-semibold shadow hover:bg-[#8B701F] focus:outline-none focus:ring-2 focus:ring-[#A28224] focus:ring-offset-2 transition">
+                Se connecter
+            </button>
         </form>
     </div>
-
 </body>
 </html>

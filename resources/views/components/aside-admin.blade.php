@@ -33,7 +33,7 @@
       <a href="{{ route('editions.index') }}"
          class="block px-3 py-2 rounded 
                 {{ Route::currentRouteName() === 'editions.index' 
-                    ? 'bg-[#A28224] text-white hover:bg-[#A28224]' 
+                    ? 'bg-[#A28224] text-white hover:bg-[#A28224]/90' 
                     : 'hover:bg-[#A28224] hover:text-white' }}">
          Éditions
       </a>
