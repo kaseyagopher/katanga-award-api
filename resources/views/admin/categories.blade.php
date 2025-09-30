@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard - Vote en ligne</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     function toggleSidebar() {
@@ -53,7 +55,6 @@
           <thead class="bg-black text-white">
             <tr>
               <th class="px-6 py-3 text-left text-sm font-semibold">#</th>
-              <th class="px-6 py-3 text-left text-sm font-semibold">Nom complet</th>
               <th class="px-6 py-3 text-left text-sm font-semibold">Catégorie</th>
               <th class="px-6 py-3 text-left text-sm font-semibold">Actions</th>
             </tr>

@@ -4,13 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard - Vote en ligne</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    function toggleSidebar() {
-      document.getElementById("sidebar").classList.toggle("-translate-x-full");
-      document.getElementById("overlay").classList.toggle("hidden");
-    }
-  </script>
 </head>
 <body class="flex min-h-screen bg-gray-100 font-sans">
 
@@ -38,61 +33,62 @@
 
     <!-- Section Candidats -->
     <div class="p-6">
-      <!-- Bouton Ajouter -->
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-xl font-bold">Liste des candidats</h2>
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-xl font-bold">Liste des candidats par catégorie</h2>
         <a href="{{ route('candidats.create') }}" 
-           class="px-4 py-2 bg-[#A28224] text-white rounded">
+           class="px-4 py-2 bg-green-600 text-white rounded shadow hover:bg-green-700">
           + Ajouter un candidat
         </a>
       </div>
 
-      <!-- Tableau -->
-      <div class="overflow-x-auto bg-white shadow-md rounded-lg">
-        <table class="min-w-full">
-          <thead class="bg-black text-white">
-            <tr>
-              <th class="px-6 py-3 text-left text-sm font-semibold">#</th>
-              <th class="px-6 py-3 text-left text-sm font-semibold">Nom complet</th>
-              <th class="px-6 py-3 text-left text-sm font-semibold">Catégorie</th>
-              <th class="px-6 py-3 text-left text-sm font-semibold">Actions</th>
-            </tr>
-          </thead>
-          <tbody id="candidatList" class="divide-y divide-gray-200">
-            @forelse ($Candidats as $Candidat)
-            <tr data-id="{{ $Candidat->id }}">
-                <td class="px-6 py-4">{{ $Candidat->id }}</td>
-                <td class="px-6 py-4">{{ $Candidat->nom_complet }}</td>
-                <td class="px-6 py-4">
-                  {{ $Candidat->categorie ? $Candidat->categorie->nom_categorie : 'Aucune catégorie' }}
-                </td>
-                <td class="px-6 py-4 text-sm flex gap-2">
-                    <!-- Bouton Modifier -->
-                    <a href="{{ route('candidats.edit', $Candidat->id) }}" 
-                       class="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
-                       Modifier
-                    </a>
-                    <!-- Bouton Supprimer -->
-                    <form method="POST" 
-                          action="{{ route('candidats.destroy', $Candidat->id) }}"
-                          onsubmit="return confirm('Voulez-vous vraiment supprimer ce candidat ?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" 
-                                class="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600">
-                          Supprimer
-                        </button>
-                    </form>
-                </td>
-            </tr>
+      @foreach($Categories as $Categorie)
+        <div class="mb-8">
+          <h3 class="text-lg font-semibold mb-4">{{ $Categorie->nom_categorie }}</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            
+            @forelse($Categorie->candidats as $Candidat)
+              <div class="candidate-card relative rounded-2xl shadow-lg p-4 flex flex-col items-center text-center transition"
+                   style="background: linear-gradient(135deg, {{ $Candidat->couleur_dominante ?? '#A28224' }}, {{ $Candidat->couleur_dominante_sombre ?? '#7a5c12' }});">
+
+                <!-- Photo -->
+                <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-md mb-3">
+                  <img src="{{ $Candidat->photo_url ?? 'https://via.placeholder.com/150' }}" 
+                       alt="{{ $Candidat->nom_complet }}" 
+                       class="w-full h-full object-cover">
+                </div>
+
+                <!-- Nom -->
+                <h4 class="text-lg font-bold text-white drop-shadow">{{ $Candidat->nom_complet }}</h4>
+
+                <!-- Catégorie -->
+                <p class="text-sm text-yellow-100 italic">{{ $Categorie->nom_categorie }}</p>
+
+                <!-- Actions -->
+                <div class="mt-4 flex gap-2">
+                  <a href="{{ route('candidats.edit', $Candidat->id) }}" 
+                     class="px-3 py-1 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600">
+                    Modifier
+                  </a>
+                  <form method="POST" 
+                        action="{{ route('candidats.destroy', $Candidat->id) }}"
+                        onsubmit="return confirm('Voulez-vous vraiment supprimer ce candidat ?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" 
+                            class="px-3 py-1 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600">
+                      Supprimer
+                    </button>
+                  </form>
+                </div>
+              </div>
             @empty
-            <tr>
-              <td colspan="4" class="p-4 bg-gray-200 text-center rounded">Aucun Candidat</td>
-            </tr>
+              <p class="col-span-full text-center bg-gray-200 p-4 rounded">Aucun candidat dans cette catégorie</p>
             @endforelse
-          </tbody>
-        </table>
-      </div>
+
+          </div>
+        </div>
+      @endforeach
+
     </div>
   </div>
 </body>

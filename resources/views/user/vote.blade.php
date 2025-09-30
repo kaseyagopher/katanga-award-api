@@ -5,55 +5,92 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vote en ligne</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col">
 
-  <!-- Barre de navigation -->
+  <!-- NAVBAR -->
   <nav class="bg-white shadow-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16 items-center">
-        <div class="flex space-x-4">
+        <div class="hidden md:flex space-x-4">
           <a href="#" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Accueil</a>
           <a href="#" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Catégories</a>
           <a href="#" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Résultats</a>
         </div>
+
+        <!-- Boutons utilisateur -->
+        <div class="flex items-center space-x-2">
+          @if(Auth::guard('web')->check())
+              
+
+              <strong class="px-4 truncate max-w-[120px] text-right">
+                  {{ Auth::guard('web')->user()->numero ?? Auth::guard('web')->user()->email }}
+              </strong>
+          @else
+              <p class="text-orange-500 font-semibold">UNKNOW</p>
+          @endif
+        </div>
+
+        <!-- Hamburger mobile -->
+        <div class="md:hidden flex items-center">
+            <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
+                <span class="material-icons">menu</span>
+            </button>
+        </div>
+      </div>
+
+      <!-- Menu mobile -->
+      <div id="mobile-menu" class="hidden md:hidden mt-2 space-y-2">
+          <a href="#" class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Accueil</a>
+          <a href="#" class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Résultats</a>
+          <a href="#" class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">À propos</a>
       </div>
     </div>
   </nav>
 
-  <!-- Contenu -->
-  <main class="flex-1 max-w-4xl mx-auto p-6">
+  <script>
+      const btn = document.getElementById('mobile-menu-button');
+      const menu = document.getElementById('mobile-menu');
+      btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+  </script>
 
+  <!-- CONTENU PRINCIPAL -->
+  <main class="flex-1 max-w-5xl mx-auto p-6">
     <h1 class="text-2xl font-bold mb-6 text-center">Formulaire de vote</h1>
 
     @if ($errors->any())
-    <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-        <ul class="list-disc list-inside">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+      <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+          <ul class="list-disc list-inside">
+              @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+              @endforeach
+          </ul>
+      </div>
+    @endif
 
     <form action="{{ route('vote.store') }}" method="POST">
-    @csrf
-    @foreach($Categories as $Categorie)
-        <div class="border border-gray-200 p-4 rounded-lg">
+      @csrf
+
+      @foreach($Categories as $Categorie)
+        <div class="border border-gray-200 p-4 rounded-lg mb-4">
           <h2 class="text-lg font-semibold mb-3">{{ $Categorie->nom_categorie }}</h2>
 
           @if($Categorie->Candidats->count() > 0)
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
               @foreach($Categorie->Candidats as $Candidat)
-                <label class="flex flex-col items-center border rounded-lg p-3 cursor-pointer hover:shadow-md transition">
+                <label class="flex flex-col items-center cursor-pointer select-none">
                   <input type="radio" 
                          name="votes[{{ $Categorie->id }}]" 
                          value="{{ $Candidat->id }}" 
-                         class="mb-2">
-                  <img src="{{ $Candidat->photo_url }}" 
-                       alt="{{ $Candidat->nom_complet }}" 
-                       class="w-24 h-24 object-cover rounded mb-2">
-                  <span class="font-medium">{{ $Candidat->nom_complet }}</span>
+                         class="hidden peer">
+                  <div class="w-full bg-white border border-gray-300 rounded-lg p-2 text-center shadow-sm hover:shadow-md transition
+                              peer-checked:bg-[#A28224] peer-checked:text-white">
+                    <img src="{{ $Candidat->photo_url }}" 
+                         alt="{{ $Candidat->nom_complet }}" 
+                         class="w-20 h-20 object-cover rounded mb-1 mx-auto">
+                    <span class="text-sm font-medium truncate block">{{ $Candidat->nom_complet }}</span>
+                  </div>
                 </label>
               @endforeach
             </div>
@@ -61,18 +98,28 @@
             <p class="text-gray-500">Aucun candidat pour cette catégorie</p>
           @endif
         </div>
-    @endforeach
+      @endforeach
 
-    <!-- Infos globales -->
-    <input type="hidden" name="user_id" value="{{ auth()->id() }}">
-    <input type="hidden" name="edition_id" value="{{ $edition->id }}">
+      <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+      <input type="hidden" name="edition_id" value="{{ $edition->id }}">
 
-    <button type="submit" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">
-        Voter
-    </button>
-</form>
-
+      <button type="submit" class="mt-4 bg-[#A28224] text-white px-4 py-2 rounded hover:bg-[#8f6e1a] transition">
+          Voter
+      </button>
+    </form>
   </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+      <p>© 2025 Katanga Award. Tous droits réservés.</p>
+      <div class="flex space-x-4 mt-2 md:mt-0">
+        <a href="#" class="hover:text-[#A28224]">Mentions légales</a>
+        <a href="#" class="hover:text-[#A28224]">Politique de confidentialité</a>
+        <a href="#" class="hover:text-[#A28224]">Contact</a>
+      </div>
+    </div>
+  </footer>
 
 </body>
 </html>

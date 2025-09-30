@@ -18,12 +18,58 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $Editions = Edition::all();
-        $Categories = Categorie::all();
-        $Candidats = Candidat::all();
-        
-        return view('admin.dashboard', compact('Editions', 'Candidats','Categories'));
+        // Edition active (supposons que 'statut' = 1 => active)
+        $editionActive = Edition::where('statut', 1)->first();
+
+        // Nombre total de candidats, catégories, éditions et votes
+        $nbCandidats = Candidat::count();
+        $nbCategories = Categorie::count();
+        $nbEditions = Edition::count();
+        $nbVotes = \App\Models\Vote::count();
+
+        // Top 3 candidats avec nombre de votes
+        $topCandidats = Candidat::with('categorie')
+            ->withCount('votes')
+            ->orderBy('votes_count', 'desc')
+            ->take(3)
+            ->get();
+
+        // Graphique votes par catégorie pour l'édition active
+        $categoriesLabels = [];
+        $categoriesVotes = [];
+
+        if ($editionActive) {
+            $categories = Categorie::where('edition_id', $editionActive->id)
+                ->with(['candidats' => function($q) {
+                    $q->withCount('votes');
+                }])->get();
+
+            foreach ($categories as $categorie) {
+                $categoriesLabels[] = $categorie->nom_categorie;
+                $votesTotal = $categorie->candidats->sum('votes_count');
+                $categoriesVotes[] = $votesTotal;
+            }
+        }
+
+        // Derniers votes
+        $recentVotes = \App\Models\Vote::with(['user','candidat.categorie'])
+            ->latest()
+            ->take(10)
+            ->get();
+
+        return view('admin.dashboard', compact(
+            'editionActive',
+            'nbCandidats',
+            'nbCategories',
+            'nbEditions',
+            'nbVotes',
+            'topCandidats',
+            'categoriesLabels',
+            'categoriesVotes',
+            'recentVotes'
+        ));
     }
+
 
     /**
      * Store a newly created resource in storage.

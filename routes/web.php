@@ -1,14 +1,16 @@
 <?php
 
-use App\Http\Controllers\AdminController;
+use App\Models\Vote;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CandidatController;
-use App\Http\Controllers\CategorieController;
-use App\Http\Controllers\EditionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoteController;
-use App\Models\Vote;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\EditionController;
+use App\Http\Controllers\CandidatController;
+use App\Http\Controllers\ResultatController;
+use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\VoteSummaryController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,12 +30,18 @@ Route::prefix('admin')->group(function () {
     Route::resource('editions', EditionController::class);
     Route::resource('categories', CategorieController::class);
     Route::resource('candidats', CandidatController::class);
+    Route::get('/resultats', [ResultatController::class, 'index'])->name('resultats.index');
+    Route::get('/resultats/data', [ResultatController::class, 'data'])->name('resultats.data');
 });
 
 Route::prefix('user')->group(function(){
     Route::get('/',[UserController::class, 'index'])->name('user.index');
     Route::get('/vote',[UserController::class, 'vote'])->name('user.vote');
     Route::post('/vote',[VoteController::class, 'store'])->name('vote.store');
+    Route::get('/vote/summary', [VoteSummaryController::class, 'show'])
+     ->name('vote.summary')
+     ->middleware('auth:web');
+
 });
 
 Route::fallback(function () {

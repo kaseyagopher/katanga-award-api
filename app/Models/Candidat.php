@@ -12,7 +12,7 @@ class Candidat extends Model
     protected $table = 'candidats';
 
     protected $fillable = [
-        'nom_complet', 'photo_url', 'description', 'categorie_id', 'edition_id'
+        'nom_complet', 'photo_url', 'description', 'categorie_id', 'edition_id', 'couleur_dominante', 'couleur_dominante_sombre'
     ];
 
     public function categorie() {

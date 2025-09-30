@@ -52,48 +52,7 @@ class VoteController extends Controller
         }
     }
 
-    return redirect()->back()->with('success', 'Vos votes ont été enregistrés avec succès !');
+   return redirect()->route('vote.summary')->with('success', 'Vos votes ont été enregistrés !');
 }
 
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Vote $vote)
-    {
-        return response()->json($vote);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Vote $vote)
-    {
-        $validated = $request->validate([
-            'user_id' => ['sometimes', 'exists:users,id'],
-            'candidat_id' => ['sometimes', 'exists:candidats,id'],
-            'categorie_id' => ['sometimes', 'exists:categories,id'],
-            'edition_id' => ['sometimes', 'exists:editions,id'],
-        ]);
-
-        $vote->update($validated);
-
-        return response()->json([
-            'message' => 'Vote mis à jour avec succès',
-            'vote' => $vote
-        ]);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Vote $vote)
-    {
-        $vote->delete();
-
-        return response()->json([
-            'message' => 'Vote supprimé avec succès'
-        ]);
-    }
 }
