@@ -52,9 +52,10 @@
 
                 <!-- Photo -->
                 <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-md mb-3">
-                  <img src="{{ $Candidat->photo_url ? asset('storage/candidats/' . basename($Candidat->photo_url)) : 'https://via.placeholder.com/150' }}"
-                      alt="{{ $Candidat->nom_complet }}"
-                      class="w-full h-full object-cover">
+                  <img src="{{ $Candidat->photo_url ? asset('../storage/candidats/' . basename($Candidat->photo_url)) : 'https://via.placeholder.com/150' }}"
+                    alt="{{ $Candidat->nom_complet }}"
+                    class="w-full h-full object-cover">
+
               </div>
 
                 <!-- Nom -->
