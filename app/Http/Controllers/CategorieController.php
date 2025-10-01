@@ -43,10 +43,12 @@ class CategorieController extends Controller
             'admin_id' => Auth::guard('admin')->id()
         ]);
 
-        return response()->json([
+        /* return response()->json([
             'message' => 'Catégorie créée avec succès',
             'categorie' => $categorie
-        ]);
+        ]);*/
+
+        return to_route('categories.index');
     }
 
     /**
@@ -79,24 +81,26 @@ class CategorieController extends Controller
             'nom_categorie' => ['required', 'string', 'max:255'],
             'edition_id' => ['required', 'exists:editions,id'],
         ]);
-        
+
         $categorie->update([
             'nom_categorie' => $validated['nom_categorie'],
             'edition_id' => $validated['edition_id'],
             'admin_id' => Auth::guard('admin')->id()
         ]);
-        
+
         return to_route('categories.index');
     }
 
-    
+
 
     public function destroy(Categorie $categorie)
     {
         $categorie->delete();
 
-        return response()->json([
+        /* return response()->json([
             'message' => 'Catégorie supprimée avec succès'
-        ]);
+        ]);*/
+
+        return to_route('categories.index');
     }
 }

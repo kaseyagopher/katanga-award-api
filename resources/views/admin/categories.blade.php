@@ -20,7 +20,7 @@
   @include('components.aside-admin')
 
   <!-- Overlay (mobile only) -->
-  <div id="overlay" 
+  <div id="overlay"
        class="fixed inset-0 bg-black bg-opacity-50 hidden z-40 md:hidden"
        onclick="toggleSidebar()"></div>
 
@@ -43,7 +43,7 @@
       <!-- Bouton Ajouter -->
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-xl font-bold">Liste des categories</h2>
-        <a href="{{ route('categories.create') }}" 
+        <a href="{{ route('categories.create') }}"
            class="px-4 py-2 bg-[#A28224] text-white rounded">
           + Ajouter une categorie
         </a>
@@ -64,20 +64,21 @@
             <tr data-id="{{ $Categorie->id }}">
                 <td class="px-6 py-4">{{ $Categorie->id }}</td>
                 <td class="px-6 py-4">{{ $Categorie->nom_categorie}}</td>
-                
+
                 <td class="px-6 py-4 text-sm flex gap-2">
                     <!-- Bouton Modifier -->
-                    <a href="{{ route('categories.edit', $Categorie->id) }}" 
+                    <a href="{{ route('categories.edit', $Categorie->id) }}"
                        class="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
                        Modifier
                     </a>
+
                     <!-- Bouton Supprimer -->
-                    <form method="POST" 
-                          action="{{ route('candidats.destroy', $Categorie->id) }}"
+                    <form method="POST"
+                          action="{{ route('categories.destroy', $Categorie->id) }}"
                           onsubmit="return confirm('Voulez-vous vraiment supprimer ce candidat ?');">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" 
+                        <button type="submit"
                                 class="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600">
                           Supprimer
                         </button>
