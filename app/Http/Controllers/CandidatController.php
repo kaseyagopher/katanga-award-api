@@ -59,12 +59,14 @@ class CandidatController extends Controller
     $darker = null;
 
     if ($request->hasFile('photo_url')) {
-        // Upload photo
-        $path = $request->file('photo_url')->store('candidats', 'public');
-        $photoPath = '/storage/' . $path;
+        // 🔹 Déplacer directement dans /public/storage/candidats
+        $filename = uniqid().'.'.$request->file('photo_url')->getClientOriginalExtension();
+        $request->file('photo_url')->move(public_path('storage/candidats'), $filename);
+
+        $photoPath = 'storage/candidats/' . $filename;
 
         // Extraire couleur dominante en sécurité
-        $fullPath = storage_path('app/public/' . $path);
+        $fullPath = public_path($photoPath);
         if (file_exists($fullPath)) {
             try {
                 $color = ColorThief::getColor($fullPath);
@@ -75,8 +77,8 @@ class CandidatController extends Controller
                     max(0, $color[2] * 0.7)
                 );
             } catch (\Exception $e) {
-                $hex = '#ffffff';       // couleur par défaut si erreur
-                $darker = '#cccccc';    // couleur sombre par défaut
+                $hex = '#ffffff';
+                $darker = '#cccccc';
             }
         }
     }
@@ -86,13 +88,14 @@ class CandidatController extends Controller
         'description' => $validated['description'] ?? null,
         'categorie_id' => $validated['categorie_id'],
         'edition_id' => $validated['edition_id'],
-        'photo_url' => $photoPath,
+        'photo_url' => $photoPath, // 🔹 chemin relatif depuis public/
         'couleur_dominante' => $hex,
         'couleur_dominante_sombre' => $darker,
     ]);
 
     return redirect()->route('candidats.index')->with('success', 'Candidat créé avec succès');
 }
+
 
 
     /**
