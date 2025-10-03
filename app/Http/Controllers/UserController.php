@@ -92,4 +92,8 @@ class UserController extends Controller
         return view('user.apropos');
     }
 
+    public function user_contact(){
+        return view('user.contact');
+    }
+
 }
