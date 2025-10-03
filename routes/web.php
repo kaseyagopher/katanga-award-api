@@ -13,7 +13,7 @@ use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\VoteSummaryController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return to_route('login');
 });
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
@@ -36,6 +36,7 @@ Route::prefix('admin')->group(function () {
 
 Route::prefix('user')->group(function(){
     Route::get('/',[UserController::class, 'index'])->name('user.index');
+    Route::get('/apropos',[UserController::class, 'user_apropos'])->name('user.apropos');
     Route::get('/vote',[UserController::class, 'vote'])->name('user.vote');
     Route::post('/vote',[VoteController::class, 'store'])->name('vote.store');
     Route::get('/vote/summary', [VoteSummaryController::class, 'show'])

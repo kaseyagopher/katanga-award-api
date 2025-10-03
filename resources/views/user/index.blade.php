@@ -16,8 +16,8 @@
         <!-- Liens desktop -->
         <div class="hidden md:flex items-center space-x-4">
           <a href="{{ route('user.index') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Accueil</a>
-          <a href="#" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Catégories</a>
           <a href="#" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Résultats</a>
+          <a href="{{ route('user.apropos') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Apropos</a>
         </div>
 
         <!-- Boutons utilisateur -->
@@ -34,7 +34,7 @@
               @endphp
 
               @if($editionActive && !$aVote)
-                  <a href="{{ route('user.vote') }}" 
+                  <a href="{{ route('user.vote') }}"
                      class="bg-[#A28224] text-white px-4 py-2 rounded-md hover:bg-[#A28224] focus:outline-none focus:ring-2 focus:ring-[#A28224]/50 whitespace-nowrap">
                       Voter
                   </a>
@@ -98,8 +98,8 @@
                     <div class="candidate-card relative rounded-2xl shadow-lg p-4 flex flex-col items-center text-center transition"
                          style="background: linear-gradient(135deg, {{ $candidat->couleur_dominante }}, {{ $candidat->couleur_dominante_sombre }});">
                         <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-md mb-3">
-                            <img src="{{ $candidat->photo_url ?? 'https://via.placeholder.com/150' }}" 
-                                 alt="{{ $candidat->nom_complet }}" 
+                            <img src="{{ $candidat->photo_url ?? 'https://via.placeholder.com/150' }}"
+                                 alt="{{ $candidat->nom_complet }}"
                                  class="w-full h-full object-cover candidate-photo">
                         </div>
                         <h3 class="text-lg font-bold text-white drop-shadow">{{ $candidat->nom_complet }}</h3>
@@ -118,8 +118,6 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
       <p>© 2025 Katanga Award. Tous droits réservés.</p>
       <div class="flex space-x-4 mt-2 md:mt-0">
-        <a href="#" class="hover:text-[#A28224]">Mentions légales</a>
-        <a href="#" class="hover:text-[#A28224]">Politique de confidentialité</a>
         <a href="#" class="hover:text-[#A28224]">Contact</a>
       </div>
     </div>

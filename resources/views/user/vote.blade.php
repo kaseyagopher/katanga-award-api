@@ -14,15 +14,15 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16 items-center">
         <div class="hidden md:flex space-x-4">
-          <a href="#" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Accueil</a>
-          <a href="#" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Catégories</a>
+          <a href="{{ route('user.index') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Accueil</a>
           <a href="#" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Résultats</a>
+          <a href="{{ route('user.apropos') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Apropos</a>
         </div>
 
         <!-- Boutons utilisateur -->
         <div class="flex items-center space-x-2">
           @if(Auth::guard('web')->check())
-              
+
 
               <strong class="px-4 truncate max-w-[120px] text-right">
                   {{ Auth::guard('web')->user()->numero ?? Auth::guard('web')->user()->email }}
@@ -80,14 +80,14 @@
             <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
               @foreach($Categorie->Candidats as $Candidat)
                 <label class="flex flex-col items-center cursor-pointer select-none">
-                  <input type="radio" 
-                         name="votes[{{ $Categorie->id }}]" 
-                         value="{{ $Candidat->id }}" 
+                  <input type="radio"
+                         name="votes[{{ $Categorie->id }}]"
+                         value="{{ $Candidat->id }}"
                          class="hidden peer">
                   <div class="w-full bg-white border border-gray-300 rounded-lg p-2 text-center shadow-sm hover:shadow-md transition
                               peer-checked:bg-[#A28224] peer-checked:text-white">
-                    <img src="{{ $Candidat->photo_url }}" 
-                         alt="{{ $Candidat->nom_complet }}" 
+                    <img src="{{ $Candidat->photo_url }}"
+                         alt="{{ $Candidat->nom_complet }}"
                          class="w-20 h-20 object-cover rounded mb-1 mx-auto">
                     <span class="text-sm font-medium truncate block">{{ $Candidat->nom_complet }}</span>
                   </div>
@@ -114,12 +114,9 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
       <p>© 2025 Katanga Award. Tous droits réservés.</p>
       <div class="flex space-x-4 mt-2 md:mt-0">
-        <a href="#" class="hover:text-[#A28224]">Mentions légales</a>
-        <a href="#" class="hover:text-[#A28224]">Politique de confidentialité</a>
         <a href="#" class="hover:text-[#A28224]">Contact</a>
       </div>
     </div>
   </footer>
-
 </body>
 </html>
