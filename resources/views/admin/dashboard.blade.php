@@ -183,7 +183,7 @@
           @foreach($topCandidats as $candidat)
             <div class="flex flex-col sm:flex-row items-center sm:justify-between gap-4">
               <div class="flex items-center gap-4">
-                <img src="{{ $candidat->photo_url }}" alt="{{ $candidat->nom_complet }}" class="w-12 h-12 rounded-full object-cover">
+                <img src="{{ asset($candidat->photo_url) }}" alt="{{ $candidat->nom_complet }}" class="w-12 h-12 rounded-full object-cover">
                 <div>
                   <div class="font-semibold">{{ $candidat->nom_complet }}</div>
                   <div class="text-sm text-gray-600">{{ $candidat->categorie->nom }}</div>
