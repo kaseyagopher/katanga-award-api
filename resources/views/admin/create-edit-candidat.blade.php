@@ -9,25 +9,6 @@
   <script src="https://unpkg.com/alpinejs" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" type="image/png" href="{{ asset('logo kataward.png') }}">
-  <script>
-    function toggleSidebar() {
-      document.getElementById("sidebar").classList.toggle("-translate-x-full");
-      document.getElementById("overlay").classList.toggle("hidden");
-    }
-
-    function previewImage(event) {
-      const preview = document.getElementById("preview");
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = e => {
-          preview.src = e.target.result;
-          preview.classList.remove("hidden");
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-  </script>
 </head>
 <body class="flex min-h-screen bg-gray-100 font-sans">
 
@@ -35,13 +16,14 @@
   @include('components.aside-admin')
 
   <!-- Overlay (mobile only) -->
-  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40 md:hidden" onclick="toggleSidebar()"></div>
+  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40 md:hidden"></div>
   
   <!-- Contenu principal -->
   <div class="flex-1 flex flex-col md:ml-64 p-6">
     <h2 class="text-xl font-bold mb-6 text-center">{{ isset($Candidat) ? 'Modifier le candidat' : 'Créer un candidat' }}</h2>
 
-    <form action="{{ isset($Candidat) ? route('candidats.update', $Candidat->id) : route('candidats.store') }}" 
+    <form id="formCandidat" 
+          action="{{ isset($Candidat) ? route('candidats.update', $Candidat->id) : route('candidats.store') }}" 
           method="POST" 
           enctype="multipart/form-data" 
           class="bg-white p-6 rounded-lg shadow-md">
@@ -69,7 +51,6 @@
 
         <!-- Colonne 2 : Nom et Description -->
         <div class="flex flex-col">
-          <!-- Nom -->
           <div class="mb-4">
             <label for="nom_complet" class="block text-sm font-medium text-gray-700 mb-1">Nom complet</label>
             <input type="text" name="nom_complet" id="nom_complet" 
@@ -81,7 +62,6 @@
             @enderror
           </div>
 
-          <!-- Description -->
           <div>
             <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
             <textarea name="description" id="description" rows="6" required
@@ -94,7 +74,6 @@
 
         <!-- Colonne 3 : Catégorie et Édition -->
         <div class="flex flex-col">
-          <!-- Catégorie -->
           <div class="mb-4">
             <label for="categorie_id" class="block text-sm font-medium text-gray-700 mb-1">Catégorie</label>
             <select name="categorie_id" id="categorie_id" required
@@ -112,7 +91,6 @@
             @enderror
           </div>
 
-          <!-- Édition -->
           <div>
             <label for="edition_id" class="block text-sm font-medium text-gray-700 mb-1">Édition</label>
             <select name="edition_id" id="edition_id" required
@@ -132,45 +110,78 @@
         </div>
       </div>
 
+      <!-- Progression -->
+      <div id="progress-container" class="hidden mt-6">
+        <div class="w-full bg-gray-200 rounded-full h-4">
+          <div id="progress-bar" class="bg-yellow-600 h-4 rounded-full text-xs text-white text-center" style="width: 0%">
+            0%
+          </div>
+        </div>
+        <p id="progress-message" class="mt-2 text-sm text-gray-600 text-center"></p>
+      </div>
+
       <!-- Bouton -->
       <div class="flex justify-end mt-6">
         <button type="submit" 
-                class="px-6 py-2 bg-black text-white rounded-lg shadow  transition">
+                class="px-6 py-2 bg-black text-white rounded-lg shadow transition">
           {{ isset($Candidat) ? 'Mettre à jour' : 'Créer' }}
         </button>
       </div>
     </form>
   </div>
+
   <script>
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      const overlay = document.getElementById('overlay');
-      sidebar.classList.toggle('-translate-x-full');
-      overlay.classList.toggle('hidden');
+    // Prévisualisation image
+    function previewImage(event) {
+      const preview = document.getElementById("preview");
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          preview.src = e.target.result;
+          preview.classList.remove("hidden");
+        };
+        reader.readAsDataURL(file);
+      }
     }
 
-    // Graphique
-    const categories = @json($categoriesLabels ?? []);
-    const votes = @json($categoriesVotes ?? []);
+    // Upload avec progression
+    document.getElementById("formCandidat").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
 
-    const ctx = document.getElementById('votesParCategorie').getContext('2d');
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: categories,
-        datasets: [{
-          label: 'Votes',
-          data: votes,
-          backgroundColor: 'rgba(162, 130, 36, 0.8)',
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: { beginAtZero: true }
+      const progressContainer = document.getElementById("progress-container");
+      const progressBar = document.getElementById("progress-bar");
+      const progressMessage = document.getElementById("progress-message");
+      progressContainer.classList.remove("hidden");
+
+      const xhr = new XMLHttpRequest();
+      xhr.open(form.method, form.action, true);
+      xhr.setRequestHeader("X-CSRF-TOKEN", "{{ csrf_token() }}");
+
+      xhr.upload.onprogress = function (e) {
+        if (e.lengthComputable) {
+          let percent = Math.round((e.loaded / e.total) * 100);
+          progressBar.style.width = percent + "%";
+          progressBar.textContent = percent + "%";
         }
-      }
+      };
+
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          progressBar.classList.replace("bg-yellow-600", "bg-green-600");
+          progressMessage.textContent = "✅ Enregistrement terminé avec succès !";
+          setTimeout(() => {
+            window.location.reload();
+          }, 1200);
+        } else {
+          progressBar.classList.replace("bg-yellow-600", "bg-red-600");
+          progressMessage.textContent = "❌ Une erreur est survenue lors de l'envoi.";
+        }
+      };
+
+      xhr.send(formData);
     });
   </script>
 </body>

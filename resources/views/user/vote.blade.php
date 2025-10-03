@@ -14,18 +14,41 @@
   <nav class="bg-white shadow-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16 items-center">
-        <div class="hidden md:flex space-x-4">
-          <a href="{{ route('user.index') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Accueil</a>
-          <a href="#" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Résultats</a>
-          <a href="{{ route('user.apropos') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Apropos</a>
-            <a href="{{ route('user.contact') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Contact</a>
+
+        <!-- Liens Desktop -->
+        <div class="hidden md:flex items-center space-x-4">
+          <a href="{{ route('user.index') }}" 
+             class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md 
+             {{ Route::currentRouteName() === 'user.index' ? 'text-[#A28224]' : '' }}">
+             Accueil
+          </a>
+          <a href="#" 
+             class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">
+             Résultats
+          </a>
+          <a href="{{ route('user.apropos') }}" 
+             class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md 
+             {{ Route::currentRouteName() === 'user.apropos' ? 'text-[#A28224]' : '' }}">
+             À propos
+          </a>
+          <a href="{{ route('user.contact') }}" 
+             class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md 
+             {{ Route::currentRouteName() === 'user.contact' ? 'text-[#A28224]' : '' }}">
+             Contact
+          </a>
+        </div>
+
+        <!-- Logo au centre -->
+        <div class="flex items-center space-x-2 px-4 py-1">
+          <span class="font-bold text-lg">
+            <span class="text-black">Katanga</span>
+            <span class="text-[#A28224]"> Award</span>
+          </span>
         </div>
 
         <!-- Boutons utilisateur -->
         <div class="flex items-center space-x-2">
           @if(Auth::guard('web')->check())
-
-
               <strong class="px-4 truncate max-w-[120px] text-right">
                   {{ Auth::guard('web')->user()->numero ?? Auth::guard('web')->user()->email }}
               </strong>
@@ -34,19 +57,35 @@
           @endif
         </div>
 
-        <!-- Hamburger mobile -->
+        <!-- Hamburger Mobile -->
         <div class="md:hidden flex items-center">
-            <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
-                <span class="material-icons">menu</span>
-            </button>
+          <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
+            <span class="material-icons">menu</span>
+          </button>
         </div>
       </div>
 
-      <!-- Menu mobile -->
+      <!-- Menu Mobile -->
       <div id="mobile-menu" class="hidden md:hidden mt-2 space-y-2">
-          <a href="#" class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Accueil</a>
-          <a href="#" class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Résultats</a>
-          <a href="#" class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">À propos</a>
+        <a href="{{ route('user.index') }}" 
+           class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md 
+           {{ Route::currentRouteName() === 'user.index' ? 'text-[#A28224]' : '' }}">
+           Accueil
+        </a>
+        <a href="#" 
+           class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">
+           Résultats
+        </a>
+        <a href="{{ route('user.apropos') }}" 
+           class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md 
+           {{ Route::currentRouteName() === 'user.apropos' ? 'text-[#A28224]' : '' }}">
+           À propos
+        </a>
+        <a href="{{ route('user.contact') }}" 
+           class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md 
+           {{ Route::currentRouteName() === 'user.contact' ? 'text-[#A28224]' : '' }}">
+           Contact
+        </a>
       </div>
     </div>
   </nav>
@@ -88,7 +127,7 @@
                          class="hidden peer">
                   <div class="w-full bg-white border border-gray-300 rounded-lg p-2 text-center shadow-sm hover:shadow-md transition
                               peer-checked:bg-[#A28224] peer-checked:text-white">
-                    <img src="{{ $Candidat->photo_url }}"
+                    <img src="{{ asset($Candidat->photo_url) }}"
                          alt="{{ $Candidat->nom_complet }}"
                          class="w-20 h-20 object-cover rounded mb-1 mx-auto">
                     <span class="text-sm font-medium truncate block">{{ $Candidat->nom_complet }}</span>

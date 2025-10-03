@@ -13,9 +13,16 @@
       from { opacity: 1; }
       to { opacity: 0; visibility: hidden; }
     }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeInUp 1s ease-in-out forwards;
+    }
   </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col relative">
+<body class="bg-gray-100 min-h-screen flex flex-col relative font-sans">
 
   <!-- Loader -->
   <div id="loader" class="fixed inset-0 bg-white flex flex-col items-center justify-center z-50">
@@ -24,23 +31,30 @@
   </div>
 
   <!-- NAVBAR -->
-  <nav class="bg-white shadow-md">
+  <nav class="bg-white shadow-md sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16 items-center">
+        
+        <!-- Logo -->
+        <a href="{{ route('user.index') }}" class="flex items-center space-x-2">
+          <img src="{{ asset('logo kataward.png') }}" alt="Katanga Award" class="h-10 w-auto">
+          <span class="font-bold text-[#A28224]">Katanga Award</span>
+        </a>
+
         <!-- Liens desktop -->
         <div class="hidden md:flex items-center space-x-4">
-          <a href="{{ route('user.index') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Accueil</a>
-          <a href="#" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Résultats</a>
-          <a href="{{ route('user.apropos') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">À propos</a>
-            <a href="{{ route('user.contact') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Contact</a>
+          <a href="{{ route('user.index') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">Accueil</a>
+          <a href="#" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">Résultats</a>
+          <a href="{{ route('user.apropos') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">À propos</a>
+          <a href="{{ route('user.contact') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">Contact</a>
         </div>
 
         <!-- Boutons utilisateur -->
-        <div class="flex items-center space-x-2">
+        <div class="hidden md:block">
           @if(Auth::guard('web')->check())
-              <strong class="px-4 truncate max-w-[120px] text-right">
+              <span class="px-4 truncate max-w-[120px] text-right font-medium text-gray-700">
                   {{ Auth::guard('web')->user()->numero ?? Auth::guard('web')->user()->email }}
-              </strong>
+              </span>
           @else
               <p class="text-orange-500 font-semibold">UNKNOW</p>
           @endif
@@ -55,10 +69,11 @@
       </div>
 
       <!-- Menu mobile -->
-      <div id="mobile-menu" class="hidden md:hidden mt-2 space-y-2">
-          <a href="{{ route('user.index') }}" class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Accueil</a>
-          <a href="#" class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Résultats</a>
-          <a href="{{ route('user.apropos') }}" class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">À propos</a>
+      <div id="mobile-menu" class="hidden md:hidden mt-2 space-y-2 pb-4 animate-fade-in">
+          <a href="{{ route('user.index') }}" class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">Accueil</a>
+          <a href="#" class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">Résultats</a>
+          <a href="{{ route('user.apropos') }}" class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">À propos</a>
+          <a href="{{ route('user.contact') }}" class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">Contact</a>
       </div>
     </div>
   </nav>
@@ -85,7 +100,7 @@
 
     <!-- Mission et Vision -->
     <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-      <div class="bg-white shadow-md rounded-2xl p-6 hover:shadow-lg transition transform hover:-translate-y-1">
+      <div class="bg-white shadow-md rounded-2xl p-6 hover:shadow-lg transition transform hover:-translate-y-1 animate-fade-in">
         <h2 class="text-2xl font-semibold text-[#A28224] mb-4">Notre Mission</h2>
         <p class="text-gray-600 leading-relaxed">
           Promouvoir et récompenser les efforts des individus et organisations qui œuvrent dans
@@ -93,7 +108,7 @@
           le sport et bien d’autres, afin d’inspirer les générations futures.
         </p>
       </div>
-      <div class="bg-white shadow-md rounded-2xl p-6 hover:shadow-lg transition transform hover:-translate-y-1">
+      <div class="bg-white shadow-md rounded-2xl p-6 hover:shadow-lg transition transform hover:-translate-y-1 animate-fade-in">
         <h2 class="text-2xl font-semibold text-[#A28224] mb-4">Notre Vision</h2>
         <p class="text-gray-600 leading-relaxed">
           Faire du <span class="font-semibold">Katanga Award</span> une référence nationale et
@@ -104,7 +119,7 @@
     </section>
 
     <!-- Valeurs -->
-    <section class="mb-12">
+    <section class="mb-12 animate-fade-in">
       <h2 class="text-2xl font-semibold text-center text-gray-800 mb-8">Nos Valeurs</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         <div class="bg-[#A28224]/10 rounded-xl p-6 text-center hover:scale-105 transition">
@@ -123,7 +138,7 @@
     </section>
 
     <!-- Historique -->
-    <section class="bg-white shadow-md rounded-2xl p-8 mb-12">
+    <section class="bg-white shadow-md rounded-2xl p-8 mb-12 animate-fade-in">
       <h2 class="text-2xl font-semibold text-gray-800 mb-4">Notre Histoire</h2>
       <p class="text-gray-600 leading-relaxed">
         Créé pour honorer les talents et inspirer toute une génération, le <span class="font-semibold text-[#A28224]">Katanga Award</span>
@@ -134,10 +149,10 @@
     </section>
 
     <!-- Call to Action -->
-    <section class="text-center">
+    <section class="text-center animate-fade-in">
       <h2 class="text-2xl font-semibold text-gray-800 mb-4">Rejoignez l’aventure Katanga Award</h2>
       <p class="text-gray-600 mb-6">Venez célébrer avec nous l’excellence et soutenir ceux qui façonnent l’avenir.</p>
-      <a href="{{ route('user.vote') }}" class="bg-[#A28224] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#8b6c1d] transition">
+      <a href="{{ route('user.vote') }}" class="bg-[#A28224] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#8b6c1d] transition shadow-lg">
         Participez au vote
       </a>
     </section>
