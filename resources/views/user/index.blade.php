@@ -6,8 +6,22 @@
   <title>Katanga Award | Accueil</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="icon" type="image/png" href="{{ asset('logo kataward.png') }}">
+  <style>
+    /* Animation du loader */
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; visibility: hidden; }
+    }
+  </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col">
+<body class="bg-gray-100 min-h-screen flex flex-col relative">
+
+  <!-- Loader -->
+  <div id="loader" class="fixed inset-0 bg-white flex flex-col items-center justify-center z-50">
+    <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-[#A28224] mb-4"></div>
+    <h1 class="text-2xl font-bold text-[#A28224]">Katanga Award</h1>
+  </div>
 
   <!-- NAVBAR -->
   <nav class="bg-white shadow-md">
@@ -18,7 +32,7 @@
           <a href="{{ route('user.index') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Accueil</a>
           <a href="#" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Résultats</a>
           <a href="{{ route('user.apropos') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Apropos</a>
-        <a href="{{ route('user.contact') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Contact</a>
+          <a href="{{ route('user.contact') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Contact</a>
         </div>
 
         <!-- Boutons utilisateur -->
@@ -49,14 +63,18 @@
                   </span>
               @endif
 
-              <strong class="px-4 truncate max-w-[120px] text-right">
-                  {{ Auth::guard('web')->user()->numero ?? Auth::guard('web')->user()->email }}
-              </strong>
+              
+
           @else
               <p class="text-orange-500 font-semibold">UNKNOW</p>
           @endif
         </div>
-
+        <div class="flex items-center space-x-2 px-4 py-1">
+                  <span class="font-bold text-lg">
+                      <span class="text-black">Katanga</span>
+                      <span class="text-[#A28224]"> Award</span>
+                  </span>
+              </div>
         <!-- Hamburger mobile -->
         <div class="md:hidden flex items-center">
             <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
@@ -64,13 +82,31 @@
             </button>
         </div>
       </div>
-
+    <!-- Texte Katanga Award + image -->
+              
       <!-- Menu mobile -->
       <div id="mobile-menu" class="hidden md:hidden mt-2 space-y-2">
-          <a href="{{ route('user.index') }}" class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Accueil</a>
-          <a href="#" class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Résultats</a>
-          <a href="#" class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">À propos de nous</a>
-      </div>
+  <a href="{{ route('user.index') }}" 
+     class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md 
+     {{ Route::currentRouteName() === 'user.index' ? 'text-[#A28224]' : '' }}">
+     Accueil
+  </a>
+  <a href="" 
+     class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md 
+     {{ Route::currentRouteName() === '' ? 'text-[#A28224]' : '' }}">
+     Résultats
+  </a>
+  <a href="{{ route('user.apropos') }}" 
+     class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md 
+     {{ Route::currentRouteName() === 'user.apropos' ? 'text-[#A28224]' : '' }}">
+     À propos
+  </a>
+  <a href="{{ route('user.contact') }}" 
+     class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md 
+     {{ Route::currentRouteName() === 'user.contact' ? 'text-[#A28224]' : '' }}">
+     Contact
+  </a>
+</div>
     </div>
   </nav>
 
@@ -78,6 +114,12 @@
       const btn = document.getElementById('mobile-menu-button');
       const menu = document.getElementById('mobile-menu');
       btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+
+      // Loader disparaît après le chargement de la page
+      window.addEventListener("load", () => {
+        const loader = document.getElementById("loader");
+        loader.style.animation = "fadeOut 1s forwards";
+      });
   </script>
 
   <!-- CONTENU PRINCIPAL -->
@@ -99,7 +141,7 @@
                     <div class="candidate-card relative rounded-2xl shadow-lg p-4 flex flex-col items-center text-center transition"
                          style="background: linear-gradient(135deg, {{ $candidat->couleur_dominante }}, {{ $candidat->couleur_dominante_sombre }});">
                         <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-md mb-3">
-                            <img src="{{ $candidat->photo_url ?? 'https://via.placeholder.com/150' }}"
+                            <img src="{{ asset($candidat->photo_url) ?? 'https://via.placeholder.com/150' }}"
                                  alt="{{ $candidat->nom_complet }}"
                                  class="w-full h-full object-cover candidate-photo">
                         </div>
@@ -119,7 +161,6 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-center items-center text-sm text-gray-500">
         <p class="text-center">© 2025 Katanga Award. Tous droits réservés.</p>
     </div>
-
   </footer>
 
 </body>

@@ -6,6 +6,7 @@
   <title>Katanga Award | À propos</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="icon" type="image/png" href="{{ asset('logo kataward.png') }}">
   <style>
     /* Animation du loader */
     @keyframes fadeOut {

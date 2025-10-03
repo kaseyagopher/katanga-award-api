@@ -6,6 +6,7 @@
   <title>Katanga Award | Vote</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="icon" type="image/png" href="{{ asset('logo kataward.png') }}">
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col">
 

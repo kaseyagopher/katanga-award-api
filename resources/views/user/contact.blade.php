@@ -6,6 +6,7 @@
   <title>Katanga Award | Message</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="icon" type="image/png" href="{{ asset('logo kataward.png') }}">
   <!-- Font Awesome pour les icônes réseaux (Facebook, Twitter, Instagram, LinkedIn, YouTube, TikTok) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>

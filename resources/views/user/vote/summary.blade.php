@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Récapitulatif du vote</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<link rel="icon" type="image/png" href="{{ asset('logo kataward.png') }}">
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
 

@@ -8,7 +8,7 @@
   <script src="https://unpkg.com/alpinejs" defer></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="icon" type="image/png" href="{{ asset('flavicon-katanga-award.jpg') }}">
+  <link rel="icon" type="image/png" href="{{ asset('logo kataward.png') }}">
   <script>
     async function fetchResults() {
       try {

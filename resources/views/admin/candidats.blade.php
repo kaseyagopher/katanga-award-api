@@ -8,7 +8,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/alpinejs" defer></script>
-  <link rel="icon" type="image/png" href="{{ asset('flavicon-katanga-award.jpg') }}">
+  <link rel="icon" type="image/png" href="{{ asset('logo kataward.png') }}">
 </head>
 <body class="flex min-h-screen bg-gray-100 font-sans">
 
