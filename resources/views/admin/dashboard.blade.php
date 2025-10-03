@@ -8,6 +8,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/alpinejs" defer></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="icon" type="image/png" href="{{ asset('flavicon-katanga-award.jpg') }}">
 </head>
 <body class="flex min-h-screen bg-gray-100 font-sans">
 
