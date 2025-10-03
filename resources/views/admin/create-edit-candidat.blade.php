@@ -34,7 +34,7 @@
 
   <!-- Overlay (mobile only) -->
   <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40 md:hidden" onclick="toggleSidebar()"></div>
-
+  
   <!-- Contenu principal -->
   <div class="flex-1 flex flex-col md:ml-64 p-6">
     <h2 class="text-xl font-bold mb-6 text-center">{{ isset($Candidat) ? 'Modifier le candidat' : 'Créer un candidat' }}</h2>
@@ -139,5 +139,37 @@
       </div>
     </form>
   </div>
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      sidebar.classList.toggle('-translate-x-full');
+      overlay.classList.toggle('hidden');
+    }
+
+    // Graphique
+    const categories = @json($categoriesLabels ?? []);
+    const votes = @json($categoriesVotes ?? []);
+
+    const ctx = document.getElementById('votesParCategorie').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: categories,
+        datasets: [{
+          label: 'Votes',
+          data: votes,
+          backgroundColor: 'rgba(162, 130, 36, 0.8)',
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  </script>
 </body>
 </html>

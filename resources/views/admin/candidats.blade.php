@@ -20,23 +20,42 @@
   <!-- Contenu principal -->
   <div class="flex-1 flex flex-col md:ml-64">
     <!-- Header (mobile only) -->
-    <header class="bg-white shadow p-4 flex items-center justify-between md:hidden">
-      <button onclick="toggleSidebar()" class="text-blue-700 focus:outline-none">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-             viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
+    <!-- Header mobile -->
+<header class="bg-white shadow p-4 flex items-center justify-between md:hidden">
+  <!-- Bouton menu -->
+  <button onclick="toggleSidebar()" class="text-blue-700 focus:outline-none">
+    <span class="material-icons">menu</span>
+  </button>
+
+  <!-- Titre -->
+  <h1 class="text-lg font-bold">Admin</h1>
+
+  <!-- Liens rapides -->
+  <div class="flex items-center gap-4">
+    <!-- Dashboard -->
+    <a href="{{ route('admin.dashboard') }}" class="text-gray-700 hover:text-blue-600">
+      <span class="material-icons">dashboard</span>
+    </a>
+    <!-- Candidats -->
+    <a href="{{ route('candidats.index') }}" class="text-gray-700 hover:text-blue-600">
+      <span class="material-icons">groups</span>
+    </a>
+    <!-- Déconnexion -->
+    <form method="GET" action="{{ route('admin.logout') }}">
+      @csrf
+      <button type="submit" class="text-red-600 hover:text-red-800">
+        <span class="material-icons">logout</span>
       </button>
-      <h1 class="text-lg font-bold">Admin Dashboard</h1>
-    </header>
+    </form>
+  </div>
+</header>
 
     <!-- Section Candidats -->
     <div class="p-6">
       <div class="flex justify-between items-center mb-6">
         <h2 class="text-xl font-bold">Liste des candidats par catégorie</h2>
         <a href="{{ route('candidats.create') }}" 
-           class="px-4 py-2 bg-green-600 text-white rounded shadow hover:bg-green-700">
+           class="px-4 py-2 bg-[#A28224] text-white rounded shadow ">
           + Ajouter un candidat
         </a>
       </div>
@@ -82,7 +101,7 @@
                 </div>
               </div>
             @empty
-              <p class="col-span-full text-center bg-gray-200 p-4 rounded">Aucun candidat dans cette catégorie</p>
+              <div class="col-span-full p-6 bg-gray-200 text-center rounded">Aucune édition</div>
             @endforelse
 
           </div>
@@ -91,5 +110,37 @@
 
     </div>
   </div>
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      sidebar.classList.toggle('-translate-x-full');
+      overlay.classList.toggle('hidden');
+    }
+
+    // Graphique
+    const categories = @json($categoriesLabels ?? []);
+    const votes = @json($categoriesVotes ?? []);
+
+    const ctx = document.getElementById('votesParCategorie').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: categories,
+        datasets: [{
+          label: 'Votes',
+          data: votes,
+          backgroundColor: 'rgba(162, 130, 36, 0.8)',
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  </script>
 </body>
 </html>

@@ -93,14 +93,23 @@ class CategorieController extends Controller
 
 
 
-    public function destroy(Categorie $categorie)
-    {
-        $categorie->delete();
+    public function destroy($id)
+{
+    $categorie = Categorie::findOrFail($id);
 
-        /* return response()->json([
-            'message' => 'Catégorie supprimée avec succès'
-        ]);*/
+    // Supprimer tous les candidats liés
+    $categorie->candidats()->each(function($candidat) {
+        if ($candidat->photo_url && file_exists(public_path($candidat->photo_url))) {
+            unlink(public_path($candidat->photo_url));
+        }
+        $candidat->delete();
+    });
 
-        return to_route('categories.index');
-    }
+    // Supprimer la catégorie
+    $categorie->delete();
+
+    return redirect()->route('categories.index')->with('success', 'Catégorie et ses candidats supprimés avec succès');
+}
+
+
 }

@@ -6,6 +6,8 @@
     <title>{{ isset($Categorie) ? 'Modifier la catégorie' : 'Créer une catégorie' }} - Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ asset('flavicon-katanga-award.jpg') }}">
+
 
     <script>
         function toggleSidebar() {
@@ -38,10 +40,10 @@
             </button>
             <h1 class="text-lg font-bold">Admin</h1>
         </header>
-
+        
         <!-- Contenu -->
         <main class="p-8 flex justify-center">
-
+            
             <div class="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-2xl font-bold mb-6 text-center">
                     {{ isset($Categorie) ? 'Modifier la catégorie' : 'Créer une catégorie' }}
@@ -100,6 +102,37 @@
 
         </main>
     </div>
+<script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      sidebar.classList.toggle('-translate-x-full');
+      overlay.classList.toggle('hidden');
+    }
 
+    // Graphique
+    const categories = @json($categoriesLabels ?? []);
+    const votes = @json($categoriesVotes ?? []);
+
+    const ctx = document.getElementById('votesParCategorie').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: categories,
+        datasets: [{
+          label: 'Votes',
+          data: votes,
+          backgroundColor: 'rgba(162, 130, 36, 0.8)',
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  </script>
 </body>
 </html>

@@ -78,5 +78,37 @@
     <h1 class="text-3xl font-bold mb-6 text-gray-800">Résultats en direct</h1>
     <div id="resultsContainer"></div>
   </div>
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      sidebar.classList.toggle('-translate-x-full');
+      overlay.classList.toggle('hidden');
+    }
+
+    // Graphique
+    const categories = @json($categoriesLabels ?? []);
+    const votes = @json($categoriesVotes ?? []);
+
+    const ctx = document.getElementById('votesParCategorie').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: categories,
+        datasets: [{
+          label: 'Votes',
+          data: votes,
+          backgroundColor: 'rgba(162, 130, 36, 0.8)',
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  </script>
 </body>
 </html>
