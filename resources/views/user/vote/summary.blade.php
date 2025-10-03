@@ -18,7 +18,7 @@
         <div class="border rounded-lg p-4 bg-[#A28224]/10">
           <h2 class="font-semibold text-gray-800 mb-2">{{ $vote->categorie->nom_categorie }}</h2>
           <div class="flex flex-col items-center">
-            <img src="{{ $vote->candidat->photo_url ?? 'https://via.placeholder.com/100' }}"
+            <img src="{{ asset($vote->candidat->photo_url) ?? 'https://via.placeholder.com/100' }}"
                  alt="{{ $vote->candidat->nom_complet }}"
                  class="w-20 h-20 rounded-full mb-2 object-cover border-2 border-[#A28224]">
             <span class="font-bold text-[#A28224]">{{ $vote->candidat->nom_complet }}</span>
