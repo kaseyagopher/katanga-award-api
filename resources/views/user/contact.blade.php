@@ -92,7 +92,17 @@
 
     <!-- Formulaire -->
     <section class="bg-white shadow-lg rounded-2xl p-8 mb-12 animate-fade-in">
-      <form action="#" method="POST" class="grid grid-cols-1 gap-6">
+        @if(session('success'))
+            <p class="mt-4 text-green-600 font-semibold">{{ session('success') }}</p>
+        @endif
+
+        @if(session('error'))
+            <p class="mt-4 text-red-600 font-semibold">{{ session('error') }}</p>
+        @endif
+
+        {{-- formulaire --}}
+      <form action="{{ route('user.mail') }}" method="POST" class="grid grid-cols-1 gap-6">
+        @csrf
         <div>
           <label class="block text-sm font-semibold text-gray-700 mb-2">Nom complet</label>
           <input type="text" name="nom" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-[#A28224] outline-none" required>
@@ -114,6 +124,7 @@
         </button>
       </form>
     </section>
+
 
     <!-- Réseaux sociaux -->
     <section class="text-center animate-fade-in">

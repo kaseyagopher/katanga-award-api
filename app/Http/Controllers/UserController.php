@@ -8,6 +8,8 @@ use App\Models\Edition;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 class UserController extends Controller
 {
@@ -94,6 +96,59 @@ class UserController extends Controller
 
     public function user_contact(){
         return view('user.contact');
+    }
+
+
+    public function user_mail(Request $request)
+    {
+        $request->validate([
+            'nom' => 'required|string|max:255',
+            'email' => 'required|email',
+            'sujet' => 'required|string|max:255',
+            'message' => 'required|string',
+        ]);
+
+        // Initialiser PHPMailer
+        $mail = new PHPMailer(true);
+
+        try {
+            // Config Gmail SMTP
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'synergieup@gmail.com'; // ton Gmail
+            $mail->Password   = 'tdqkyfedfjbcrfho'; // mot de passe d'application
+            $mail->SMTPSecure = 'tls';
+            $mail->Port       = 587;
+
+            // Expéditeur = Gmail (obligatoire pour passer par Google)
+            $mail->setFrom('synergieup@gmail.com', $request->nom);
+
+            // Reply-to = email utilisateur (pour pouvoir répondre directement à lui)
+            $mail->addReplyTo($request->email, $request->nom);
+
+            // Destinataire
+            $mail->addAddress('synergieup@gmail.com', 'Katanga Award');
+
+            // Contenu du mail
+            $mail->isHTML(true);
+            $mail->Subject = '📩 Nouveau message depuis la page Contact - ' . $request->sujet;
+            $mail->Body    = "
+                <h2>Nouveau message reçu</h2>
+                <p><strong>Nom :</strong> {$request->nom}</p>
+                <p><strong>Email :</strong> {$request->email}</p>
+                <p><strong>Sujet :</strong> {$request->sujet}</p>
+                <p><strong>Message :</strong><br>{$request->message}</p>
+            ";
+            $mail->AltBody = "Nom: {$request->nom}\nEmail: {$request->email}\nSujet: {$request->sujet}\nMessage:\n{$request->message}";
+
+            $mail->send();
+
+            redirect()->route('user.mail');
+            //return back()->with('success', 'Votre message a été envoyé ✅');
+        } catch (Exception $e) {
+            return back()->with('error', "Erreur lors de l'envoi du message : {$mail->ErrorInfo}");
+        }
     }
 
 }
