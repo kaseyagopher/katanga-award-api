@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion Utilisateur</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" href="{{ asset('logo kataward.png') }}">
 </head>
 <body class="relative min-h-screen flex items-center justify-center"
       style="background-image: url('{{ asset('image-katanga.jpg') }}'); background-size: cover; background-position: center;">
