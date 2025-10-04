@@ -145,7 +145,7 @@ class UserController extends Controller
             $mail->send();
 
             redirect()->route('user.mail');
-            //return back()->with('success', 'Votre message a été envoyé ✅');
+            return back()->with('success', 'Votre message a été envoyé ✅');
         } catch (Exception $e) {
             return back()->with('error', "Erreur lors de l'envoi du message : {$mail->ErrorInfo}");
         }

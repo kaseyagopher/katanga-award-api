@@ -110,17 +110,7 @@
     </div>
   </nav>
 
-  <script>
-      const btn = document.getElementById('mobile-menu-button');
-      const menu = document.getElementById('mobile-menu');
-      btn.addEventListener('click', () => menu.classList.toggle('hidden'));
-
-      // Loader disparaît après le chargement de la page
-      window.addEventListener("load", () => {
-        const loader = document.getElementById("loader");
-        loader.style.animation = "fadeOut 1s forwards";
-      });
-  </script>
+  
 
   <!-- CONTENU PRINCIPAL -->
   <main class="flex-1 max-w-7xl mx-auto p-6">
@@ -162,6 +152,27 @@
         <p class="text-center">© 2025 Katanga Award. Tous droits réservés.</p>
     </div>
   </footer>
+  <script>
+    const btn = document.getElementById('mobile-menu-button');
+    const menu = document.getElementById('mobile-menu');
+    const icon = btn.querySelector('.material-icons');
 
+    btn.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+
+        // Si le menu est ouvert, on change l’icône
+        if (!menu.classList.contains('hidden')) {
+            icon.textContent = 'close'; // croix
+        } else {
+            icon.textContent = 'menu'; // burger
+        }
+    });
+
+    // Loader disparaît après le chargement de la page
+    window.addEventListener("load", () => {
+      const loader = document.getElementById("loader");
+      loader.style.animation = "fadeOut 1s forwards";
+    });
+</script>
 </body>
 </html>

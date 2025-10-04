@@ -178,22 +178,31 @@
 
       <!-- Top candidats -->
       <section class="bg-white p-6 rounded-lg shadow">
-        <h2 class="text-lg sm:text-xl font-bold mb-4">Top 3 Candidats</h2>
-        <div class="space-y-4">
-          @foreach($topCandidats as $candidat)
-            <div class="flex flex-col sm:flex-row items-center sm:justify-between gap-4">
-              <div class="flex items-center gap-4">
-                <img src="{{ asset($candidat->photo_url) }}" alt="{{ $candidat->nom_complet }}" class="w-12 h-12 rounded-full object-cover">
-                <div>
-                  <div class="font-semibold">{{ $candidat->nom_complet }}</div>
-                  <div class="text-sm text-gray-600">{{ $candidat->categorie->nom }}</div>
-                </div>
-              </div>
-              <div class="text-lg font-bold">{{ $candidat->votes_count }}</div>
-            </div>
-          @endforeach
+  <h2 class="text-lg sm:text-xl font-bold mb-4">Top 3 Candidats</h2>
+  <div class="space-y-4">
+    @foreach($topCandidats as $candidat)
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-3 border rounded-lg">
+        
+        <!-- Infos candidat -->
+        <div class="flex items-center gap-4">
+          <img src="{{ asset($candidat->photo_url) }}" 
+               alt="{{ $candidat->nom_complet }}" 
+               class="w-12 h-12 rounded-full object-cover">
+          <div>
+            <div class="font-semibold">{{ $candidat->nom_complet }}</div>
+            <div class="text-sm text-gray-600">{{ $candidat->categorie->nom }}</div>
+          </div>
         </div>
-      </section>
+
+        <!-- Nombre de votes -->
+        <div class="text-lg font-bold text-center sm:text-right">
+          {{ $candidat->votes_count }}
+        </div>
+      </div>
+    @endforeach
+  </div>
+</section>
+
 
       <!-- Graphique votes par catégorie -->
       <section class="bg-white p-6 rounded-lg shadow">

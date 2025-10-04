@@ -32,9 +32,16 @@
   </div>
 
   <!-- NAVBAR -->
-  <nav class="bg-white shadow-md">
+  <nav class="bg-white shadow-md sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16 items-center">
+        
+        <!-- Logo -->
+        <a href="{{ route('user.index') }}" class="flex items-center space-x-2">
+          <img src="{{ asset('logo kataward.png') }}" alt="Katanga Award" class="h-10 w-auto">
+          <span class="font-bold text-[#A28224]">Katanga Award</span>
+        </a>
+
         <!-- Liens desktop -->
         <div class="hidden md:flex items-center space-x-4">
           <a href="{{ route('user.index') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">Accueil</a>
@@ -43,18 +50,18 @@
           <a href="{{ route('user.contact') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">Contact</a>
         </div>
 
-        <!-- Utilisateur -->
-        <div class="flex items-center space-x-2">
+        <!-- Boutons utilisateur -->
+        <div class="hidden md:block">
           @if(Auth::guard('web')->check())
-              <strong class="px-4 truncate max-w-[120px] text-right">
+              <span class="px-4 truncate max-w-[120px] text-right font-medium text-gray-700">
                   {{ Auth::guard('web')->user()->numero ?? Auth::guard('web')->user()->email }}
-              </strong>
+              </span>
           @else
               <p class="text-orange-500 font-semibold">UNKNOW</p>
           @endif
         </div>
 
-        <!-- Mobile -->
+        <!-- Hamburger mobile -->
         <div class="md:hidden flex items-center">
             <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
                 <span class="material-icons">menu</span>

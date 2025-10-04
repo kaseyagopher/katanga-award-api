@@ -90,12 +90,7 @@
     </div>
   </nav>
 
-  <script>
-      const btn = document.getElementById('mobile-menu-button');
-      const menu = document.getElementById('mobile-menu');
-      btn.addEventListener('click', () => menu.classList.toggle('hidden'));
-  </script>
-
+  
   <!-- CONTENU PRINCIPAL -->
   <main class="flex-1 max-w-5xl mx-auto p-6">
     <h1 class="text-2xl font-bold mb-6 text-center">Formulaire de vote</h1>
@@ -156,5 +151,17 @@
         <p class="text-center">© 2025 Katanga Award. Tous droits réservés.</p>
     </div>
   </footer>
+
+  <!-- SCRIPT NAVBAR -->
+  <script>
+    const btn = document.getElementById('mobile-menu-button');
+    const menu = document.getElementById('mobile-menu');
+    const icon = btn.querySelector('.material-icons');
+
+    btn.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+        icon.textContent = menu.classList.contains('hidden') ? 'menu' : 'close';
+    });
+  </script>
 </body>
 </html>

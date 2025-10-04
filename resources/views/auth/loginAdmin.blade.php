@@ -8,17 +8,17 @@
 </head>
 <body class="min-h-screen flex items-center justify-center bg-gray-100">
 
-  <div class="w-full max-w-4xl bg-white shadow-lg rounded-lg flex overflow-hidden">
+  <div class="w-full max-w-4xl bg-white shadow-lg rounded-lg flex flex-col md:flex-row overflow-hidden">
     
-    <!-- Image à gauche -->
-    <div class="hidden md:flex md:w-1/2 bg-gray-200">
+    <!-- Image -->
+    <div class="w-full md:w-1/2 bg-gray-200">
       <img src="{{asset('image-katanga-login.jpg')}}" 
            alt="Illustration" 
-           class="w-full h-full object-cover">
+           class="w-full h-48 md:h-full object-cover">
     </div>
 
-    <!-- Formulaire à droite -->
-    <div class="w-full md:w-1/2 p-8">
+    <!-- Formulaire -->
+    <div class="w-full md:w-1/2 p-8 px-6 sm:px-10">
       <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Connexion Admin</h2>
 
       {{-- Messages flash --}}
