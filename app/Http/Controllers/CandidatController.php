@@ -16,7 +16,7 @@ class CandidatController extends Controller
         $Categories = Categorie::all();
         return view('admin.candidats', compact('Candidats', 'Categories'));
     }
-
+    
     public function create()
     {
         $Categories = Categorie::all();

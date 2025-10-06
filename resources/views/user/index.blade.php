@@ -137,7 +137,11 @@
                         </div>
                         <h3 class="text-lg font-bold text-white drop-shadow">{{ $candidat->nom_complet }}</h3>
                         <p class="text-sm text-yellow-100 italic">{{ $categorie->nom_categorie }}</p>
-                    </div>
+                        <a href="{{ route('user.candidat.show', $candidat->id) }}"
+                        class="bg-[#fbcd43] text-black font-semibold px-4 py-2 rounded-md hover:bg-[#A28224] transition">
+                        Détails
+                      </a>
+                      </div>
                 @empty
                     <p class="col-span-full text-center bg-gray-200 p-4 rounded">Aucun candidat</p>
                 @endforelse

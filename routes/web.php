@@ -42,6 +42,7 @@ Route::prefix('katanga-award')->group(function () {
         Route::get('/contact',[UserController::class, 'user_contact'])->name('user.contact');
         Route::post('/mail',[UserController::class, 'user_mail'])->name('user.mail'); // pour mail
         Route::get('/vote',[UserController::class, 'vote'])->name('user.vote');
+        Route::get('/candidat/{id}', [UserController::class, 'showCandidat'])->name('user.candidat.show');
         Route::post('/vote',[VoteController::class, 'store'])->name('vote.store');
         Route::get('/vote/summary', [VoteSummaryController::class, 'show'])
             ->name('vote.summary')

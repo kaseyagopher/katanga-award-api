@@ -98,6 +98,11 @@ class UserController extends Controller
         return view('user.contact');
     }
 
+    public function showCandidat($id)
+{
+    $candidat = \App\Models\Candidat::findOrFail($id);
+    return view('user.candidat-details', compact('candidat'));
+}
 
     public function user_mail(Request $request)
     {
