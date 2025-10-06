@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="icon" type="image/png" href="{{ asset('logo kataward.png') }}">
   <style>
-    /* Animation du loader */
+    /* Animations */
     @keyframes fadeOut {
       from { opacity: 1; }
       to { opacity: 0; visibility: hidden; }
@@ -17,42 +17,44 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    .animate-fade-in {
-      animation: fadeInUp 1s ease-in-out forwards;
-    }
+   
   </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col relative font-sans">
+
+<body class="bg-black text-white min-h-screen flex flex-col relative font-sans">
 
   <!-- Loader -->
-  <div id="loader" class="fixed inset-0 bg-white flex flex-col items-center justify-center z-50">
+  <div id="loader" class="fixed inset-0 bg-black flex flex-col items-center justify-center z-50">
     <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-[#A28224] mb-4"></div>
-    <h1 class="text-2xl font-bold text-[#A28224]">Katanga Award</h1>
+    <h1 class="text-2xl font-bold text-[#fbcd43]">Katanga Award</h1>
   </div>
 
   <!-- NAVBAR -->
-  <nav class="bg-white shadow-md sticky top-0 z-40">
+  <nav class="bg-black border-b border-[#A28224] sticky top-0 z-40 shadow-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16 items-center">
-        
+
         <!-- Logo -->
         <a href="{{ route('user.index') }}" class="flex items-center space-x-2">
           <img src="{{ asset('logo kataward.png') }}" alt="Katanga Award" class="h-10 w-auto">
-          <span class="font-bold text-[#A28224]">Katanga Award</span>
+          <span class="font-bold">
+            <span class="text-white">Katanga</span>
+            <span class="text-[#fbcd43]"> Award</span>
+          </span>
         </a>
 
         <!-- Liens desktop -->
         <div class="hidden md:flex items-center space-x-4">
-          <a href="{{ route('user.index') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">Accueil</a>
-          <a href="#" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">Résultats</a>
-          <a href="{{ route('user.apropos') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">À propos</a>
-          <a href="{{ route('user.contact') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">Contact</a>
+          <a href="{{ route('user.index') }}" class="text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2">Accueil</a>
+          <a href="#" class="text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2">Résultats</a>
+          <a href="{{ route('user.apropos') }}" class="text-[#A28224] font-semibold px-3 py-2">À propos</a>
+          <a href="{{ route('user.contact') }}" class="text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2">Contact</a>
         </div>
 
-        <!-- Boutons utilisateur -->
+        <!-- Bouton utilisateur -->
         <div class="hidden md:block">
           @if(Auth::guard('web')->check())
-              <span class="px-4 truncate max-w-[120px] text-right font-medium text-gray-700">
+              <span class="px-4 truncate max-w-[120px] text-right font-medium text-[#fbcd43]">
                   {{ Auth::guard('web')->user()->numero ?? Auth::guard('web')->user()->email }}
               </span>
           @else
@@ -62,7 +64,7 @@
 
         <!-- Hamburger mobile -->
         <div class="md:hidden flex items-center">
-            <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
+            <button id="mobile-menu-button" class="text-white focus:outline-none">
                 <span class="material-icons">menu</span>
             </button>
         </div>
@@ -70,10 +72,10 @@
 
       <!-- Menu mobile -->
       <div id="mobile-menu" class="hidden md:hidden mt-2 space-y-2 pb-4 animate-fade-in">
-          <a href="{{ route('user.index') }}" class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">Accueil</a>
-          <a href="#" class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">Résultats</a>
-          <a href="{{ route('user.apropos') }}" class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">À propos</a>
-          <a href="{{ route('user.contact') }}" class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">Contact</a>
+          <a href="{{ route('user.index') }}" class="block text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2">Accueil</a>
+          <a href="#" class="block text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2">Résultats</a>
+          <a href="{{ route('user.apropos') }}" class="block text-[#A28224] font-semibold px-3 py-2">À propos</a>
+          <a href="{{ route('user.contact') }}" class="block text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2">Contact</a>
       </div>
     </div>
   </nav>
@@ -81,78 +83,78 @@
   <script>
       const btn = document.getElementById('mobile-menu-button');
       const menu = document.getElementById('mobile-menu');
-      btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+      const icon = btn.querySelector('.material-icons');
+      btn.addEventListener('click', () => {
+          menu.classList.toggle('hidden');
+          icon.textContent = menu.classList.contains('hidden') ? 'menu' : 'close';
+      });
   </script>
 
   <!-- CONTENU PRINCIPAL -->
-  <main class="flex-1 max-w-7xl mx-auto p-6">
+  <main class="flex-1 max-w-7xl mx-auto p-6 space-y-12">
 
     <!-- Section Présentation -->
-    <section class="mb-12 text-center animate-fade-in">
-      <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">À propos du Katanga Award</h1>
-      <p class="text-gray-600 max-w-3xl mx-auto leading-relaxed">
-        Le <span class="font-semibold text-[#A28224]">Katanga Award</span> est un événement prestigieux qui met en lumière
-        et récompense les talents, initiatives et réussites des acteurs qui contribuent au rayonnement de notre région.
-        Plus qu'une cérémonie, c'est un espace de reconnaissance et de valorisation qui célèbre l’excellence,
-        la créativité et l’engagement.
+    <section class="text-center animate-fade-in">
+      <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">À propos du Katanga Award</h1>
+      <p class="text-gray-300 max-w-3xl mx-auto leading-relaxed">
+        Le Katanga Award est un événement prestigieux qui met en lumière
+        les talents, initiatives et réussites des acteurs qui contribuent au rayonnement de notre région.
+        C’est un espace de reconnaissance et de valorisation célébrant l’excellence et la créativité.
       </p>
     </section>
 
     <!-- Mission et Vision -->
-    <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-      <div class="bg-white shadow-md rounded-2xl p-6 hover:shadow-lg transition transform hover:-translate-y-1 animate-fade-in">
-        <h2 class="text-2xl font-semibold text-[#A28224] mb-4">Notre Mission</h2>
-        <p class="text-gray-600 leading-relaxed">
-          Promouvoir et récompenser les efforts des individus et organisations qui œuvrent dans
-          différents domaines tels que la culture, l’innovation, l’entrepreneuriat, la musique,
-          le sport et bien d’autres, afin d’inspirer les générations futures.
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-8 animate-fade-in">
+      <div class="bg-[#111] border border-[#A28224]/30 rounded-2xl p-6 hover:shadow-[0_0_15px_#A28224] transition transform hover:-translate-y-1">
+        <h2 class="text-2xl font-semibold text-[#fbcd43] mb-4">Notre Mission</h2>
+        <p class="text-gray-300 leading-relaxed">
+          Promouvoir et récompenser les efforts des individus et organisations œuvrant dans divers domaines —
+          culture, innovation, entrepreneuriat, musique, sport — pour inspirer les générations futures.
         </p>
       </div>
-      <div class="bg-white shadow-md rounded-2xl p-6 hover:shadow-lg transition transform hover:-translate-y-1 animate-fade-in">
-        <h2 class="text-2xl font-semibold text-[#A28224] mb-4">Notre Vision</h2>
-        <p class="text-gray-600 leading-relaxed">
-          Faire du <span class="font-semibold">Katanga Award</span> une référence nationale et
-          internationale en matière de célébration de l’excellence, en devenant un levier
-          de motivation et de développement pour toute la jeunesse congolaise.
+      <div class="bg-[#111] border border-[#A28224]/30 rounded-2xl p-6 hover:shadow-[0_0_15px_#A28224] transition transform hover:-translate-y-1">
+        <h2 class="text-2xl font-semibold text-[#fbcd43] mb-4">Notre Vision</h2>
+        <p class="text-gray-300 leading-relaxed">
+          Faire du Katanga Award une référence nationale et internationale,
+          célébrant l’excellence et servant de levier de motivation pour la jeunesse congolaise.
         </p>
       </div>
     </section>
 
     <!-- Valeurs -->
-    <section class="mb-12 animate-fade-in">
-      <h2 class="text-2xl font-semibold text-center text-gray-800 mb-8">Nos Valeurs</h2>
+    <section class="animate-fade-in">
+      <h2 class="text-2xl font-semibold text-center text-[#fbcd43] mb-8">Nos Valeurs</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        <div class="bg-[#A28224]/10 rounded-xl p-6 text-center hover:scale-105 transition">
+        <div class="bg-[#1a1a1a] border border-[#A28224]/20 rounded-xl p-6 text-center hover:scale-105 transition">
           <h3 class="text-lg font-bold text-[#A28224] mb-2">Excellence</h3>
-          <p class="text-gray-600 text-sm">Récompenser ceux qui se distinguent par leur savoir-faire et leur impact.</p>
+          <p class="text-gray-300 text-sm">Récompenser ceux qui se distinguent par leur savoir-faire et leur impact.</p>
         </div>
-        <div class="bg-[#A28224]/10 rounded-xl p-6 text-center hover:scale-105 transition">
+        <div class="bg-[#1a1a1a] border border-[#A28224]/20 rounded-xl p-6 text-center hover:scale-105 transition">
           <h3 class="text-lg font-bold text-[#A28224] mb-2">Innovation</h3>
-          <p class="text-gray-600 text-sm">Mettre en avant les projets créatifs qui transforment positivement la société.</p>
+          <p class="text-gray-300 text-sm">Mettre en avant les projets créatifs qui transforment positivement la société.</p>
         </div>
-        <div class="bg-[#A28224]/10 rounded-xl p-6 text-center hover:scale-105 transition">
+        <div class="bg-[#1a1a1a] border border-[#A28224]/20 rounded-xl p-6 text-center hover:scale-105 transition">
           <h3 class="text-lg font-bold text-[#A28224] mb-2">Engagement</h3>
-          <p class="text-gray-600 text-sm">Valoriser l’esprit de service, le leadership et la contribution active.</p>
+          <p class="text-gray-300 text-sm">Valoriser l’esprit de service, le leadership et la contribution active.</p>
         </div>
       </div>
     </section>
 
     <!-- Historique -->
-    <section class="bg-white shadow-md rounded-2xl p-8 mb-12 animate-fade-in">
-      <h2 class="text-2xl font-semibold text-gray-800 mb-4">Notre Histoire</h2>
-      <p class="text-gray-600 leading-relaxed">
-        Créé pour honorer les talents et inspirer toute une génération, le <span class="font-semibold text-[#A28224]">Katanga Award</span>
-        est devenu au fil des années une cérémonie incontournable dans le paysage culturel et social.
-        Chaque édition rassemble des milliers de participants, témoignant de l’importance de célébrer
-        nos propres héros et modèles de réussite.
+    <section class="bg-[#111] border border-[#A28224]/30 rounded-2xl p-8 animate-fade-in">
+      <h2 class="text-2xl font-semibold text-[#fbcd43] mb-4">Notre Histoire</h2>
+      <p class="text-gray-300 leading-relaxed">
+        Créé pour honorer les talents et inspirer une génération, le <span class="text-[#A28224] font-semibold">Katanga Award</span>
+        est devenu une cérémonie incontournable dans le paysage culturel et social.
+        Chaque édition rassemble des milliers de participants, célébrant nos héros et modèles de réussite.
       </p>
     </section>
 
     <!-- Call to Action -->
     <section class="text-center animate-fade-in">
-      <h2 class="text-2xl font-semibold text-gray-800 mb-4">Rejoignez l’aventure Katanga Award</h2>
-      <p class="text-gray-600 mb-6">Venez célébrer avec nous l’excellence et soutenir ceux qui façonnent l’avenir.</p>
-      <a href="{{ route('user.vote') }}" class="bg-[#A28224] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#8b6c1d] transition shadow-lg">
+      <h2 class="text-2xl font-semibold  mb-4">Rejoignez l’aventure Katanga Award</h2>
+      <p class="text-gray-300 mb-6">Célébrez l’excellence et soutenez ceux qui façonnent l’avenir.</p>
+      <a href="{{ route('user.index') }}" class="bg-[#fbcd43] text-black px-6 py-3 rounded-lg font-semibold hover:bg-[#e3b017] transition shadow-lg">
         Participez au vote
       </a>
     </section>
@@ -160,14 +162,13 @@
   </main>
 
   <!-- FOOTER -->
-  <footer class="bg-white border-t mt-auto">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-center items-center text-sm text-gray-500">
+  <footer class="bg-[#0a0a0a] border-t border-[#A28224] mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-center items-center text-sm text-gray-400">
         <p class="text-center">© 2025 Katanga Award. Tous droits réservés.</p>
     </div>
   </footer>
 
   <script>
-    // Loader disparaît après 2 secondes
     window.addEventListener("load", () => {
       const loader = document.getElementById("loader");
       loader.style.animation = "fadeOut 1s forwards";

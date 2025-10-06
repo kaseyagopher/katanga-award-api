@@ -7,8 +7,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="icon" type="image/png" href="{{ asset('logo kataward.png') }}">
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
   <style>
     @keyframes fadeOut {
       from { opacity: 1; }
@@ -18,52 +18,50 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    .animate-fade-in {
-      animation: fadeInUp 1s ease-in-out forwards;
-    }
+    
   </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col relative">
+<body class="bg-black min-h-screen flex flex-col relative text-white">
 
   <!-- Loader -->
-  <div id="loader" class="fixed inset-0 bg-white flex flex-col items-center justify-center z-50">
+  <div id="loader" class="fixed inset-0 bg-black flex flex-col items-center justify-center z-50">
     <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-[#A28224] mb-4"></div>
-    <h1 class="text-2xl font-bold text-[#A28224]">Katanga Award</h1>
+    <h1 class="text-2xl font-bold text-[#fbcd43]">Katanga Award</h1>
   </div>
 
   <!-- NAVBAR -->
-  <nav class="bg-white shadow-md sticky top-0 z-40">
+  <nav class="bg-dark border-b border-[#fbcd43] shadow-md  top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16 items-center">
         
         <!-- Logo -->
         <a href="{{ route('user.index') }}" class="flex items-center space-x-2">
           <img src="{{ asset('logo kataward.png') }}" alt="Katanga Award" class="h-10 w-auto">
-          <span class="font-bold text-[#A28224]">Katanga Award</span>
+          <span class="text-white font-bold" >Katanga</span><span class="text-[#e3b017] font-bold"> Award</span>
         </a>
 
         <!-- Liens desktop -->
         <div class="hidden md:flex items-center space-x-4">
-          <a href="{{ route('user.index') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">Accueil</a>
-          <a href="#" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">Résultats</a>
-          <a href="{{ route('user.apropos') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">À propos</a>
-          <a href="{{ route('user.contact') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">Contact</a>
+          <a href="{{ route('user.index') }}" class="text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2">Accueil</a>
+          <a href="#" class="text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2">Résultats</a>
+          <a href="{{ route('user.apropos') }}" class="text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2">À propos</a>
+          <a href="{{ route('user.contact') }}" class="text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2">Contact</a>
         </div>
 
-        <!-- Boutons utilisateur -->
+        <!-- Utilisateur -->
         <div class="hidden md:block">
           @if(Auth::guard('web')->check())
-              <span class="px-4 truncate max-w-[120px] text-right font-medium text-gray-700">
+              <span class="px-4 truncate max-w-[120px] text-right font-medium text-gray-200">
                   {{ Auth::guard('web')->user()->numero ?? Auth::guard('web')->user()->email }}
               </span>
           @else
-              <p class="text-orange-500 font-semibold">UNKNOW</p>
+              <p class="text-[#fbcd43] font-semibold">UNKNOW</p>
           @endif
         </div>
 
         <!-- Hamburger mobile -->
         <div class="md:hidden flex items-center">
-            <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
+            <button id="mobile-menu-button" class="text-white focus:outline-none">
                 <span class="material-icons">menu</span>
             </button>
         </div>
@@ -71,10 +69,10 @@
 
       <!-- Menu mobile -->
       <div id="mobile-menu" class="hidden md:hidden mt-2 space-y-2 pb-4 animate-fade-in">
-          <a href="{{ route('user.index') }}" class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">Accueil</a>
-          <a href="#" class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">Résultats</a>
-          <a href="{{ route('user.apropos') }}" class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">À propos</a>
-          <a href="{{ route('user.contact') }}" class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2">Contact</a>
+          <a href="{{ route('user.index') }}" class="block text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2">Accueil</a>
+          <a href="#" class="block text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2">Résultats</a>
+          <a href="{{ route('user.apropos') }}" class="block text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2">À propos</a>
+          <a href="{{ route('user.contact') }}" class="block text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2">Contact</a>
       </div>
     </div>
   </nav>
@@ -82,7 +80,11 @@
   <script>
       const btn = document.getElementById('mobile-menu-button');
       const menu = document.getElementById('mobile-menu');
-      btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+      const icon = btn.querySelector('.material-icons');
+      btn.addEventListener('click', () => {
+          menu.classList.toggle('hidden');
+          icon.textContent = menu.classList.contains('hidden') ? 'menu' : 'close';
+      });
   </script>
 
   <!-- CONTENU PRINCIPAL -->
@@ -90,79 +92,77 @@
 
     <!-- Titre -->
     <section class="text-center mb-12 animate-fade-in">
-      <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Contactez-nous</h1>
-      <p class="text-gray-600 max-w-2xl mx-auto">
+      <h1 class="text-3xl md:text-4xl font-bold text-[#fbcd43] mb-4">Contactez-nous</h1>
+      <p class="text-gray-300 max-w-2xl mx-auto">
         Une question ? Un partenariat ? Une suggestion ?<br>
         Remplissez le formulaire ci-dessous ou retrouvez-nous sur nos réseaux sociaux.
       </p>
     </section>
 
     <!-- Formulaire -->
-    <section class="bg-white shadow-lg rounded-2xl p-8 mb-12 animate-fade-in">
+    <section class="bg-[#111] shadow-lg rounded-2xl p-8 mb-12 animate-fade-in border border-[#2d2d2d]">
         @if(session('success'))
-            <p class="mt-4 text-green-600 font-semibold">{{ session('success') }}</p>
+            <p class="mt-4 text-green-400 font-semibold">{{ session('success') }}</p>
         @endif
 
         @if(session('error'))
-            <p class="mt-4 text-red-600 font-semibold">{{ session('error') }}</p>
+            <p class="mt-4 text-red-400 font-semibold">{{ session('error') }}</p>
         @endif
 
-        {{-- formulaire --}}
       <form action="{{ route('user.mail') }}" method="POST" class="grid grid-cols-1 gap-6">
         @csrf
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-2">Nom complet</label>
-          <input type="text" name="nom" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-[#A28224] outline-none" required>
+          <label class="block text-sm font-semibold text-gray-200 mb-2">Nom complet</label>
+          <input type="text" name="nom" class="w-full bg-black border border-gray-700 rounded-lg p-3 text-white focus:ring-2 focus:ring-[#A28224] outline-none" required>
         </div>
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-2">Adresse Email</label>
-          <input type="email" name="email" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-[#A28224] outline-none" required>
+          <label class="block text-sm font-semibold text-gray-200 mb-2">Adresse Email</label>
+          <input type="email" name="email" class="w-full bg-black border border-gray-700 rounded-lg p-3 text-white focus:ring-2 focus:ring-[#A28224] outline-none" required>
         </div>
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-2">Sujet</label>
-          <input type="text" name="sujet" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-[#A28224] outline-none" required>
+          <label class="block text-sm font-semibold text-gray-200 mb-2">Sujet</label>
+          <input type="text" name="sujet" class="w-full bg-black border border-gray-700 rounded-lg p-3 text-white focus:ring-2 focus:ring-[#A28224] outline-none" required>
         </div>
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-2">Message</label>
-          <textarea name="message" rows="5" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-[#A28224] outline-none" required></textarea>
+          <label class="block text-sm font-semibold text-gray-200 mb-2">Message</label>
+          <textarea name="message" rows="5" class="w-full bg-black border border-gray-700 rounded-lg p-3 text-white focus:ring-2 focus:ring-[#A28224] outline-none" required></textarea>
         </div>
-        <button type="submit" class="bg-[#A28224] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#8b6c1d] transition shadow-lg">
+        <button type="submit" class="bg-[#e3b017] text-black px-6 py-3 rounded-lg font-semibold hover:bg-[#A28224] transition shadow-lg">
           Envoyer
         </button>
       </form>
     </section>
 
-
     <!-- Réseaux sociaux -->
     <section class="text-center animate-fade-in">
-      <h2 class="text-2xl font-semibold text-gray-800 mb-6">Suivez-nous</h2>
+      <h2 class="text-2xl font-semibold text-white mb-6">Suivez-nous</h2>
       <div class="flex justify-center space-x-6 text-3xl">
-        <a href="https://web.facebook.com/KatangaAwards?locale=fr_FR" target="_blank" title="Facebook" class="text-[#A28224] hover:text-[#8b6c1d] hover:scale-110 transition">
+        <a href="https://web.facebook.com/KatangaAwards?locale=fr_FR" target="_blank" title="Facebook" class="text-[#fbcd43] hover:text-[#A28224] hover:scale-110 transition">
           <i class="fa-brands fa-facebook-f"></i>
         </a>
-        <a href="https://x.com/awards_katanga?s=21" target="_blank" title="Twitter" class="text-[#A28224] hover:text-[#8b6c1d] hover:scale-110 transition">
+        <a href="https://x.com/awards_katanga?s=21" target="_blank" title="Twitter" class="text-[#fbcd43] hover:text-[#A28224] hover:scale-110 transition">
           <i class="fa-brands fa-twitter"></i>
         </a>
-        <a href="https://www.instagram.com/katangaawards?igsh=NnBnbHR6MXV1engw" target="_blank" title="Instagram" class="text-[#A28224] hover:text-[#8b6c1d] hover:scale-110 transition">
+        <a href="https://www.instagram.com/katangaawards?igsh=NnBnbHR6MXV1engw" target="_blank" title="Instagram" class="text-[#fbcd43] hover:text-[#A28224] hover:scale-110 transition">
           <i class="fa-brands fa-instagram"></i>
         </a>
-        <a href="https://www.linkedin.com/in/billy-makela-officiel-3b406836b" target="_blank" title="LinkedIn" class="text-[#A28224] hover:text-[#8b6c1d] hover:scale-110 transition">
+        <a href="https://www.linkedin.com/in/billy-makela-officiel-3b406836b" target="_blank" title="LinkedIn" class="text-[#fbcd43] hover:text-[#A28224] hover:scale-110 transition">
           <i class="fa-brands fa-linkedin-in"></i>
         </a>
-        <a href="https://m.youtube.com/@katangaawards6869" target="_blank" title="YouTube" class="text-[#A28224] hover:text-[#8b6c1d] hover:scale-110 transition">
+        <a href="https://m.youtube.com/@katangaawards6869" target="_blank" title="YouTube" class="text-[#fbcd43] hover:text-[#A28224] hover:scale-110 transition">
           <i class="fa-brands fa-youtube"></i>
         </a>
-        <a href="https://www.tiktok.com/@katangaawards?_t=ZM-90F3lFByLAS&_r=1" target="_blank" title="TikTok" class="text-[#A28224] hover:text-[#8b6c1d] hover:scale-110 transition">
+        <a href="https://www.tiktok.com/@katangaawards?_t=ZM-90F3lFByLAS&_r=1" target="_blank" title="TikTok" class="text-[#fbcd43] hover:text-[#A28224] hover:scale-110 transition">
           <i class="fa-brands fa-tiktok"></i>
         </a>
       </div>
-      <p class="text-gray-500 text-sm mt-4">Cliquez sur une icône pour visiter notre page.</p>
+      <p class="text-gray-400 text-sm mt-4">Cliquez sur une icône pour visiter notre page.</p>
     </section>
   </main>
 
   <!-- FOOTER -->
-  <footer class="bg-white border-t mt-auto">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-center items-center text-sm text-gray-500">
+  <footer class="bg-[#111] border-t border-[#2d2d2d] mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-center items-center text-sm text-gray-400">
         <p class="text-center">© 2025 Katanga Award. Tous droits réservés.</p>
     </div>
   </footer>
@@ -174,6 +174,5 @@
       loader.style.animation = "fadeOut 1s forwards";
     });
   </script>
-
 </body>
 </html>

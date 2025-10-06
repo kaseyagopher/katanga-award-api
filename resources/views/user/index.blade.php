@@ -15,17 +15,17 @@
     }
   </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col relative">
+<body class="bg-black min-h-screen flex flex-col relative">
 
   <!-- Loader -->
-  <div id="loader" class="fixed inset-0 bg-white flex flex-col items-center justify-center z-50">
+  <div id="loader" class="fixed inset-0 bg-black flex flex-col items-center justify-center z-50">
     <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-[#A28224] mb-4"></div>
-    <h1 class="text-2xl font-bold text-[#A28224]">Katanga Award</h1>
+    <h1 class="text-2xl font-bold text-[#fbcd43]">Katanga Award</h1>
   </div>
 
   <!-- NAVBAR -->
-  <nav class="bg-white shadow-md">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <nav class="bg-dark shadow-md ">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b-2 border-[#fbcd43]">
       <div class="flex justify-between h-16 items-center">
         <!-- Liens desktop -->
         <div class="hidden md:flex items-center space-x-4">
@@ -50,7 +50,7 @@
 
               @if($editionActive && !$aVote)
                   <a href="{{ route('user.vote') }}"
-                     class="bg-[#A28224] text-white px-4 py-2 rounded-md hover:bg-[#A28224] focus:outline-none focus:ring-2 focus:ring-[#A28224]/50 whitespace-nowrap">
+                     class="bg-[#e3b017] text-black px-4 py-2 rounded-md hover:bg-[#A28224] focus:outline-none focus:ring-2 focus:ring-[#A28224]/50 whitespace-nowrap">
                       Voter
                   </a>
               @elseif($editionActive)
@@ -71,13 +71,13 @@
         </div>
         <div class="flex items-center space-x-2 px-4 py-1">
                   <span class="font-bold text-lg">
-                      <span class="text-black">Katanga</span>
-                      <span class="text-[#A28224]"> Award</span>
+                      <span class="text-white">Katanga</span>
+                      <span class="text-[#e3b017]"> Award</span>
                   </span>
               </div>
         <!-- Hamburger mobile -->
         <div class="md:hidden flex items-center">
-            <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
+            <button id="mobile-menu-button" class="text-white focus:outline-none">
                 <span class="material-icons">menu</span>
             </button>
         </div>
@@ -87,22 +87,22 @@
       <!-- Menu mobile -->
       <div id="mobile-menu" class="hidden md:hidden mt-2 space-y-2">
   <a href="{{ route('user.index') }}" 
-     class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md 
+     class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md 
      {{ Route::currentRouteName() === 'user.index' ? 'text-[#A28224]' : '' }}">
      Accueil
   </a>
   <a href="" 
-     class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md 
+     class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md 
      {{ Route::currentRouteName() === '' ? 'text-[#A28224]' : '' }}">
      Résultats
   </a>
   <a href="{{ route('user.apropos') }}" 
-     class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md 
+     class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md 
      {{ Route::currentRouteName() === 'user.apropos' ? 'text-[#A28224]' : '' }}">
      À propos
   </a>
   <a href="{{ route('user.contact') }}" 
-     class="block text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md 
+     class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md 
      {{ Route::currentRouteName() === 'user.contact' ? 'text-[#A28224]' : '' }}">
      Contact
   </a>
@@ -114,7 +114,7 @@
 
   <!-- CONTENU PRINCIPAL -->
   <main class="flex-1 max-w-7xl mx-auto p-6">
-    <h1 class="text-3xl font-bold mb-6">Bienvenue sur le vote en ligne</h1>
+    <h1 class="text-3xl font-bold mb-6 text-white">Bienvenue sur le vote en ligne</h1>
 
     <!-- Candidats par catégorie -->
     @php
@@ -125,7 +125,7 @@
 
     @foreach($categories as $categorie)
         <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4">{{ $categorie->nom_categorie }}</h2>
+            <h2 class="text-2xl font-semibold mb-4 text-white">{{ $categorie->nom_categorie }}</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 @forelse($categorie->candidats as $candidat)
                     <div class="candidate-card relative rounded-2xl shadow-lg p-4 flex flex-col items-center text-center transition"
@@ -147,8 +147,8 @@
   </main>
 
   <!-- FOOTER -->
-  <footer class="bg-white border-t mt-auto">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-center items-center text-sm text-gray-500">
+  <footer class="bg-[#111] border-t border-[#A28224] mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-center items-center text-sm text-gray-400">
         <p class="text-center">© 2025 Katanga Award. Tous droits réservés.</p>
     </div>
   </footer>
