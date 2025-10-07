@@ -138,8 +138,8 @@
                         <h3 class="text-lg font-bold text-white drop-shadow">{{ $candidat->nom_complet }}</h3>
                         <p class="text-sm text-yellow-100 italic">{{ $categorie->nom_categorie }}</p>
                         <a href="{{ route('user.candidat.show', $candidat->id) }}"
-                        class="bg-[#fbcd43] text-black font-semibold px-4 py-2 rounded-md hover:bg-[#A28224] transition">
-                        Détails
+                        class="bg-[#fbcd43] text-black font-semibold px-4 py-2 rounded-2xl hover:bg-[#A28224] transition">
+                        Voir le profil
                       </a>
                       </div>
                 @empty

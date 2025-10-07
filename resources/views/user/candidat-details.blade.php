@@ -14,12 +14,12 @@
   <!-- NAVBAR -->
   <nav class="bg-[#111] border-b-2 border-[#fbcd43] shadow-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
-      <a href="{{ route('user.index') }}" class="flex items-center space-x-2">
-        <span class="font-bold text-xl">
-          <span class="text-white">Katanga</span>
-          <span class="text-[#fbcd43]"> Award</span>
-        </span>
-      </a>
+      <div class="flex items-center space-x-2 px-4 py-1">
+          <a href="{{ route('user.index') }}" class="flex items-center space-x-2">
+          <img src="{{ asset('logo kataward.png') }}" alt="Katanga Award" class="h-10 w-auto">
+          <span class="text-white font-bold" >Katanga</span><span class="text-[#e3b017] font-bold"> Award</span>
+        </a>
+        </div>
       <a href="{{ route('user.index') }}" 
          class="text-[#fbcd43] font-semibold hover:text-[#A28224] transition">← Retour</a>
     </div>
@@ -31,7 +31,7 @@
       
       <!-- Photo du candidat -->
       <div class="flex justify-center mb-6">
-        <div class="w-40 h-40 rounded-full overflow-hidden border-4 border-[#fbcd43] shadow-lg">
+        <div class="w-20 h-20 rounded-full overflow-hidden border-4 border-[#fbcd43] shadow-lg">
           <img src="{{ asset($candidat->photo_url) }}" 
                alt="{{ $candidat->nom_complet }}" 
                class="w-full h-full object-cover">
@@ -39,15 +39,17 @@
       </div>
 
       <!-- Nom et catégorie -->
-      <h1 class="text-3xl font-bold mb-2 text-[#fbcd43]">{{ $candidat->nom_complet }}</h1>
+      
+      <h1 class="text-2xl font-bold mb-2 text-[#fbcd43]">{{ $candidat->nom_complet }}</h1>
       <p class="text-gray-300 italic mb-6">
-        {{ $candidat->categorie->nom_categorie ?? 'Catégorie non définie' }}
+        Categorie : {{ $candidat->categorie->nom_categorie ?? 'Catégorie non définie' }}
       </p>
 
       <!-- Description -->
       <div class="bg-[#222] rounded-xl p-6 border border-[#fbcd43]/20 text-left mb-6">
         <h2 class="text-xl font-semibold text-[#fbcd43] mb-3">Description</h2>
         <p class="text-gray-300 leading-relaxed">
+            
           {{ $candidat->description ?? 'Aucune description disponible pour ce candidat.' }}
         </p>
       </div>
