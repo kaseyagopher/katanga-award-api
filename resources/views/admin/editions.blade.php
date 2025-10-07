@@ -92,7 +92,7 @@
 
         <div>
           <label for="titre" class="block font-medium mb-1">Titre</label>
-          <input type="text" id="titre" name="titre" required class="w-full px-3 py-2 border rounded" />
+          <input type="number" id="titre" name="titre" required class="w-full px-3 py-2 border rounded" />
         </div>
 
         <div>

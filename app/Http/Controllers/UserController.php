@@ -8,35 +8,101 @@ use App\Models\Edition;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-use App\Http\Controllers\VoteController;
 
 class UserController extends Controller
 {
-    // 🔓 Pages publiques
+
+    /**
+     * Liste tous les utilisateurs
+     */
     public function index()
     {
         $Categories = Categorie::all();
         return view('user.index', compact('Categories'));
     }
 
-    public function user_apropos()
+    public function vote()
     {
+        $Categories = Categorie::with('Candidats')->get(); // on charge aussi les candidats
+        $edition = Edition::latest()->first(); // par exemple l'édition active
+
+        return view('user.vote', compact('Categories', 'edition'));
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name'     => ['nullable', 'string', 'max:255'],
+            'numero'   => ['required', 'string', 'max:20', 'unique:users,numero'],
+            'email'    => ['nullable', 'string', 'email', 'max:255', 'unique:users,email'],
+            'password' => ['nullable', 'string', 'min:8'],
+        ]);
+
+        $user = User::create([
+            'name'     => $validated['name'] ?? null,
+            'numero'   => $validated['numero'],
+            'email'    => $validated['email'] ?? null,
+            'password' => isset($validated['password']) ? Hash::make($validated['password']) : null,
+        ]);
+
+        $token = $user->createToken($user->numero);
+
+
+        return response()->json([
+            'message' => 'Utilisateur créé avec succès',
+            'user'    => $user,
+            'token' => $token->plainTextToken
+        ], 201);
+    }
+
+    public function show(User $user)
+    {
+        return response()->json($user);
+    }
+
+    public function update(Request $request, User $user)
+    {
+        $validated = $request->validate([
+            'name'     => ['sometimes', 'string', 'max:255'],
+            'numero'   => ['sometimes', 'string', 'max:20', 'unique:users,numero,' . $user->id],
+            'email'    => ['sometimes', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'password' => ['sometimes', 'string', 'min:8'],
+        ]);
+
+        if (isset($validated['password'])) {
+            $validated['password'] = Hash::make($validated['password']);
+        }
+
+        $user->update($validated);
+
+        return response()->json([
+            'message' => 'Utilisateur mis à jour avec succès',
+            'user'    => $user,
+        ]);
+    }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+        return response()->json(['message' => 'Utilisateur supprimé avec succès']);
+    }
+
+
+    public function user_apropos(){
         return view('user.apropos');
     }
 
-    public function user_contact()
-    {
+    public function user_contact(){
         return view('user.contact');
     }
 
     public function showCandidat($id)
-    {
-        $candidat = Candidat::findOrFail($id);
-        return view('user.candidat-details', compact('candidat'));
-    }
+{
+    $candidat = \App\Models\Candidat::findOrFail($id);
+    return view('user.candidat-details', compact('candidat'));
+}
 
     public function user_mail(Request $request)
     {
@@ -47,21 +113,29 @@ class UserController extends Controller
             'message' => 'required|string',
         ]);
 
+        // Initialiser PHPMailer
         $mail = new PHPMailer(true);
 
         try {
+            // Config Gmail SMTP
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'synergieup@gmail.com';
-            $mail->Password   = 'tdqkyfedfjbcrfho';
+            $mail->Username   = 'synergieup@gmail.com'; // ton Gmail
+            $mail->Password   = 'tdqkyfedfjbcrfho'; // mot de passe d'application
             $mail->SMTPSecure = 'tls';
             $mail->Port       = 587;
 
+            // Expéditeur = Gmail (obligatoire pour passer par Google)
             $mail->setFrom('synergieup@gmail.com', $request->nom);
+
+            // Reply-to = email utilisateur (pour pouvoir répondre directement à lui)
             $mail->addReplyTo($request->email, $request->nom);
+
+            // Destinataire
             $mail->addAddress('synergieup@gmail.com', 'Katanga Award');
 
+            // Contenu du mail
             $mail->isHTML(true);
             $mail->Subject = '📩 Nouveau message depuis la page Contact - ' . $request->sujet;
             $mail->Body    = "
@@ -75,37 +149,11 @@ class UserController extends Controller
 
             $mail->send();
 
+            redirect()->route('user.mail');
             return back()->with('success', 'Votre message a été envoyé ✅');
         } catch (Exception $e) {
             return back()->with('error', "Erreur lors de l'envoi du message : {$mail->ErrorInfo}");
         }
     }
 
-    // 🔒 Pages protégées
-    public function vote()
-    {
-        if (!Auth::check()) {
-            return to_route('login');
-        }
-
-        $Categories = Categorie::with('Candidats')->get(); 
-        $edition = Edition::latest()->first(); 
-
-        return view('user.vote', compact('Categories', 'edition'));
-    }
-
-    public function showVoteSummary()
-    {
-        if (!Auth::check()) {
-            return to_route('login');
-        }
-
-        return view('user.vote-summary');
-    }
-
-    public function user_logout()
-    {
-        Auth::logout();
-        return to_route('login');
-    }
 }

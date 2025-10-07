@@ -43,11 +43,13 @@
       <h1 class="text-2xl font-bold mb-2 text-[#fbcd43]">{{ $candidat->nom_complet }}</h1>
       <p class="text-gray-300 italic mb-6">
         Categorie : {{ $candidat->categorie->nom_categorie ?? 'Catégorie non définie' }}
+        <br>
+            <strong>Katanga Award Éd. </strong> {{ $vote->edition->titre ?? $editionActive->titre ?? 'En cours' }}
+        
       </p>
-
+       
       <!-- Description -->
-      <div class="bg-[#222] rounded-xl p-6 border border-[#fbcd43]/20 text-left mb-6">
-        <h2 class="text-xl font-semibold text-[#fbcd43] mb-3">Description</h2>
+      <div class="bg-[#222] rounded-xl p-6 border border-[#fbcd43]/20 text-left mb-6"> 
         <p class="text-gray-300 leading-relaxed">
             
           {{ $candidat->description ?? 'Aucune description disponible pour ce candidat.' }}
