@@ -63,7 +63,7 @@
                   </span>
               @endif
 
-              
+
 
           @else
               <p class="text-orange-500 font-semibold">UNKNOW</p>
@@ -83,26 +83,26 @@
         </div>
       </div>
     <!-- Texte Katanga Award + image -->
-              
+
       <!-- Menu mobile -->
       <div id="mobile-menu" class="hidden md:hidden mt-2 space-y-2">
-  <a href="{{ route('user.index') }}" 
-     class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md 
+  <a href="{{ route('user.index') }}"
+     class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md
      {{ Route::currentRouteName() === 'user.index' ? 'text-[#A28224]' : '' }}">
      Accueil
   </a>
-  <a href="" 
-     class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md 
+  <a href=""
+     class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md
      {{ Route::currentRouteName() === '' ? 'text-[#A28224]' : '' }}">
      Résultats
   </a>
-  <a href="{{ route('user.apropos') }}" 
-     class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md 
+  <a href="{{ route('user.apropos') }}"
+     class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md
      {{ Route::currentRouteName() === 'user.apropos' ? 'text-[#A28224]' : '' }}">
      À propos
   </a>
-  <a href="{{ route('user.contact') }}" 
-     class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md 
+  <a href="{{ route('user.contact') }}"
+     class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md
      {{ Route::currentRouteName() === 'user.contact' ? 'text-[#A28224]' : '' }}">
      Contact
   </a>
@@ -110,7 +110,7 @@
     </div>
   </nav>
 
-  
+
 
   <!-- CONTENU PRINCIPAL -->
   <main class="flex-1 max-w-7xl mx-auto p-6">

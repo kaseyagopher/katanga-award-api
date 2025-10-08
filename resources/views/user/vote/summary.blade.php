@@ -45,7 +45,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       @foreach($votes as $vote)
         <div class="vote-block border border-[#A28224]/30 dark:border-[#A28224]/40 rounded-xl p-4 bg-[#A28224]/10 dark:bg-[#A28224]/20 transition transform hover:scale-105 hover:shadow-lg duration-300">
-          
+
           <!-- Badge catégorie -->
           <span class="inline-block bg-[#A28224] text-white text-xs px-3 py-1 rounded-full mb-2">
             {{ $vote->categorie->nom_categorie }}
@@ -75,9 +75,9 @@
     </p>
 
     <div class="mt-4 flex flex-col sm:flex-row justify-center gap-4">
-      <a href="{{ route('user.index') }}"
+      <a href="{{ route('user.apropos') }}"
          class="bg-[#fbcd43] text-black px-6 py-2 rounded hover:bg-[#8f6e1a] transition">
-        Retour à l'accueil
+        Nous lire plus
       </a>
     </div>
   </div>

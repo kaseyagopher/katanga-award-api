@@ -17,7 +17,7 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-   
+
   </style>
 </head>
 
@@ -90,6 +90,8 @@
       });
   </script>
 
+
+
   <!-- CONTENU PRINCIPAL -->
   <main class="flex-1 max-w-7xl mx-auto p-6 space-y-12">
 
@@ -150,7 +152,44 @@
       </p>
     </section>
 
-    <!-- Call to Action -->
+        <!-- Galerie -->
+    <section class="animate-fade-in">
+      <h2 class="text-2xl font-semibold text-center text-[#fbcd43] mb-8">Galerie des Éditions Précédentes</h2>
+      <p class="text-center text-gray-300 max-w-3xl mx-auto mb-8">
+        Revivez quelques moments forts des précédentes éditions du <span class="text-[#A28224] font-semibold">Katanga Award</span>.
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div class="overflow-hidden rounded-xl border border-[#A28224]/30 hover:scale-105 transition transform">
+          <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=800&q=80" alt="Katanga Award 1" class="w-full h-60 object-cover">
+        </div>
+        <div class="overflow-hidden rounded-xl border border-[#A28224]/30 hover:scale-105 transition transform">
+          <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80" alt="Katanga Award 2" class="w-full h-60 object-cover">
+        </div>
+        <div class="overflow-hidden rounded-xl border border-[#A28224]/30 hover:scale-105 transition transform">
+          <img src="https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=800&q=80" alt="Katanga Award 3" class="w-full h-60 object-cover">
+        </div>
+        <div class="overflow-hidden rounded-xl border border-[#A28224]/30 hover:scale-105 transition transform">
+          <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80" alt="Katanga Award 4" class="w-full h-60 object-cover">
+        </div>
+        <div class="overflow-hidden rounded-xl border border-[#A28224]/30 hover:scale-105 transition transform">
+          <img src="https://images.unsplash.com/photo-1515169067865-5387ec356754?auto=format&fit=crop&w=800&q=80" alt="Katanga Award 5" class="w-full h-60 object-cover">
+        </div>
+        <div class="overflow-hidden rounded-xl border border-[#A28224]/30 hover:scale-105 transition transform">
+          <img src="https://images.unsplash.com/photo-1504386106331-3e4e71712b38?auto=format&fit=crop&w=800&q=80" alt="Katanga Award 6" class="w-full h-60 object-cover">
+        </div>
+        <div class="overflow-hidden rounded-xl border border-[#A28224]/30 hover:scale-105 transition transform">
+          <img src="https://images.unsplash.com/photo-1515169067865-5387ec356754?auto=format&fit=crop&w=800&q=80" alt="Katanga Award 7" class="w-full h-60 object-cover">
+        </div>
+        <div class="overflow-hidden rounded-xl border border-[#A28224]/30 hover:scale-105 transition transform">
+          <img src="https://images.unsplash.com/photo-1531306728370-e2ebd9d7bb99?auto=format&fit=crop&w=800&q=80" alt="Katanga Award 8" class="w-full h-60 object-cover">
+        </div>
+        <div class="overflow-hidden rounded-xl border border-[#A28224]/30 hover:scale-105 transition transform">
+          <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=800&q=80" alt="Katanga Award 9" class="w-full h-60 object-cover">
+        </div>
+      </div>
+    </section>
+
+     <!-- Call to Action -->
     <section class="text-center animate-fade-in">
       <h2 class="text-2xl font-semibold  mb-4">Rejoignez l’aventure Katanga Award</h2>
       <p class="text-gray-300 mb-6">Célébrez l’excellence et soutenez ceux qui façonnent l’avenir.</p>
