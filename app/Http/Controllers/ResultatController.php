@@ -13,20 +13,34 @@ class ResultatController extends Controller
 
 public function data()
 {
-    // Récupérer l'édition en cours (ex: une colonne `is_active` ou la dernière édition)
-    $edition = \App\Models\Edition::where('is_active', true)->first();
+    $edition = \App\Models\Edition::where('statut', 1)->first();
 
     if (!$edition) {
         return response()->json([]);
     }
 
-    // Charger uniquement les catégories et candidats de l'édition en cours
     $categories = \App\Models\Categorie::where('edition_id', $edition->id)
         ->with(['candidats' => function($q) {
             $q->withCount('votes');
         }])
         ->get();
 
-    return response()->json($categories);
+    // Transformer les données pour ne retourner que l’essentiel
+    $result = $categories->map(function($categorie) {
+        return [
+            'id' => $categorie->id,
+            'nom_categorie' => $categorie->nom_categorie,
+            'candidats' => $categorie->candidats->map(function($candidat) {
+                return [
+                    'id' => $candidat->id,
+                    'nom_complet' => $candidat->nom_complet,
+                    'votes_count' => $candidat->votes_count ?? 0
+                ];
+            })
+        ];
+    });
+
+    return response()->json($result);
 }
+
 }

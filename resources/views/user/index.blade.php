@@ -13,6 +13,19 @@
       from { opacity: 1; }
       to { opacity: 0; visibility: hidden; }
     }
+    .carousel-item {
+      transition: transform 0.5s ease-in-out;
+    }
+    .overlay-text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body class="bg-black min-h-screen flex flex-col relative">
@@ -29,10 +42,10 @@
       <div class="flex justify-between h-16 items-center">
         <!-- Liens desktop -->
         <div class="hidden md:flex items-center space-x-4">
-          <a href="{{ route('user.index') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Accueil</a>
-          <a href="#" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Résultats</a>
-          <a href="{{ route('user.apropos') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Apropos</a>
-          <a href="{{ route('user.contact') }}" class="text-gray-700 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Contact</a>
+          <a href="{{ route('user.index') }}" class="text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Accueil</a>
+          <a href="#" class="text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Résultats</a>
+          <a href="{{ route('user.apropos') }}" class="text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Apropos</a>
+          <a href="{{ route('user.contact') }}" class="text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Contact</a>
         </div>
 
         <!-- Boutons utilisateur -->
@@ -62,19 +75,16 @@
                       Pas d'édition active
                   </span>
               @endif
-
-
-
           @else
               <p class="text-orange-500 font-semibold">UNKNOW</p>
           @endif
         </div>
         <div class="flex items-center space-x-2 px-4 py-1">
-                  <span class="font-bold text-lg">
-                      <span class="text-white">Katanga</span>
-                      <span class="text-[#e3b017]"> Award</span>
-                  </span>
-              </div>
+          <span class="font-bold text-lg">
+              <span class="text-white">Katanga</span>
+              <span class="text-[#e3b017]"> Award</span>
+          </span>
+        </div>
         <!-- Hamburger mobile -->
         <div class="md:hidden flex items-center">
             <button id="mobile-menu-button" class="text-white focus:outline-none">
@@ -82,40 +92,77 @@
             </button>
         </div>
       </div>
-    <!-- Texte Katanga Award + image -->
 
       <!-- Menu mobile -->
       <div id="mobile-menu" class="hidden md:hidden mt-2 space-y-2">
-  <a href="{{ route('user.index') }}"
-     class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md
-     {{ Route::currentRouteName() === 'user.index' ? 'text-[#A28224]' : '' }}">
-     Accueil
-  </a>
-  <a href=""
-     class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md
-     {{ Route::currentRouteName() === '' ? 'text-[#A28224]' : '' }}">
-     Résultats
-  </a>
-  <a href="{{ route('user.apropos') }}"
-     class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md
-     {{ Route::currentRouteName() === 'user.apropos' ? 'text-[#A28224]' : '' }}">
-     À propos
-  </a>
-  <a href="{{ route('user.contact') }}"
-     class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md
-     {{ Route::currentRouteName() === 'user.contact' ? 'text-[#A28224]' : '' }}">
-     Contact
-  </a>
-</div>
+        <a href="{{ route('user.index') }}" class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md {{ Route::currentRouteName() === 'user.index' ? 'text-[#A28224]' : '' }}">Accueil</a>
+        <a href="#" class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Résultats</a>
+        <a href="{{ route('user.apropos') }}" class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md {{ Route::currentRouteName() === 'user.apropos' ? 'text-[#A28224]' : '' }}">À propos</a>
+        <a href="{{ route('user.contact') }}" class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md {{ Route::currentRouteName() === 'user.contact' ? 'text-[#A28224]' : '' }}">Contact</a>
+      </div>
     </div>
   </nav>
 
-
-
   <!-- CONTENU PRINCIPAL -->
   <main class="flex-1 max-w-7xl mx-auto p-6">
-    <h1 class="text-3xl font-bold mb-6 text-white">Bienvenue sur le vote en ligne</h1>
+    <div class="w-full max-w-3xl relative">
+      <!-- Texte fixe au-dessus du carousel -->
+      <div class="overlay-text z-10">
+        <h1 class="text-4xl sm:text-5xl font-bold text-[#fbcd43] drop-shadow-lg">Bienvenue au Katanga Award</h1>
+        <p class="mt-2 text-white/80 text-center text-lg sm:text-xl">Découvrez nos candidats et votez</p>
+      </div>
 
+      <!-- Carousel -->
+      <!-- Carousel -->
+<div id="carousel" class="overflow-hidden rounded-xl relative z-0">
+  <div class="carousel-inner flex relative">
+    <!-- Slide 1 -->
+    <div class="carousel-item flex-shrink-0 w-full relative">
+      <img src="{{asset('IMG_6309.JPG')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 3">
+      <div class="absolute inset-0 bg-black/40 rounded-xl"></div>
+    </div>
+    <div class="carousel-item flex-shrink-0 w-full relative">
+      <img src="{{asset('photo_2025-10-08_15-11-01.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 3">
+      <div class="absolute inset-0 bg-black/40 rounded-xl"></div>
+    </div>
+    <div class="carousel-item flex-shrink-0 w-full relative">
+      <img src="{{asset('photo_2025-10-08_15-10-57.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 1">
+      <div class="absolute inset-0 bg-black/40 rounded-xl"></div> <!-- Overlay sombre -->
+    </div>
+    <div class="carousel-item flex-shrink-0 w-full relative">
+      <img src="{{asset('photo_2025-10-08_15-18-37.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 1">
+      <div class="absolute inset-0 bg-black/40 rounded-xl"></div> <!-- Overlay sombre -->
+    </div>
+    <!-- Slide 2 -->
+    <div class="carousel-item flex-shrink-0 w-full relative">
+      <img src="{{asset('photo_2025-10-08_15-11-08.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 2">
+      <div class="absolute inset-0 bg-black/40 rounded-xl"></div>
+    </div>
+    <!-- Slide 3 -->
+    
+  </div>
+</div>
+
+
+      <!-- Contrôles -->
+      <button id="prev" class="absolute top-1/2 left-2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 z-20">
+        &#10094;
+      </button>
+      <button id="next" class="absolute top-1/2 right-2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 z-20">
+        &#10095;
+      </button>
+
+      <!-- Indicateurs -->
+      <div class="flex justify-center space-x-2 mt-4 relative z-20">
+        <button class="indicator w-3 h-3 rounded-full bg-gray-400"></button>
+        <button class="indicator w-3 h-3 rounded-full bg-gray-400"></button>
+        <button class="indicator w-3 h-3 rounded-full bg-gray-400"></button>
+        <button class="indicator w-3 h-3 rounded-full bg-gray-400"></button>
+        <button class="indicator w-3 h-3 rounded-full bg-gray-400"></button>
+      </div>
+    </div>
+
+    
     <!-- Candidats par catégorie -->
     @php
         $categories = \App\Models\Categorie::with(['candidats' => function($q) {
@@ -138,10 +185,10 @@
                         <h3 class="text-lg font-bold text-white drop-shadow">{{ $candidat->nom_complet }}</h3>
                         <p class="text-sm text-yellow-100 italic">{{ $categorie->nom_categorie }}</p>
                         <a href="{{ route('user.candidat.show', $candidat->id) }}"
-                        class="bg-[#fbcd43] text-black font-semibold px-4 py-2 rounded-2xl hover:bg-[#A28224] transition">
-                        Voir le profil
-                      </a>
-                      </div>
+                           class="bg-[#fbcd43] text-black font-semibold px-4 py-2 rounded-2xl hover:bg-[#A28224] transition">
+                           Voir le profil
+                        </a>
+                    </div>
                 @empty
                     <p class="col-span-full text-center bg-gray-200 p-4 rounded">Aucun candidat</p>
                 @endforelse
@@ -156,27 +203,41 @@
         <p class="text-center">© 2025 Katanga Award. Tous droits réservés.</p>
     </div>
   </footer>
+
+  <!-- SCRIPTS -->
   <script>
     const btn = document.getElementById('mobile-menu-button');
     const menu = document.getElementById('mobile-menu');
     const icon = btn.querySelector('.material-icons');
-
     btn.addEventListener('click', () => {
         menu.classList.toggle('hidden');
-
-        // Si le menu est ouvert, on change l’icône
-        if (!menu.classList.contains('hidden')) {
-            icon.textContent = 'close'; // croix
-        } else {
-            icon.textContent = 'menu'; // burger
-        }
+        icon.textContent = menu.classList.contains('hidden') ? 'menu' : 'close';
     });
 
-    // Loader disparaît après le chargement de la page
     window.addEventListener("load", () => {
       const loader = document.getElementById("loader");
       loader.style.animation = "fadeOut 1s forwards";
     });
-</script>
+
+    // Carousel
+    const carousel = document.querySelector('#carousel .carousel-inner');
+    const items = document.querySelectorAll('.carousel-item');
+    const prev = document.getElementById('prev');
+    const next = document.getElementById('next');
+    const indicators = document.querySelectorAll('.indicator');
+    let index = 0;
+
+    function showSlide(i) {
+      index = (i + items.length) % items.length;
+      carousel.style.transform = `translateX(${-index * 100}%)`;
+      indicators.forEach((dot, idx) => dot.classList.toggle('bg-white', idx === index));
+    }
+
+    prev.addEventListener('click', () => showSlide(index - 1));
+    next.addEventListener('click', () => showSlide(index + 1));
+    indicators.forEach((dot, idx) => dot.addEventListener('click', () => showSlide(idx)));
+    setInterval(() => showSlide(index + 1), 4000);
+    showSlide(index);
+  </script>
 </body>
 </html>

@@ -134,30 +134,7 @@
     </section>
 
     <!-- Réseaux sociaux -->
-    <section class="text-center animate-fade-in">
-      <h2 class="text-2xl font-semibold text-white mb-6">Suivez-nous</h2>
-      <div class="flex justify-center space-x-6 text-3xl">
-        <a href="https://web.facebook.com/KatangaAwards?locale=fr_FR" target="_blank" title="Facebook" class="text-[#fbcd43] hover:text-[#A28224] hover:scale-110 transition">
-          <i class="fa-brands fa-facebook-f"></i>
-        </a>
-        <a href="https://x.com/awards_katanga?s=21" target="_blank" title="Twitter" class="text-[#fbcd43] hover:text-[#A28224] hover:scale-110 transition">
-          <i class="fa-brands fa-twitter"></i>
-        </a>
-        <a href="https://www.instagram.com/katangaawards?igsh=NnBnbHR6MXV1engw" target="_blank" title="Instagram" class="text-[#fbcd43] hover:text-[#A28224] hover:scale-110 transition">
-          <i class="fa-brands fa-instagram"></i>
-        </a>
-        <a href="https://www.linkedin.com/in/billy-makela-officiel-3b406836b" target="_blank" title="LinkedIn" class="text-[#fbcd43] hover:text-[#A28224] hover:scale-110 transition">
-          <i class="fa-brands fa-linkedin-in"></i>
-        </a>
-        <a href="https://m.youtube.com/@katangaawards6869" target="_blank" title="YouTube" class="text-[#fbcd43] hover:text-[#A28224] hover:scale-110 transition">
-          <i class="fa-brands fa-youtube"></i>
-        </a>
-        <a href="https://www.tiktok.com/@katangaawards?_t=ZM-90F3lFByLAS&_r=1" target="_blank" title="TikTok" class="text-[#fbcd43] hover:text-[#A28224] hover:scale-110 transition">
-          <i class="fa-brands fa-tiktok"></i>
-        </a>
-      </div>
-      <p class="text-gray-400 text-sm mt-4">Cliquez sur une icône pour visiter notre page.</p>
-    </section>
+    
   </main>
 
   <!-- FOOTER -->

@@ -54,3 +54,7 @@ Route::prefix('katanga-award')->group(function () {
     });
 
 });
+
+Route::get('/carou',function(){
+    return view('welcome');
+});

@@ -6,6 +6,8 @@
   <title>Katanga Award | À propos</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
   <link rel="icon" type="image/png" href="{{ asset('logo kataward.png') }}">
   <style>
     /* Animations */
@@ -160,32 +162,45 @@
       </p>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         <div class="overflow-hidden rounded-xl border border-[#A28224]/30 hover:scale-105 transition transform">
-          <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=800&q=80" alt="Katanga Award 1" class="w-full h-60 object-cover">
+          <img src="{{asset('photo_2025-10-08_15-10-55.jpg')}}" alt="Katanga Award 1" class="w-full h-60 object-cover">
         </div>
         <div class="overflow-hidden rounded-xl border border-[#A28224]/30 hover:scale-105 transition transform">
-          <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80" alt="Katanga Award 2" class="w-full h-60 object-cover">
+          <img src="{{asset('photo_2025-10-08_15-26-53.jpg')}}" alt="Katanga Award 9" class="w-full h-60 object-cover">
         </div>
         <div class="overflow-hidden rounded-xl border border-[#A28224]/30 hover:scale-105 transition transform">
-          <img src="https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=800&q=80" alt="Katanga Award 3" class="w-full h-60 object-cover">
+          <img src="{{asset('photo_2025-10-08_15-11-02.jpg')}}" alt="Katanga Award 5" class="w-full h-60 object-cover">
         </div>
         <div class="overflow-hidden rounded-xl border border-[#A28224]/30 hover:scale-105 transition transform">
-          <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80" alt="Katanga Award 4" class="w-full h-60 object-cover">
+          <img src="{{asset('photo_2025-10-08_15-11-01.jpg')}}" alt="Katanga Award 4" class="w-full h-60 object-cover">
         </div>
         <div class="overflow-hidden rounded-xl border border-[#A28224]/30 hover:scale-105 transition transform">
-          <img src="https://images.unsplash.com/photo-1515169067865-5387ec356754?auto=format&fit=crop&w=800&q=80" alt="Katanga Award 5" class="w-full h-60 object-cover">
+          <img src="{{asset('photo_2025-10-08_15-11-06.jpg')}}" alt="Katanga Award 7" class="w-full h-60 object-cover">
         </div>
         <div class="overflow-hidden rounded-xl border border-[#A28224]/30 hover:scale-105 transition transform">
-          <img src="https://images.unsplash.com/photo-1504386106331-3e4e71712b38?auto=format&fit=crop&w=800&q=80" alt="Katanga Award 6" class="w-full h-60 object-cover">
+          <img src="{{asset('photo_2025-10-08_15-10-57.jpg')}}" alt="Katanga Award 2" class="w-full h-60 object-cover">
         </div>
         <div class="overflow-hidden rounded-xl border border-[#A28224]/30 hover:scale-105 transition transform">
-          <img src="https://images.unsplash.com/photo-1515169067865-5387ec356754?auto=format&fit=crop&w=800&q=80" alt="Katanga Award 7" class="w-full h-60 object-cover">
+          <img src="{{asset('photo_2025-10-08_15-11-04.jpg')}}" alt="Katanga Award 6" class="w-full h-60 object-cover">
         </div>
         <div class="overflow-hidden rounded-xl border border-[#A28224]/30 hover:scale-105 transition transform">
-          <img src="https://images.unsplash.com/photo-1531306728370-e2ebd9d7bb99?auto=format&fit=crop&w=800&q=80" alt="Katanga Award 8" class="w-full h-60 object-cover">
+          <img src="{{asset('photo_2025-10-08_15-10-59.jpg')}}" alt="Katanga Award 3" class="w-full h-60 object-cover">
+        </div>
+        
+        
+        
+        <div class="overflow-hidden rounded-xl border border-[#A28224]/30 hover:scale-105 transition transform">
+          <img src="{{asset('photo_2025-10-08_15-11-08.jpg')}}" alt="Katanga Award 8" class="w-full h-60 object-cover">
         </div>
         <div class="overflow-hidden rounded-xl border border-[#A28224]/30 hover:scale-105 transition transform">
-          <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=800&q=80" alt="Katanga Award 9" class="w-full h-60 object-cover">
+          <img src="{{asset('photo_2025-10-08_15-11-10.jpg')}}" alt="Katanga Award 9" class="w-full h-60 object-cover">
         </div>
+        <div class="overflow-hidden rounded-xl border border-[#A28224]/30 hover:scale-105 transition transform">
+          <img src="{{asset('photo_2025-10-08_15-18-37.jpg')}}" alt="Katanga Award 9" class="w-full h-60 object-cover">
+        </div>
+        <div class="overflow-hidden rounded-xl border border-[#A28224]/30 hover:scale-105 transition transform">
+          <img src="{{asset('photo_2025-10-08_15-19-07.jpg')}}" alt="Katanga Award 9" class="w-full h-60 object-cover">
+        </div>
+
       </div>
     </section>
 
@@ -197,7 +212,30 @@
         Participez au vote
       </a>
     </section>
-
+    <section class="text-center animate-fade-in">
+      <h2 class="text-2xl font-semibold text-white mb-6">Suivez-nous</h2>
+      <div class="flex justify-center space-x-6 text-3xl">
+        <a href="https://web.facebook.com/KatangaAwards?locale=fr_FR" target="_blank" title="Facebook" class="text-[#fbcd43] hover:text-[#A28224] hover:scale-110 transition">
+          <i class="fa-brands fa-facebook-f"></i>
+        </a>
+        <a href="https://x.com/awards_katanga?s=21" target="_blank" title="Twitter" class="text-[#fbcd43] hover:text-[#A28224] hover:scale-110 transition">
+          <i class="fa-brands fa-twitter"></i>
+        </a>
+        <a href="https://www.instagram.com/katangaawards?igsh=NnBnbHR6MXV1engw" target="_blank" title="Instagram" class="text-[#fbcd43] hover:text-[#A28224] hover:scale-110 transition">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/billy-makela-officiel-3b406836b" target="_blank" title="LinkedIn" class="text-[#fbcd43] hover:text-[#A28224] hover:scale-110 transition">
+          <i class="fa-brands fa-linkedin-in"></i>
+        </a>
+        <a href="https://m.youtube.com/@katangaawards6869" target="_blank" title="YouTube" class="text-[#fbcd43] hover:text-[#A28224] hover:scale-110 transition">
+          <i class="fa-brands fa-youtube"></i>
+        </a>
+        <a href="https://www.tiktok.com/@katangaawards?_t=ZM-90F3lFByLAS&_r=1" target="_blank" title="TikTok" class="text-[#fbcd43] hover:text-[#A28224] hover:scale-110 transition">
+          <i class="fa-brands fa-tiktok"></i>
+        </a>
+      </div>
+      <p class="text-gray-400 text-sm mt-4">Cliquez sur une icône pour visiter notre page.</p>
+    </section>
   </main>
 
   <!-- FOOTER -->

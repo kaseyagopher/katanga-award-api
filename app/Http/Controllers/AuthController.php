@@ -44,7 +44,7 @@ class AuthController extends Controller
         $validated = $request->validate([
             'telephone' => [
                 'required',
-                'regex:/^(?:\+243|0)(81|82|83|84|85|89|97|99)\d{7}$/'
+                'regex:/^(?:\+243|0)(80|81|82|83|84|85|86|87|89|97|98|99)\d{7}$/'
             ]
         ], [
             'telephone.regex' => 'Le numéro doit être Vodacom, Orange ou Airtel'
