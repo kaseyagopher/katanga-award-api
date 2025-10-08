@@ -181,7 +181,7 @@
   <h2 class="text-lg sm:text-xl font-bold mb-4">Top 3 Candidats</h2>
   <div class="space-y-4">
     @foreach($topCandidats as $candidat)
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-3 border rounded-lg">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-3 border rounded-lg bg-white shadow-sm hover:shadow-md transition">
         
         <!-- Infos candidat -->
         <div class="flex items-center gap-4">
@@ -189,18 +189,23 @@
                alt="{{ $candidat->nom_complet }}" 
                class="w-12 h-12 rounded-full object-cover">
           <div>
-            <div class="font-semibold">{{ $candidat->nom_complet }}</div>
-            <div class="text-sm text-gray-600">{{ $candidat->categorie->nom }}</div>
+            <div class="font-semibold text-gray-800">{{ $candidat->nom_complet }}</div>
+            <div class="text-sm text-gray-500 flex items-center gap-1">
+              <span class="material-icons text-[#A28224] text-base">category</span>
+              {{ $candidat->categorie->nom_categorie }}
+            </div>
           </div>
         </div>
 
         <!-- Nombre de votes -->
-        <div class="text-lg font-bold text-center sm:text-right">
+        <div class="text-lg font-bold text-blue-600 text-center sm:text-right flex items-center gap-1">
+          <span class="material-icons text-yellow-500 text-base">star</span>
           {{ $candidat->votes_count }}
         </div>
       </div>
     @endforeach
-  </div>
+</div>
+
 </section>
 
 
