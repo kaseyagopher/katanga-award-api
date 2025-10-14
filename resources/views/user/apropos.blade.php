@@ -38,7 +38,7 @@
 
         <!-- Logo -->
         <a href="{{ route('user.index') }}" class="flex items-center space-x-2">
-          <img src="{{ asset('logo kataward.png') }}" alt="Katanga Award" class="h-10 w-auto">
+          <img src="{{ asset('logo_officiel.jpg') }}" alt="Katanga Award" class="h-10 w-auto">
           <span class="font-bold">
             <span class="text-white">Katanga</span>
             <span class="text-[#fbcd43]"> Award</span>
@@ -185,9 +185,9 @@
         <div class="overflow-hidden rounded-xl border border-[#A28224]/30 hover:scale-105 transition transform">
           <img src="{{asset('photo_2025-10-08_15-10-59.jpg')}}" alt="Katanga Award 3" class="w-full h-60 object-cover">
         </div>
-        
-        
-        
+
+
+
         <div class="overflow-hidden rounded-xl border border-[#A28224]/30 hover:scale-105 transition transform">
           <img src="{{asset('photo_2025-10-08_15-11-08.jpg')}}" alt="Katanga Award 8" class="w-full h-60 object-cover">
         </div>

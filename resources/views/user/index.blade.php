@@ -76,7 +76,7 @@
                   </span>
               @endif
           @else
-              <p class="text-orange-500 font-semibold">UNKNOW</p>
+              <p class="text-orange-500 font-semibold">Pas connecté</p>
           @endif
         </div>
         <div class="flex items-center space-x-2 px-4 py-1">
@@ -108,8 +108,8 @@
     <div class="w-full max-w-3xl relative">
       <!-- Texte fixe au-dessus du carousel -->
       <div class="overlay-text z-10">
-        <h1 class="text-4xl sm:text-5xl font-bold text-[#fbcd43] drop-shadow-lg">Bienvenue au Katanga Award</h1>
-        <p class="mt-2 text-white/80 text-center text-lg sm:text-xl">Découvrez nos candidats et votez</p>
+        <h1 class="text-4xl sm:text-5xl font-bold text-[#fbcd43] drop-shadow-lg">Bienvenue au Katanga Award <br><span class="text-white">(16<sup>ème</sup> ÉDITION)</span></h1>
+        <p class="mt-2 text-white/80 text-center text-lg sm:text-xl">Découvrez nos candidats et votez en ligne</p>
       </div>
 
       <!-- Carousel -->
@@ -139,7 +139,7 @@
       <div class="absolute inset-0 bg-black/40 rounded-xl"></div>
     </div>
     <!-- Slide 3 -->
-    
+
   </div>
 </div>
 
@@ -162,7 +162,7 @@
       </div>
     </div>
 
-    
+
     <!-- Candidats par catégorie -->
     @php
         $categories = \App\Models\Categorie::with(['candidats' => function($q) {
@@ -195,6 +195,46 @@
             </div>
         </section>
     @endforeach
+
+
+        <!-- Logos des Sponsors -->
+    <section class="mt-16 animate-fade-in text-center">
+      <h2 class="text-2xl font-semibold text-[#fbcd43] mb-8">Nos Sponsors - 16<sup>ème</sup> Édition</h2>
+      <p class="text-gray-300 mb-8 max-w-3xl mx-auto">
+        Nous remercions chaleureusement nos partenaires et sponsors pour leur soutien à cette 16<sup>ème</sup> édition du <span class="text-[#A28224] font-semibold">Katanga Award</span>.
+      </p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8 items-center justify-center">
+        <div class="flex justify-center">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Coca-Cola_logo.svg" alt="Coca-Cola" class="h-16 object-contain grayscale hover:grayscale-0 transition duration-300">
+        </div>
+        <div class="flex justify-center">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/MTN_Logo.svg" alt="MTN" class="h-16 object-contain grayscale hover:grayscale-0 transition duration-300">
+        </div>
+        <div class="flex justify-center">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Canal%2B_logo_2010.svg" alt="Canal+" class="h-16 object-contain grayscale hover:grayscale-0 transition duration-300">
+        </div>
+        <div class="flex justify-center">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Airtel_logo.svg" alt="Airtel" class="h-16 object-contain grayscale hover:grayscale-0 transition duration-300">
+        </div>
+        <div class="flex justify-center">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/TotalEnergies_logo.svg" alt="TotalEnergies" class="h-16 object-contain grayscale hover:grayscale-0 transition duration-300">
+        </div>
+        <div class="flex justify-center">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Orange_logo.svg" alt="Orange" class="h-16 object-contain grayscale hover:grayscale-0 transition duration-300">
+        </div>
+        <div class="flex justify-center">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Pepsi_logo_2014.svg" alt="Pepsi" class="h-16 object-contain grayscale hover:grayscale-0 transition duration-300">
+        </div>
+        <div class="flex justify-center">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5b/Vodacom_logo.svg" alt="Vodacom" class="h-16 object-contain grayscale hover:grayscale-0 transition duration-300">
+        </div>
+        <div class="flex justify-center">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Heineken_logo.svg" alt="Heineken" class="h-16 object-contain grayscale hover:grayscale-0 transition duration-300">
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- FOOTER -->

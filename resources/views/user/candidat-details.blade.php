@@ -16,11 +16,11 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
       <div class="flex items-center space-x-2 px-4 py-1">
           <a href="{{ route('user.index') }}" class="flex items-center space-x-2">
-          <img src="{{ asset('logo kataward.png') }}" alt="Katanga Award" class="h-10 w-auto">
+          <img src="{{ asset('logo_officiel.jpg') }}" alt="Katanga Award" class="h-10 w-auto">
           <span class="text-white font-bold" >Katanga</span><span class="text-[#e3b017] font-bold"> Award</span>
         </a>
         </div>
-      <a href="{{ route('user.index') }}" 
+      <a href="{{ route('user.index') }}"
          class="text-[#fbcd43] font-semibold hover:text-[#A28224] transition">← Retour</a>
     </div>
   </nav>
@@ -28,30 +28,30 @@
   <!-- CONTENU PRINCIPAL -->
   <main class="flex-1 flex items-center justify-center p-6">
     <div class="max-w-3xl w-full bg-[#111] rounded-2xl shadow-lg p-8 text-center border border-[#fbcd43]/30">
-      
+
       <!-- Photo du candidat -->
       <div class="flex justify-center mb-6">
         <div class="w-20 h-20 rounded-full overflow-hidden border-4 border-[#fbcd43] shadow-lg">
-          <img src="{{ asset($candidat->photo_url) }}" 
-               alt="{{ $candidat->nom_complet }}" 
+          <img src="{{ asset($candidat->photo_url) }}"
+               alt="{{ $candidat->nom_complet }}"
                class="w-full h-full object-cover">
         </div>
       </div>
 
       <!-- Nom et catégorie -->
-      
+
       <h1 class="text-2xl font-bold mb-2 text-[#fbcd43]">{{ $candidat->nom_complet }}</h1>
       <p class="text-gray-300 italic mb-6">
         Categorie : {{ $candidat->categorie->nom_categorie ?? 'Catégorie non définie' }}
         <br>
             <strong>Katanga Award Éd. </strong> {{ $vote->edition->titre ?? $editionActive->titre ?? 'En cours' }}
-        
+
       </p>
-       
+
       <!-- Description -->
-      <div class="bg-[#222] rounded-xl p-6 border border-[#fbcd43]/20 text-left mb-6"> 
+      <div class="bg-[#222] rounded-xl p-6 border border-[#fbcd43]/20 text-left mb-6">
         <p class="text-gray-300 leading-relaxed">
-            
+
           {{ $candidat->description ?? 'Aucune description disponible pour ce candidat.' }}
         </p>
       </div>
@@ -73,7 +73,7 @@
         @if(Auth::guard('web')->check())
           @if($editionActive && !$aVote)
             <a href="{{route('user.vote')}}" class="bg-[#fbcd43] text-black font-semibold px-6 py-2 rounded-md hover:bg-[#A28224] transition">
-                Voter 
+                Voter
             </a>
           @elseif($editionActive)
             <button class="bg-gray-500 text-white font-semibold px-6 py-2 rounded-md cursor-not-allowed">
@@ -85,14 +85,14 @@
             </button>
           @endif
         @else
-          <a href="{{ route('login') }}" 
+          <a href="{{ route('login') }}"
              class="bg-[#fbcd43] text-black font-semibold px-6 py-2 rounded-md hover:bg-[#A28224] transition">
              Connectez-vous pour voter
           </a>
         @endif
 
         <!-- BOUTON PARTAGER -->
-        <button id="shareBtn" 
+        <button id="shareBtn"
                 class="flex items-center gap-2 bg-[#fbcd43] text-black font-semibold px-6 py-2 rounded-md hover:bg-[#A28224] transition">
           <span class="material-icons">share</span> Partager
         </button>

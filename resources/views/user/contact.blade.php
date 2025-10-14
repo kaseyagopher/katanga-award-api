@@ -18,7 +18,7 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    
+
   </style>
 </head>
 <body class="bg-black min-h-screen flex flex-col relative text-white">
@@ -33,10 +33,10 @@
   <nav class="bg-dark border-b border-[#fbcd43] shadow-md  top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16 items-center">
-        
+
         <!-- Logo -->
         <a href="{{ route('user.index') }}" class="flex items-center space-x-2">
-          <img src="{{ asset('logo kataward.png') }}" alt="Katanga Award" class="h-10 w-auto">
+          <img src="{{ asset('logo_officiel.jpg') }}" alt="Katanga Award" class="h-10 w-auto">
           <span class="text-white font-bold" >Katanga</span><span class="text-[#e3b017] font-bold"> Award</span>
         </a>
 
@@ -134,7 +134,7 @@
     </section>
 
     <!-- Réseaux sociaux -->
-    
+
   </main>
 
   <!-- FOOTER -->

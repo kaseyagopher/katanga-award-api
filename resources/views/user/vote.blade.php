@@ -41,7 +41,7 @@
         <!-- Logo au centre -->
         <div class="flex items-center space-x-2 px-4 py-1">
           <a href="{{ route('user.index') }}" class="flex items-center space-x-2">
-          <img src="{{ asset('logo kataward.png') }}" alt="Katanga Award" class="h-10 w-auto">
+          <img src="{{ asset('logo_officiel.jpg') }}" alt="Katanga Award" class="h-10 w-auto">
           <span class="text-white font-bold" >Katanga</span><span class="text-[#e3b017] font-bold"> Award</span>
         </a>
         </div>
@@ -53,7 +53,7 @@
                   {{ Auth::guard('web')->user()->numero ?? Auth::guard('web')->user()->email }}
               </strong>
           @else
-              <p class="text-orange-500 font-semibold">UNKNOW</p>
+              <p class="text-orange-500 font-semibold">Pas connecté</p>
           @endif
         </div>
 
