@@ -81,8 +81,8 @@
         </div>
         <div class="flex items-center space-x-2 px-4 py-1">
           <span class="font-bold text-lg">
-              <span class="text-white">Katanga</span>
-              <span class="text-[#e3b017]"> Award</span>
+              <span class="text-white">KATANGA</span>
+              <span class="text-[#e3b017]"> AWARDS</span>
           </span>
         </div>
         <!-- Hamburger mobile -->
@@ -108,7 +108,7 @@
     <div class="w-full max-w-3xl relative">
       <!-- Texte fixe au-dessus du carousel -->
       <div class="overlay-text z-10">
-        <h1 class="text-4xl sm:text-5xl font-bold text-[#fbcd43] drop-shadow-lg">Bienvenue au Katanga Award <br><span class="text-white">(16<sup>ème</sup> ÉDITION)</span></h1>
+        <h1 class="text-4xl sm:text-5xl font-bold text-[#fbcd43] drop-shadow-lg">Bienvenue à Katanga Awards <br><span class="text-white">(16<sup>ème</sup> ÉDITION)</span></h1>
         <p class="mt-2 text-white/80 text-center text-lg sm:text-xl">Découvrez nos candidats et votez en ligne</p>
       </div>
 
@@ -117,6 +117,10 @@
 <div id="carousel" class="overflow-hidden rounded-xl relative z-0">
   <div class="carousel-inner flex relative">
     <!-- Slide 1 -->
+    <div class="carousel-item flex-shrink-0 w-full relative">
+      <img src="{{asset('affiche_officiel.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 3">
+      <div class="absolute inset-0 bg-black/40 rounded-xl"></div>
+    </div>
     <div class="carousel-item flex-shrink-0 w-full relative">
       <img src="{{asset('IMG_6309.JPG')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 3">
       <div class="absolute inset-0 bg-black/40 rounded-xl"></div>
@@ -198,42 +202,35 @@
 
 
         <!-- Logos des Sponsors -->
-    <section class="mt-16 animate-fade-in text-center">
-      <h2 class="text-2xl font-semibold text-[#fbcd43] mb-8">Nos Sponsors - 16<sup>ème</sup> Édition</h2>
-      <p class="text-gray-300 mb-8 max-w-3xl mx-auto">
-        Nous remercions chaleureusement nos partenaires et sponsors pour leur soutien à cette 16<sup>ème</sup> édition du <span class="text-[#A28224] font-semibold">Katanga Award</span>.
-      </p>
+    <section class="mt-16 text-center">
+  <h2 class="text-3xl font-semibold text-[#fbcd43] mb-8">
+    Nos Sponsors - 16<sup>ème</sup> Édition
+  </h2>
 
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8 items-center justify-center">
-        <div class="flex justify-center">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Coca-Cola_logo.svg" alt="Coca-Cola" class="h-16 object-contain grayscale hover:grayscale-0 transition duration-300">
-        </div>
-        <div class="flex justify-center">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/MTN_Logo.svg" alt="MTN" class="h-16 object-contain grayscale hover:grayscale-0 transition duration-300">
-        </div>
-        <div class="flex justify-center">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Canal%2B_logo_2010.svg" alt="Canal+" class="h-16 object-contain grayscale hover:grayscale-0 transition duration-300">
-        </div>
-        <div class="flex justify-center">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Airtel_logo.svg" alt="Airtel" class="h-16 object-contain grayscale hover:grayscale-0 transition duration-300">
-        </div>
-        <div class="flex justify-center">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/TotalEnergies_logo.svg" alt="TotalEnergies" class="h-16 object-contain grayscale hover:grayscale-0 transition duration-300">
-        </div>
-        <div class="flex justify-center">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Orange_logo.svg" alt="Orange" class="h-16 object-contain grayscale hover:grayscale-0 transition duration-300">
-        </div>
-        <div class="flex justify-center">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Pepsi_logo_2014.svg" alt="Pepsi" class="h-16 object-contain grayscale hover:grayscale-0 transition duration-300">
-        </div>
-        <div class="flex justify-center">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5b/Vodacom_logo.svg" alt="Vodacom" class="h-16 object-contain grayscale hover:grayscale-0 transition duration-300">
-        </div>
-        <div class="flex justify-center">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Heineken_logo.svg" alt="Heineken" class="h-16 object-contain grayscale hover:grayscale-0 transition duration-300">
-        </div>
+  <p class="text-gray-300 mb-10 max-w-3xl mx-auto">
+    Nous remercions chaleureusement nos partenaires et sponsors pour leur soutien à cette 16<sup>ème</sup> édition du
+    <span class="text-[#A28224] font-semibold">Katanga Award</span>.
+  </p>
+
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-10 items-center justify-center">
+    @foreach ([
+      'tfm.jpg', 'Baraka.jpg', 'bgfibanque.jpg', 'aircongo.jpg',
+      'novotel.jpg', 'ntayrock.jpg', 'mbegu.jpg', 'loft_key.jpg',
+      'morco.jpg', 'malaika.jpg'
+    ] as $image)
+      <div class="flex justify-center">
+        <a href="{{ asset($image) }}" target="_blank" class="block group">
+          <img
+            src="{{ asset($image) }}"
+            alt="Sponsor"
+            class="h-28 sm:h-32 md:h-36 object-contain rounded-xl shadow-md grayscale group-hover:grayscale-0 group-hover:scale-105 transition duration-500 ease-in-out"
+          >
+        </a>
       </div>
-    </section>
+    @endforeach
+  </div>
+</section>
+
 
   </main>
 

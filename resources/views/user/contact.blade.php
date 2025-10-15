@@ -37,7 +37,7 @@
         <!-- Logo -->
         <a href="{{ route('user.index') }}" class="flex items-center space-x-2">
           <img src="{{ asset('logo_officiel.jpg') }}" alt="Katanga Award" class="h-10 w-auto">
-          <span class="text-white font-bold" >Katanga</span><span class="text-[#e3b017] font-bold"> Award</span>
+          <span class="text-white font-bold" >KATANGA</span><span class="text-[#e3b017] font-bold"> AWARDS</span>
         </a>
 
         <!-- Liens desktop -->

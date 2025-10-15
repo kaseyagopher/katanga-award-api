@@ -40,8 +40,8 @@
         <a href="{{ route('user.index') }}" class="flex items-center space-x-2">
           <img src="{{ asset('logo_officiel.jpg') }}" alt="Katanga Award" class="h-10 w-auto">
           <span class="font-bold">
-            <span class="text-white">Katanga</span>
-            <span class="text-[#fbcd43]"> Award</span>
+            <span class="text-white">KATANGA</span>
+            <span class="text-[#fbcd43]"> AWARDS</span>
           </span>
         </a>
 
