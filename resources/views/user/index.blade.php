@@ -119,28 +119,28 @@
     <!-- Slide 1 -->
     <div class="carousel-item flex-shrink-0 w-full relative">
       <img src="{{asset('affiche_officiel.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 3">
-      <div class="absolute inset-0 bg-black/40 rounded-xl"></div>
+      <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
     </div>
     <div class="carousel-item flex-shrink-0 w-full relative">
       <img src="{{asset('IMG_6309.JPG')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 3">
-      <div class="absolute inset-0 bg-black/40 rounded-xl"></div>
+      <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
     </div>
     <div class="carousel-item flex-shrink-0 w-full relative">
       <img src="{{asset('photo_2025-10-08_15-11-01.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 3">
-      <div class="absolute inset-0 bg-black/40 rounded-xl"></div>
+      <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
     </div>
     <div class="carousel-item flex-shrink-0 w-full relative">
       <img src="{{asset('photo_2025-10-08_15-10-57.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 1">
-      <div class="absolute inset-0 bg-black/40 rounded-xl"></div> <!-- Overlay sombre -->
+      <div class="absolute inset-0 bg-black/60 rounded-xl"></div> <!-- Overlay sombre -->
     </div>
     <div class="carousel-item flex-shrink-0 w-full relative">
       <img src="{{asset('photo_2025-10-08_15-18-37.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 1">
-      <div class="absolute inset-0 bg-black/40 rounded-xl"></div> <!-- Overlay sombre -->
+      <div class="absolute inset-0 bg-black/60 rounded-xl"></div> <!-- Overlay sombre -->
     </div>
     <!-- Slide 2 -->
     <div class="carousel-item flex-shrink-0 w-full relative">
       <img src="{{asset('photo_2025-10-08_15-11-08.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 2">
-      <div class="absolute inset-0 bg-black/40 rounded-xl"></div>
+      <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
     </div>
     <!-- Slide 3 -->
 

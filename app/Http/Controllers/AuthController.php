@@ -44,7 +44,7 @@ class AuthController extends Controller
         $validated = $request->validate([
             'telephone' => [
                 'required',
-                'regex:/^(?:\+243|0)(80|81|82|83|84|85|86|87|89|97|98|99)\d{7}$/'
+                'regex:/^(?:\+243|0)(80|81|82|83|84|85|86|87|89|90|91|97|98|99)\d{7}$/'
             ]
         ], [
             'telephone.regex' => 'Le numéro doit être Vodacom, Orange ou Airtel'
@@ -65,7 +65,7 @@ class AuthController extends Controller
         Auth::login($user);
 
         // 5️⃣ Rediriger vers la page d'accueil ou dashboard
-        return redirect()->intended(route('user.index'));
+        return redirect()->intended(route('user.publicite'));
     }
 
     // Logout (Admin ou User)
@@ -93,7 +93,7 @@ class AuthController extends Controller
         return redirect()->route('login');
     }
 
-    
+
     public function createAdmin(Request $request)
     {
         // Validation

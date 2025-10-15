@@ -133,7 +133,7 @@ class UserController extends Controller
             $mail->addReplyTo($request->email, $request->nom);
 
             // Destinataire
-            $mail->addAddress('synergieup@gmail.com', 'Katanga Award');
+            $mail->addAddress('excellencekatangaagency@gmail.com', 'Katanga Award');
 
             // Contenu du mail
             $mail->isHTML(true);
@@ -156,4 +156,7 @@ class UserController extends Controller
         }
     }
 
+    public function publicite(){
+        return view('user.publicite');
+    }
 }
