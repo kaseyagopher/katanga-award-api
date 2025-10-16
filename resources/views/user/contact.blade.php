@@ -26,7 +26,7 @@
   <!-- Loader -->
   <div id="loader" class="fixed inset-0 bg-black flex flex-col items-center justify-center z-50">
     <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-[#A28224] mb-4"></div>
-    <h1 class="text-2xl font-bold text-[#fbcd43]">Katanga Award</h1>
+    <h1 class="text-2xl font-bold text-[#fbcd43]">Katanga Awards</h1>
   </div>
 
   <!-- NAVBAR -->
@@ -70,7 +70,6 @@
       <!-- Menu mobile -->
       <div id="mobile-menu" class="hidden md:hidden mt-2 space-y-2 pb-4 animate-fade-in">
           <a href="{{ route('user.index') }}" class="block text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2">Accueil</a>
-          <a href="#" class="block text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2">Résultats</a>
           <a href="{{ route('user.apropos') }}" class="block text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2">À propos</a>
           <a href="{{ route('user.contact') }}" class="block text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2">Contact</a>
       </div>

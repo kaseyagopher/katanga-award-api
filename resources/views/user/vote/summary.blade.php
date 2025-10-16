@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Récapitulatif du vote - Katanga Award</title>
+  <title>Récapitulatif du vote - Katanga Awards</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/png" href="{{ asset('logo kataward.png') }}">
+  <link rel="icon" type="image/png" href="{{ asset('logo katawards.png') }}">
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -24,8 +24,8 @@
 
   <!-- En-tête -->
   <div class="flex flex-col items-center mb-8">
-    <img src="{{ asset('logo kataward.png') }}" alt="Katanga Award" class="w-24 mb-2">
-    <h1 class="text-3xl sm:text-4xl font-extrabold text-[#fbcd43] mb-1">Katanga Award</h1>
+    <img src="{{ asset('image-katanga-login.jpg') }}" alt="Katanga Awards" class="w-24 mb-2">
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-[#fbcd43] mb-1">Katanga Awards</h1>
     <p class="text-gray-300 text-sm sm:text-base text-center">
       Récapitulatif de votre vote pour l'édition <strong class="text-[#e3b017]">{{ $editionActive->titre ?? 'en cours' }}</strong>
     </p>
@@ -54,7 +54,7 @@
 
           <!-- Edition et nominée -->
           <p class="text-gray-200 text-sm mb-1">
-            <strong>Katanga Award Éd. </strong> {{ $vote->edition->titre ?? $editionActive->titre ?? 'En cours' }}
+            <strong>Katanga Awards Éd. </strong> {{ $vote->edition->titre ?? $editionActive->titre ?? 'En cours' }}
           </p>
           <p class="text-gray-200 text-sm">
             <strong>Nominé(e) :</strong> {{ $vote->candidat->nom_complet }}
@@ -79,7 +79,7 @@
   <!-- FOOTER -->
   <footer class="bg-[#111] border-t border-[#A28224] mt-10 w-full">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-center items-center text-sm text-gray-400">
-        <p class="text-center">© 2025 Katanga Award. Tous droits réservés.</p>
+        <p class="text-center">© 2025 Katanga Awards. Tous droits réservés.</p>
     </div>
   </footer>
 

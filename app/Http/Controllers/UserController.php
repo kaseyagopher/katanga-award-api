@@ -101,7 +101,9 @@ class UserController extends Controller
     public function showCandidat($id)
 {
     $candidat = \App\Models\Candidat::findOrFail($id);
-    return view('user.candidat-details', compact('candidat'));
+    $edition = \App\Models\Edition::where("statut", 1)->first();
+
+    return view('user.candidat-details', compact('candidat', 'edition'));
 }
 
     public function user_mail(Request $request)

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Katanga Award | Accueil</title>
+  <title>Katanga Awards | Accueil</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="icon" type="image/png" href="{{ asset('logo kataward.png') }}">
@@ -96,7 +96,6 @@
       <!-- Menu mobile -->
       <div id="mobile-menu" class="hidden md:hidden mt-2 space-y-2">
         <a href="{{ route('user.index') }}" class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md {{ Route::currentRouteName() === 'user.index' ? 'text-[#A28224]' : '' }}">Accueil</a>
-        <a href="#" class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Résultats</a>
         <a href="{{ route('user.apropos') }}" class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md {{ Route::currentRouteName() === 'user.apropos' ? 'text-[#A28224]' : '' }}">À propos</a>
         <a href="{{ route('user.contact') }}" class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md {{ Route::currentRouteName() === 'user.contact' ? 'text-[#A28224]' : '' }}">Contact</a>
       </div>
@@ -187,10 +186,10 @@
                                  class="w-full h-full object-cover candidate-photo">
                         </div>
                         <h3 class="text-lg font-bold text-white drop-shadow">{{ $candidat->nom_complet }}</h3>
-                        <p class="text-sm text-yellow-100 italic">{{ $categorie->nom_categorie }}</p>
+                        <p class="text-sm text-yellow-100 m-2 italic">Nominé(e)</p>
                         <a href="{{ route('user.candidat.show', $candidat->id) }}"
-                           class="bg-[#fbcd43] text-black font-semibold px-4 py-2 rounded-2xl hover:bg-[#A28224] transition">
-                           Voir le profil
+                           class="bg-[#fbcd43] text-black  px-4 m-2  rounded-2xl hover:bg-[#A28224] transition">
+                           Voir plus
                         </a>
                     </div>
                 @empty

@@ -44,7 +44,8 @@
       <p class="text-gray-300 italic mb-6">
         Categorie : {{ $candidat->categorie->nom_categorie ?? 'Catégorie non définie' }}
         <br>
-            <strong>Katanga Award Éd. </strong> {{ $vote->edition->titre ?? $editionActive->titre ?? 'En cours' }}
+
+            <strong>Katanga Award Éd. </strong> {{ $edition->titre ?? $editionActive->titre ?? 'En cours' }}
 
       </p>
 
