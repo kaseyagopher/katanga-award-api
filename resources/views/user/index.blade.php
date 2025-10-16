@@ -33,7 +33,7 @@
   <!-- Loader -->
   <div id="loader" class="fixed inset-0 bg-black flex flex-col items-center justify-center z-50">
     <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-[#A28224] mb-4"></div>
-    <h1 class="text-2xl font-bold text-[#fbcd43]">Katanga Award</h1>
+    <h1 class="text-2xl font-bold text-[#fbcd43]">Katanga Awards</h1>
   </div>
 
   <!-- NAVBAR -->
@@ -208,7 +208,7 @@
 
   <p class="text-gray-300 mb-10 max-w-3xl mx-auto">
     Nous remercions chaleureusement nos partenaires et sponsors pour leur soutien à cette 16<sup>ème</sup> édition du
-    <span class="text-[#A28224] font-semibold">Katanga Award</span>.
+    <span class="text-[#A28224] font-semibold">Katanga Awards</span>.
   </p>
 
   <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-10 items-center justify-center">
@@ -236,7 +236,7 @@
   <!-- FOOTER -->
   <footer class="bg-[#111] border-t border-[#A28224] mt-auto">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-center items-center text-sm text-gray-400">
-        <p class="text-center">© 2025 Katanga Award. Tous droits réservés.</p>
+        <p class="text-center">© 2025 Katanga Awards. Tous droits réservés.</p>
     </div>
   </footer>
 

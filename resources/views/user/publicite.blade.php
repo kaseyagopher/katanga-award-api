@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Katanga Award | Intro</title>
+  <title>Katanga Awards | Intro</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" type="image/png" href="{{ asset('logo kataward.png') }}" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
@@ -28,7 +28,7 @@
 
   <!-- Vidéo -->
   <video id="introVideo" autoplay muted playsinline class="absolute inset-0 w-full h-full object-contain bg-black z-0">
-    <source src="{{ asset('TVC_KATANGA AWARDS 16 - SHORT.mkv') }}" type="video/mp4">
+    <source src="{{ asset('TVC_KATANGA AWARDS 16 - SHORT.mp4') }}" type="video/mp4">
     Votre navigateur ne supporte pas la lecture vidéo.
   </video>
 

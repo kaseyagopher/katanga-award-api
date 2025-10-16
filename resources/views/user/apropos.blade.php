@@ -28,7 +28,7 @@
   <!-- Loader -->
   <div id="loader" class="fixed inset-0 bg-black flex flex-col items-center justify-center z-50">
     <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-[#A28224] mb-4"></div>
-    <h1 class="text-2xl font-bold text-[#fbcd43]">Katanga Award</h1>
+    <h1 class="text-2xl font-bold text-[#fbcd43]">Katanga Awards</h1>
   </div>
 
   <!-- NAVBAR -->
@@ -48,7 +48,7 @@
         <!-- Liens desktop -->
         <div class="hidden md:flex items-center space-x-4">
           <a href="{{ route('user.index') }}" class="text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2">Accueil</a>
-          <a href="#" class="text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2">Résultats</a>
+
           <a href="{{ route('user.apropos') }}" class="text-[#A28224] font-semibold px-3 py-2">À propos</a>
           <a href="{{ route('user.contact') }}" class="text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2">Contact</a>
         </div>
@@ -241,7 +241,7 @@
   <!-- FOOTER -->
   <footer class="bg-[#0a0a0a] border-t border-[#A28224] mt-auto">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-center items-center text-sm text-gray-400">
-        <p class="text-center">© 2025 Katanga Award. Tous droits réservés.</p>
+        <p class="text-center">© 2025 Katanga Awards. Tous droits réservés.</p>
     </div>
   </footer>
 

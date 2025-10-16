@@ -45,7 +45,7 @@
         Categorie : {{ $candidat->categorie->nom_categorie ?? 'Catégorie non définie' }}
         <br>
 
-            <strong>Katanga Award Éd. </strong> {{ $edition->titre ?? $editionActive->titre ?? 'En cours' }}
+            <strong>Katanga Awards Éd. </strong> {{ $edition->titre ?? $editionActive->titre ?? 'En cours' }}
 
       </p>
 

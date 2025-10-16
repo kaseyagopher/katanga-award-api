@@ -139,7 +139,7 @@
   <!-- FOOTER -->
   <footer class="bg-[#111] border-t border-[#2d2d2d] mt-auto">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-center items-center text-sm text-gray-400">
-        <p class="text-center">© 2025 Katanga Award. Tous droits réservés.</p>
+        <p class="text-center">© 2025 Katanga Awards. Tous droits réservés.</p>
     </div>
   </footer>
 

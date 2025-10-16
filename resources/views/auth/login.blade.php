@@ -15,10 +15,10 @@
 
     <!-- Formulaire -->
     <div class="relative z-10 w-full max-w-md bg-white rounded-lg shadow-lg p-6">
-        
+
         <!-- Logo ou image -->
         <div class="flex justify-center mb-4">
-            <img src="{{ asset('image-kat.jpg') }}" alt="Logo Katanga Award" class="w-20 h-20 rounded-full shadow">
+            <img src="{{ asset('image-kat.jpg') }}" alt="Logo Katanga Awards" class="w-20 h-20 rounded-full shadow">
         </div>
 
         <h3 class="text-center text-2xl font-bold mb-6 text-gray-800">Connexion</h3>
