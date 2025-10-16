@@ -10,9 +10,12 @@ use Illuminate\Database\Eloquent\Model;
 class Vote extends Model
 {
     protected $table = 'votes';
+    
     protected $fillable = [
-        'user_id', 'candidat_id', 'categorie_id', 'edition_id'
+        'user_id', 'candidat_id', 'categorie_id', 'edition_id', 'uuid'
     ];
+
+
     // Un vote est effectué pour un seul candidat.
     public function candidat() {
         return $this->belongsTo(Candidat::class, 'candidat_id');

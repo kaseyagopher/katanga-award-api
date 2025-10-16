@@ -11,8 +11,24 @@ class Candidat extends Model
 {
     protected $table = 'candidats';
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (!$model->uuid) {
+                $model->uuid = (string) Str::uuid();
+            }
+        });
+    }
+
+    public function getRouteKeyName()
+{
+    return 'uuid';
+}
+
     protected $fillable = [
-        'nom_complet', 'photo_url', 'description', 'categorie_id', 'edition_id', 'couleur_dominante', 'couleur_dominante_sombre'
+        'nom_complet', 'photo_url', 'description', 'categorie_id', 'edition_id', 'couleur_dominante', 'couleur_dominante_sombre', 'uuid'
     ];
 
     public function categorie() {

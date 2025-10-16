@@ -11,9 +11,11 @@ use Illuminate\Database\Eloquent\Model;
 class Categorie extends Model
 {
      protected $table = 'categories';
+
      protected $fillable = [
-        'nom_categorie', 'edition_id', 'admin_id'
+        'nom_categorie', 'edition_id', 'admin_id',
      ];
+
 
     // Une catégorie appartient à un admin
     public function admin()

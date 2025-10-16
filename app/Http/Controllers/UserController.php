@@ -98,9 +98,9 @@ class UserController extends Controller
         return view('user.contact');
     }
 
-    public function showCandidat($id)
+    public function showCandidat(\App\Models\Candidat $candidat)
 {
-    $candidat = \App\Models\Candidat::findOrFail($id);
+    
     $edition = \App\Models\Edition::where("statut", 1)->first();
 
     return view('user.candidat-details', compact('candidat', 'edition'));

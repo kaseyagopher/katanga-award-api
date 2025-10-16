@@ -181,7 +181,7 @@
 
     <h3 class="text-lg font-bold text-white drop-shadow">{{ mb_strtoupper($candidat->nom_complet) }}</h3>
     <p class="text-sm text-yellow-100 m-2 italic">Nominé(e)</p>
-    <a href="{{ route('user.candidat.show', $candidat->id) }}"
+    <a href="{{ route('user.candidat.show', $candidat->uuid) }}"
        class="bg-[#fbcd43] text-black px-4 m-2 rounded-2xl hover:bg-[#A28224] transition">
        Voir plus
     </a>
