@@ -270,6 +270,36 @@
       <img id="lightbox-img" src="" class="w-full max-h-[90vh] object-contain rounded-lg shadow-lg">
     </div>
   </div>
+  <!-- Modal pour afficher l'image en grand -->
+<div id="imageModal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+  <div class="relative">
+    <img id="modalImage" src="" alt="Aperçu" class="max-w-[90vw] max-h-[85vh] rounded-lg shadow-lg">
+    <button id="closeModal" class="absolute top-2 right-2 bg-white text-gray-700 rounded-full px-3 py-1 font-bold shadow-md hover:bg-gray-200">&times;</button>
+  </div>
+</div>
+
+<script>
+  // Sélectionner toutes les images de candidats
+  const candidateImages = document.querySelectorAll('img');
+  const modal = document.getElementById('imageModal');
+  const modalImage = document.getElementById('modalImage');
+  const closeModal = document.getElementById('closeModal');
+
+  candidateImages.forEach(img => {
+    img.addEventListener('click', () => {
+      modalImage.src = img.src;
+      modal.classList.remove('hidden');
+    });
+  });
+
+  closeModal.addEventListener('click', () => {
+    modal.classList.add('hidden');
+  });
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.classList.add('hidden');
+  });
+</script>
 
   <script>
     // Sélectionne toutes les images des candidats
