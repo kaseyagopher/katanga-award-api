@@ -114,8 +114,8 @@
     const shareBtn = document.getElementById('shareBtn');
     shareBtn.addEventListener('click', async () => {
       const shareData = {
-        title: 'Vote pour {{ $candidat->nom_complet }} - Katanga Awards',
-        text: 'Découvre le profil de {{ $candidat->nom_complet }} sur Katanga Awards et vote pour lui !',
+        title: 'Votez pour {{ $candidat->nom_complet }} - Katanga Awards',
+        text: 'Découvrez le profil de {{ $candidat->nom_complet }} sur Katanga Awards et votez pour lui !',
         url: "{{ url()->current() }}"
       };
 

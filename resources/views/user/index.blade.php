@@ -167,7 +167,7 @@
 
     @foreach($categories as $categorie)
         <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4 text-white">{{ mb_strtoupper( $categorie->nom_categorie) }}</h2>
+            <h2 class="text-2xl m-4 pb-2 font-semibold mb-4 text-white">{{ mb_strtoupper( $categorie->nom_categorie) }}</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 @forelse($categorie->candidats as $candidat)
                     <div class="candidate-card relative rounded-2xl shadow-lg p-4 flex flex-col items-center text-center transition-transform duration-500 ease-in-out hover:scale-105"
@@ -179,7 +179,7 @@
              class="w-full h-full object-cover">
     </div>
 
-    <h3 class="text-lg font-bold text-white drop-shadow">{{ $candidat->nom_complet }}</h3>
+    <h3 class="text-lg font-bold text-white drop-shadow">{{ mb_strtoupper($candidat->nom_complet) }}</h3>
     <p class="text-sm text-yellow-100 m-2 italic">Nominé(e)</p>
     <a href="{{ route('user.candidat.show', $candidat->id) }}"
        class="bg-[#fbcd43] text-black px-4 m-2 rounded-2xl hover:bg-[#A28224] transition">
