@@ -92,7 +92,7 @@
                     Modifier
                   </a>
                   <form method="POST"
-                        action="{{ route('candidats.destroy', $Candidat->id) }}"
+                        action="{{ route('candidats.destroy', $Candidat->uuid) }}"
                         onsubmit="return confirm('Voulez-vous vraiment supprimer ce candidat ?');">
                     @csrf
                     @method('DELETE')

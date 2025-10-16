@@ -163,14 +163,28 @@ class CandidatController extends Controller
     /**
      * Supprime un candidat.
      */
-    public function destroy(Candidat $candidat)
-    {
-        if ($candidat->photo_url && file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $candidat->photo_url)) {
-            unlink($_SERVER['DOCUMENT_ROOT'] . '/' . $candidat->photo_url);
+    public function destroy($uuid)
+{
+    // Recherche du candidat via UUID
+    $candidat = Candidat::where('uuid', $uuid)->firstOrFail();
+
+    // Suppression du fichier image si présent et existant
+    if (!empty($candidat->photo_url)) {
+        $imagePath = public_path($candidat->photo_url);
+
+        if (file_exists($imagePath)) {
+            try {
+                unlink($imagePath);
+            } catch (\Exception $e) {
+                // Si erreur de suppression, on log sans bloquer
+                \Log::warning("Impossible de supprimer l'image du candidat UUID {$uuid}: " . $e->getMessage());
+            }
         }
-
-        $candidat->delete();
-
-        return redirect()->route('candidats.index')->with('success', 'Candidat supprimé avec succès.');
     }
+
+    // Suppression du candidat en base de données
+    $candidat->delete();
+
+    return redirect()->route('candidats.index')->with('success', 'Candidat supprimé avec succès.');
+}
 }
