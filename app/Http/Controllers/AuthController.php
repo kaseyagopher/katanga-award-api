@@ -65,7 +65,7 @@ class AuthController extends Controller
         Auth::login($user);
 
         // 5️⃣ Rediriger vers la page d'accueil ou dashboard
-        return redirect()->intended(route('user.publicite'));
+        return redirect()->intended(route('user.index'));
     }
 
     // Logout (Admin ou User)
