@@ -22,10 +22,7 @@
              {{ Route::currentRouteName() === 'user.index' ? 'text-[#A28224]' : '' }}">
              Accueil
           </a>
-          <a href="#"
-             class="text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">
-             Résultats
-          </a>
+
           <a href="{{ route('user.apropos') }}"
              class="text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md
              {{ Route::currentRouteName() === 'user.apropos' ? 'text-[#A28224]' : '' }}">
@@ -72,10 +69,7 @@
            {{ Route::currentRouteName() === 'user.index' ? 'text-[#A28224]' : '' }}">
            Accueil
         </a>
-        <a href="#"
-           class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">
-           Résultats
-        </a>
+
         <a href="{{ route('user.apropos') }}"
            class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md
            {{ Route::currentRouteName() === 'user.apropos' ? 'text-[#A28224]' : '' }}">

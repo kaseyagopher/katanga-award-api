@@ -75,7 +75,6 @@
       <!-- Menu mobile -->
       <div id="mobile-menu" class="hidden md:hidden mt-2 space-y-2 pb-4 animate-fade-in">
           <a href="{{ route('user.index') }}" class="block text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2">Accueil</a>
-          <a href="#" class="block text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2">Résultats</a>
           <a href="{{ route('user.apropos') }}" class="block text-[#A28224] font-semibold px-3 py-2">À propos</a>
           <a href="{{ route('user.contact') }}" class="block text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2">Contact</a>
       </div>
@@ -99,62 +98,14 @@
 
     <!-- Section Présentation -->
     <section class="text-center animate-fade-in">
-      <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">À propos du Katanga Award</h1>
+      <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">À propos de Katanga Awards</h1>
       <p class="text-gray-300 max-w-3xl mx-auto leading-relaxed">
-        Le Katanga Award est un événement prestigieux qui met en lumière
+        Le Katanga Awards est un événement prestigieux qui met en lumière
         les talents, initiatives et réussites des acteurs qui contribuent au rayonnement de notre région.
         C’est un espace de reconnaissance et de valorisation célébrant l’excellence et la créativité.
       </p>
     </section>
 
-    <!-- Mission et Vision -->
-    <section class="grid grid-cols-1 md:grid-cols-2 gap-8 animate-fade-in">
-      <div class="bg-[#111] border border-[#A28224]/30 rounded-2xl p-6 hover:shadow-[0_0_15px_#A28224] transition transform hover:-translate-y-1">
-        <h2 class="text-2xl font-semibold text-[#fbcd43] mb-4">Notre Mission</h2>
-        <p class="text-gray-300 leading-relaxed">
-          Promouvoir et récompenser les efforts des individus et organisations œuvrant dans divers domaines —
-          culture, innovation, entrepreneuriat, musique, sport — pour inspirer les générations futures.
-        </p>
-      </div>
-      <div class="bg-[#111] border border-[#A28224]/30 rounded-2xl p-6 hover:shadow-[0_0_15px_#A28224] transition transform hover:-translate-y-1">
-        <h2 class="text-2xl font-semibold text-[#fbcd43] mb-4">Notre Vision</h2>
-        <p class="text-gray-300 leading-relaxed">
-          Faire du Katanga Award une référence nationale et internationale,
-          célébrant l’excellence et servant de levier de motivation pour la jeunesse congolaise.
-        </p>
-      </div>
-    </section>
-
-    <!-- Valeurs -->
-    <section class="animate-fade-in">
-      <h2 class="text-2xl font-semibold text-center text-[#fbcd43] mb-8">Nos Valeurs</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        <div class="bg-[#1a1a1a] border border-[#A28224]/20 rounded-xl p-6 text-center hover:scale-105 transition">
-          <h3 class="text-lg font-bold text-[#A28224] mb-2">Excellence</h3>
-          <p class="text-gray-300 text-sm">Récompenser ceux qui se distinguent par leur savoir-faire et leur impact.</p>
-        </div>
-        <div class="bg-[#1a1a1a] border border-[#A28224]/20 rounded-xl p-6 text-center hover:scale-105 transition">
-          <h3 class="text-lg font-bold text-[#A28224] mb-2">Innovation</h3>
-          <p class="text-gray-300 text-sm">Mettre en avant les projets créatifs qui transforment positivement la société.</p>
-        </div>
-        <div class="bg-[#1a1a1a] border border-[#A28224]/20 rounded-xl p-6 text-center hover:scale-105 transition">
-          <h3 class="text-lg font-bold text-[#A28224] mb-2">Engagement</h3>
-          <p class="text-gray-300 text-sm">Valoriser l’esprit de service, le leadership et la contribution active.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Historique -->
-    <section class="bg-[#111] border border-[#A28224]/30 rounded-2xl p-8 animate-fade-in">
-      <h2 class="text-2xl font-semibold text-[#fbcd43] mb-4">Notre Histoire</h2>
-      <p class="text-gray-300 leading-relaxed">
-        Créé pour honorer les talents et inspirer une génération, le <span class="text-[#A28224] font-semibold">Katanga Awards</span>
-        est devenu une cérémonie incontournable dans le paysage culturel et social.
-        Chaque édition rassemble des milliers de participants, célébrant nos héros et modèles de réussite.
-      </p>
-    </section>
-
-        <!-- Galerie -->
     <section class="animate-fade-in">
       <h2 class="text-2xl font-semibold text-center text-[#fbcd43] mb-8">Galerie des Éditions Précédentes</h2>
       <p class="text-center text-gray-300 max-w-3xl mx-auto mb-8">
@@ -207,7 +158,6 @@
      <!-- Call to Action -->
     <section class="text-center animate-fade-in">
       <h2 class="text-2xl font-semibold  mb-4">Rejoignez l’aventure Katanga Awards</h2>
-      <p class="text-gray-300 mb-6">Célébrez l’excellence et soutenez ceux qui façonnent l’avenir.</p>
       <a href="{{ route('user.index') }}" class="bg-[#fbcd43] text-black px-6 py-3 rounded-lg font-semibold hover:bg-[#e3b017] transition shadow-lg">
         Participez au vote
       </a>
@@ -218,15 +168,11 @@
         <a href="https://web.facebook.com/KatangaAwards?locale=fr_FR" target="_blank" title="Facebook" class="text-[#fbcd43] hover:text-[#A28224] hover:scale-110 transition">
           <i class="fa-brands fa-facebook-f"></i>
         </a>
-        <a href="https://x.com/awards_katanga?s=21" target="_blank" title="Twitter" class="text-[#fbcd43] hover:text-[#A28224] hover:scale-110 transition">
-          <i class="fa-brands fa-twitter"></i>
-        </a>
+
         <a href="https://www.instagram.com/katangaawards?igsh=NnBnbHR6MXV1engw" target="_blank" title="Instagram" class="text-[#fbcd43] hover:text-[#A28224] hover:scale-110 transition">
           <i class="fa-brands fa-instagram"></i>
         </a>
-        <a href="https://www.linkedin.com/in/billy-makela-officiel-3b406836b" target="_blank" title="LinkedIn" class="text-[#fbcd43] hover:text-[#A28224] hover:scale-110 transition">
-          <i class="fa-brands fa-linkedin-in"></i>
-        </a>
+
         <a href="https://m.youtube.com/@katangaawards6869" target="_blank" title="YouTube" class="text-[#fbcd43] hover:text-[#A28224] hover:scale-110 transition">
           <i class="fa-brands fa-youtube"></i>
         </a>

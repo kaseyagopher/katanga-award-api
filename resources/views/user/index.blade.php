@@ -43,7 +43,7 @@
         <!-- Liens desktop -->
         <div class="hidden md:flex items-center space-x-4">
           <a href="{{ route('user.index') }}" class="text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Accueil</a>
-          <a href="#" class="text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Résultats</a>
+
           <a href="{{ route('user.apropos') }}" class="text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Apropos</a>
           <a href="{{ route('user.contact') }}" class="text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Contact</a>
         </div>
@@ -103,8 +103,8 @@
   </nav>
 
   <!-- CONTENU PRINCIPAL -->
-  <main class="flex-1 max-w-7xl mx-auto p-6">
-    <div class="w-full max-w-3xl relative">
+  <main class="flex-1 w-full mx-auto p-6">
+    <div class="w-full relative">
       <!-- Texte fixe au-dessus du carousel -->
       <div class="overlay-text z-10">
         <h1 class="text-4xl sm:text-5xl font-bold text-[#fbcd43] drop-shadow-lg">Bienvenue à Katanga Awards <br><span class="text-white">(16<sup>ème</sup> ÉDITION)</span></h1>
@@ -113,38 +113,38 @@
 
       <!-- Carousel -->
       <!-- Carousel -->
-<div id="carousel" class="overflow-hidden rounded-xl relative z-0">
-  <div class="carousel-inner flex relative">
-    <!-- Slide 1 -->
-    <div class="carousel-item flex-shrink-0 w-full relative">
-      <img src="{{asset('affiche_officiel.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 3">
-      <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
-    </div>
-    <div class="carousel-item flex-shrink-0 w-full relative">
-      <img src="{{asset('IMG_6309.JPG')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 3">
-      <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
-    </div>
-    <div class="carousel-item flex-shrink-0 w-full relative">
-      <img src="{{asset('photo_2025-10-08_15-11-01.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 3">
-      <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
-    </div>
-    <div class="carousel-item flex-shrink-0 w-full relative">
-      <img src="{{asset('photo_2025-10-08_15-10-57.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 1">
-      <div class="absolute inset-0 bg-black/60 rounded-xl"></div> <!-- Overlay sombre -->
-    </div>
-    <div class="carousel-item flex-shrink-0 w-full relative">
-      <img src="{{asset('photo_2025-10-08_15-18-37.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 1">
-      <div class="absolute inset-0 bg-black/60 rounded-xl"></div> <!-- Overlay sombre -->
-    </div>
-    <!-- Slide 2 -->
-    <div class="carousel-item flex-shrink-0 w-full relative">
-      <img src="{{asset('photo_2025-10-08_15-11-08.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 2">
-      <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
-    </div>
-    <!-- Slide 3 -->
+        <div id="carousel" class="overflow-hidden rounded-xl relative z-0">
+        <div class="carousel-inner flex relative">
+            <!-- Slide 1 -->
+            <div class="carousel-item flex-shrink-0 w-full relative">
+            <img src="{{asset('affiche_officiel.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 3">
+            <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
+            </div>
+            <div class="carousel-item flex-shrink-0 w-full relative">
+            <img src="{{asset('IMG_6309.JPG')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 3">
+            <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
+            </div>
+            <div class="carousel-item flex-shrink-0 w-full relative">
+            <img src="{{asset('photo_2025-10-08_15-11-01.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 3">
+            <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
+            </div>
+            <div class="carousel-item flex-shrink-0 w-full relative">
+            <img src="{{asset('photo_2025-10-08_15-10-57.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 1">
+            <div class="absolute inset-0 bg-black/60 rounded-xl"></div> <!-- Overlay sombre -->
+            </div>
+            <div class="carousel-item flex-shrink-0 w-full relative">
+            <img src="{{asset('photo_2025-10-08_15-18-37.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 1">
+            <div class="absolute inset-0 bg-black/60 rounded-xl"></div> <!-- Overlay sombre -->
+            </div>
+            <!-- Slide 2 -->
+            <div class="carousel-item flex-shrink-0 w-full relative">
+            <img src="{{asset('photo_2025-10-08_15-11-08.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 2">
+            <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
+            </div>
+            <!-- Slide 3 -->
 
-  </div>
-</div>
+        </div>
+        </div>
 
 
       <!-- Contrôles -->
@@ -175,7 +175,7 @@
 
     @foreach($categories as $categorie)
         <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4 text-white">{{ $categorie->nom_categorie }}</h2>
+            <h2 class="text-2xl font-semibold mb-4 text-white">{{ strtoupper( $categorie->nom_categorie) }}</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 @forelse($categorie->candidats as $candidat)
                     <div class="candidate-card relative rounded-2xl shadow-lg p-4 flex flex-col items-center text-center transition"
@@ -186,7 +186,7 @@
                                  class="w-full h-full object-cover candidate-photo">
                         </div>
                         <h3 class="text-lg font-bold text-white drop-shadow">{{ $candidat->nom_complet }}</h3>
-                        <p class="text-sm text-yellow-100 m-2 italic">Nominé(e)</p>
+                        <p class="text-sm text-yellow-100 m-2 italic">{{ucfirst($categorie->nom_categorie)}}</p>
                         <a href="{{ route('user.candidat.show', $candidat->id) }}"
                            class="bg-[#fbcd43] text-black  px-4 m-2  rounded-2xl hover:bg-[#A28224] transition">
                            Voir plus
