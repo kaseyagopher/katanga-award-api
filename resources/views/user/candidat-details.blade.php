@@ -31,11 +31,11 @@
 
       <!-- Photo du candidat -->
       <div class="flex justify-center mb-6">
-        <div class="w-20 h-20 rounded-full overflow-hidden border-4 border-[#fbcd43] shadow-lg">
-          <img src="{{ asset($candidat->photo_url) }}"
-               alt="{{ $candidat->nom_complet }}"
-               class="w-full h-full object-cover">
-        </div>
+        <div class="w-full max-w-xs mx-auto overflow-hidden border-4 border-[#fbcd43] shadow-lg rounded-xl">
+  <img src="{{ asset($candidat->photo_url) }}"
+       alt="{{ $candidat->nom_complet }}"
+       class="w-full h-auto object-cover">
+</div>
       </div>
 
       <!-- Nom et catégorie -->

@@ -43,7 +43,6 @@
         <!-- Liens desktop -->
         <div class="hidden md:flex items-center space-x-4">
           <a href="{{ route('user.index') }}" class="text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Accueil</a>
-
           <a href="{{ route('user.apropos') }}" class="text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Apropos</a>
           <a href="{{ route('user.contact') }}" class="text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Contact</a>
         </div>
@@ -112,40 +111,34 @@
       </div>
 
       <!-- Carousel -->
-      <!-- Carousel -->
-        <div id="carousel" class="overflow-hidden rounded-xl relative z-0">
+      <div id="carousel" class="overflow-hidden rounded-xl relative z-0">
         <div class="carousel-inner flex relative">
-            <!-- Slide 1 -->
             <div class="carousel-item flex-shrink-0 w-full relative">
-            <img src="{{asset('affiche_officiel.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 3">
-            <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
+              <img src="{{asset('affiche_officiel.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 3">
+              <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
             </div>
             <div class="carousel-item flex-shrink-0 w-full relative">
-            <img src="{{asset('IMG_6309.JPG')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 3">
-            <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
+              <img src="{{asset('IMG_6309.JPG')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 3">
+              <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
             </div>
             <div class="carousel-item flex-shrink-0 w-full relative">
-            <img src="{{asset('photo_2025-10-08_15-11-01.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 3">
-            <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
+              <img src="{{asset('photo_2025-10-08_15-11-01.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 3">
+              <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
             </div>
             <div class="carousel-item flex-shrink-0 w-full relative">
-            <img src="{{asset('photo_2025-10-08_15-10-57.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 1">
-            <div class="absolute inset-0 bg-black/60 rounded-xl"></div> <!-- Overlay sombre -->
+              <img src="{{asset('photo_2025-10-08_15-10-57.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 1">
+              <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
             </div>
             <div class="carousel-item flex-shrink-0 w-full relative">
-            <img src="{{asset('photo_2025-10-08_15-18-37.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 1">
-            <div class="absolute inset-0 bg-black/60 rounded-xl"></div> <!-- Overlay sombre -->
+              <img src="{{asset('photo_2025-10-08_15-18-37.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 1">
+              <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
             </div>
-            <!-- Slide 2 -->
             <div class="carousel-item flex-shrink-0 w-full relative">
-            <img src="{{asset('photo_2025-10-08_15-11-08.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 2">
-            <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
+              <img src="{{asset('photo_2025-10-08_15-11-08.jpg')}}" class="w-full h-64 object-cover rounded-xl" alt="Slide 2">
+              <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
             </div>
-            <!-- Slide 3 -->
-
         </div>
-        </div>
-
+      </div>
 
       <!-- Contrôles -->
       <button id="prev" class="absolute top-1/2 left-2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 z-20">
@@ -164,7 +157,6 @@
         <button class="indicator w-3 h-3 rounded-full bg-gray-400"></button>
       </div>
     </div>
-
 
     <!-- Candidats par catégorie -->
     @php
@@ -186,7 +178,7 @@
                                  class="w-full h-full object-cover candidate-photo">
                         </div>
                         <h3 class="text-lg font-bold text-white drop-shadow">{{ $candidat->nom_complet }}</h3>
-                        <p class="text-sm text-yellow-100 m-2 italic">{{ucfirst($categorie->nom_categorie)}}</p>
+                        <p class="text-sm text-yellow-100 m-2 italic">Humouriste</p>
                         <a href="{{ route('user.candidat.show', $candidat->id) }}"
                            class="bg-[#fbcd43] text-black  px-4 m-2  rounded-2xl hover:bg-[#A28224] transition">
                            Voir plus
@@ -199,38 +191,30 @@
         </section>
     @endforeach
 
-
-        <!-- Logos des Sponsors -->
+    <!-- Logos des Sponsors -->
     <section class="mt-16 text-center">
-  <h2 class="text-3xl font-semibold text-[#fbcd43] mb-8">
-    Nos Sponsors - 16<sup>ème</sup> Édition
-  </h2>
+      <h2 class="text-3xl font-semibold text-[#fbcd43] mb-8">
+        Nos Sponsors - 16<sup>ème</sup> Édition
+      </h2>
 
-  <p class="text-gray-300 mb-10 max-w-3xl mx-auto">
-    Nous remercions chaleureusement nos partenaires et sponsors pour leur soutien à cette 16<sup>ème</sup> édition du
-    <span class="text-[#A28224] font-semibold">Katanga Awards</span>.
-  </p>
+      <p class="text-gray-300 mb-10 max-w-3xl mx-auto">
+        Nous remercions chaleureusement nos partenaires et sponsors pour leur soutien à cette 16<sup>ème</sup> édition du
+        <span class="text-[#A28224] font-semibold">Katanga Awards</span>.
+      </p>
 
-  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-10 items-center justify-center">
-    @foreach ([
-      'tfm.jpg', 'Baraka.jpg', 'bgfibanque.jpg', 'aircongo.jpg',
-      'novotel.jpg', 'ntayrock.jpg', 'mbegu.jpg', 'loft_key.jpg',
-      'morco.jpg', 'malaika.jpg'
-    ] as $image)
-      <div class="flex justify-center">
-        <a href="{{ asset($image) }}" target="_blank" class="block group">
-          <img
-            src="{{ asset($image) }}"
-            alt="Sponsor"
-            class="h-28 sm:h-32 md:h-36 object-contain rounded-xl shadow-md grayscale group-hover:grayscale-0 group-hover:scale-105 transition duration-500 ease-in-out"
-          >
-        </a>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-10 items-center justify-center">
+        @foreach (['tfm.jpg', 'Baraka.jpg', 'bgfibanque.jpg', 'aircongo.jpg',
+                   'novotel.jpg', 'ntayrock.jpg', 'mbegu.jpg', 'loft_key.jpg',
+                   'morco.jpg', 'malaika.jpg'] as $image)
+          <div class="flex justify-center">
+            <a href="{{ asset($image) }}" target="_blank" class="block group">
+              <img src="{{ asset($image) }}" alt="Sponsor"
+                   class="h-28 sm:h-32 md:h-36 object-contain rounded-xl shadow-md grayscale group-hover:grayscale-0 group-hover:scale-105 transition duration-500 ease-in-out">
+            </a>
+          </div>
+        @endforeach
       </div>
-    @endforeach
-  </div>
-</section>
-
-
+    </section>
   </main>
 
   <!-- FOOTER -->
@@ -275,5 +259,42 @@
     setInterval(() => showSlide(index + 1), 4000);
     showSlide(index);
   </script>
+
+  <!-- LIGHTBOX pour agrandir images des candidats -->
+  <div id="lightbox" class="hidden fixed inset-0 flex items-center justify-center bg-black/90 z-50">
+    <div class="relative max-w-4xl w-full p-4">
+      <button id="close-lightbox" class="absolute top-2 right-2 text-white text-3xl font-bold hover:text-[#fbcd43]">&times;</button>
+      <img id="lightbox-img" src="" class="w-full max-h-[90vh] object-contain rounded-lg shadow-lg">
+    </div>
+  </div>
+
+  <script>
+    // Sélectionne toutes les images des candidats
+    const candidateImages = document.querySelectorAll('.candidate-photo');
+
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    const closeLightbox = document.getElementById("close-lightbox");
+
+    // Clique sur une image de candidat
+    candidateImages.forEach(img => {
+      img.style.cursor = 'pointer'; // Indique que c'est cliquable
+      img.addEventListener("click", () => {
+        lightboxImg.src = img.src;
+        lightbox.classList.remove("hidden");
+      });
+    });
+
+    // Fermer la lightbox
+    closeLightbox.addEventListener("click", () => {
+      lightbox.classList.add("hidden");
+    });
+
+    // Fermer si clic en dehors de l'image
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) lightbox.classList.add("hidden");
+    });
+  </script>
+
 </body>
 </html>
