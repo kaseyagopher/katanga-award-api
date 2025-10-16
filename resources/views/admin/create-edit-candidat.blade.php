@@ -17,15 +17,15 @@
 
   <!-- Overlay (mobile only) -->
   <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40 md:hidden"></div>
-  
+
   <!-- Contenu principal -->
   <div class="flex-1 flex flex-col md:ml-64 p-6">
     <h2 class="text-xl font-bold mb-6 text-center">{{ isset($Candidat) ? 'Modifier le candidat' : 'Créer un candidat' }}</h2>
 
-    <form id="formCandidat" 
-          action="{{ isset($Candidat) ? route('candidats.update', $Candidat->id) : route('candidats.store') }}" 
-          method="POST" 
-          enctype="multipart/form-data" 
+    <form id="formCandidat"
+          action="{{ isset($Candidat) ? route('candidats.update', $Candidat->uuid) : route('candidats.store') }}"
+          method="POST"
+          enctype="multipart/form-data"
           class="bg-white p-6 rounded-lg shadow-md">
       @csrf
       @if(isset($Candidat))
@@ -40,9 +40,9 @@
           <input type="file" name="photo_url" id="photo_url" accept="image/*" onchange="previewImage(event)"
                  class="border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2 w-full"
                  {{ isset($Candidat) ? '' : 'required' }}>
-          <img id="preview" 
-               src="{{ isset($Candidat) && $Candidat->photo_url ? $Candidat->photo_url : '' }}" 
-               alt="Prévisualisation" 
+          <img id="preview"
+               src="{{ isset($Candidat) && $Candidat->photo_url ? $Candidat->photo_url : '' }}"
+               alt="Prévisualisation"
                class="w-32 h-32 object-cover rounded shadow mt-3 {{ isset($Candidat) && $Candidat->photo_url ? '' : 'hidden' }}">
           @error('photo_url')
             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -53,8 +53,8 @@
         <div class="flex flex-col">
           <div class="mb-4">
             <label for="nom_complet" class="block text-sm font-medium text-gray-700 mb-1">Nom complet</label>
-            <input type="text" name="nom_complet" id="nom_complet" 
-                   value="{{ old('nom_complet', $Candidat->nom_complet ?? '') }}" 
+            <input type="text" name="nom_complet" id="nom_complet"
+                   value="{{ old('nom_complet', $Candidat->nom_complet ?? '') }}"
                    required
                    class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2">
             @error('nom_complet')
@@ -80,7 +80,7 @@
                     class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2">
               <option value="">-- Sélectionnez une catégorie --</option>
               @foreach($Categories as $Categorie)
-                <option value="{{ $Categorie->id }}" 
+                <option value="{{ $Categorie->id }}"
                     {{ (old('categorie_id', $Candidat->categorie_id ?? '') == $Categorie->id) ? 'selected' : '' }}>
                   {{ $Categorie->nom_categorie }}
                 </option>
@@ -97,7 +97,7 @@
                     class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2">
               <option value="">-- Sélectionnez une édition --</option>
               @foreach($Editions as $Edition)
-                <option value="{{ $Edition->id }}" 
+                <option value="{{ $Edition->id }}"
                     {{ (old('edition_id', $Candidat->edition_id ?? '') == $Edition->id) ? 'selected' : '' }}>
                   {{ $Edition->titre ?? $Edition->nom_edition }}
                 </option>
@@ -122,7 +122,7 @@
 
       <!-- Bouton -->
       <div class="flex justify-end mt-6">
-        <button type="submit" 
+        <button type="submit"
                 class="px-6 py-2 bg-black text-white rounded-lg shadow transition">
           {{ isset($Candidat) ? 'Mettre à jour' : 'Créer' }}
         </button>

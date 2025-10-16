@@ -6,144 +6,153 @@ use App\Models\Candidat;
 use App\Models\Categorie;
 use App\Models\Edition;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use ColorThief\ColorThief;
 
 class CandidatController extends Controller
 {
+    /**
+     * Affiche la liste des candidats.
+     */
     public function index()
     {
-        $Candidats = Candidat::with('categorie')->get();
+        $candidats = Candidat::with('categorie', 'edition')->get();
         $Categories = Categorie::all();
-        return view('admin.candidats', compact('Candidats', 'Categories'));
+        $editions = Edition::all();
+
+        return view('admin.candidats', compact('candidats', 'Categories', 'editions'));
     }
-    
+
+    /**
+     * Formulaire de création d'un candidat.
+     */
     public function create()
     {
         $Categories = Categorie::all();
         $Editions = Edition::all();
+
         return view('admin.create-edit-candidat', compact('Categories', 'Editions'));
     }
 
-    public function edit($id)
-    {
-        $Candidat = Candidat::find($id);
-        $Categories = Categorie::all();
-        $Editions = Edition::all();
+    /**
+     * Formulaire d'édition d'un candidat.
+     */
+    public function edit($uuid)
+{
+    // Recherche le candidat par UUID
+    $Candidat = Candidat::where('uuid', $uuid)->firstOrFail();
 
-        if (!$Candidat) {
-            return redirect()->route('candidats.index')->with('error', 'Candidat non trouvé.');
-        }
+    $Categories = Categorie::all();
+    $Editions = Edition::all();
 
-        return view('admin.create-edit-candidat', compact('Candidat', 'Categories', 'Editions'));
-    }
-
+    return view('admin.create-edit-candidat', compact('Candidat', 'Categories', 'Editions'));
+}
+    /**
+     * Stocke un nouveau candidat.
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nom_complet' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'nom_complet'  => 'required|string|max:255',
+            'description'  => 'nullable|string',
             'categorie_id' => 'required|exists:categories,id',
-            'edition_id' => 'required|exists:editions,id',
-            'photo_url' => 'required|image|mimes:jpg,jpeg,png,gif|max:10000',
+            'edition_id'   => 'required|exists:editions,id',
+            'photo_url'    => 'required|image|mimes:jpg,jpeg,png,gif|max:10000',
         ]);
 
-        $photoPath = null;
-        $hex = '#ffffff';
-        $darker = '#cccccc';
+        // Création du candidat
+        $candidat = new Candidat();
+        $candidat->uuid = (string) Str::uuid();
+        $candidat->nom_complet = $validated['nom_complet'];
+        $candidat->description = $validated['description'] ?? null;
+        $candidat->categorie_id = $validated['categorie_id'];
+        $candidat->edition_id = $validated['edition_id'];
 
+        // Gestion de la photo et extraction couleur dominante
         if ($request->hasFile('photo_url')) {
             $filename = uniqid() . '.' . $request->file('photo_url')->getClientOriginalExtension();
+            $request->file('photo_url')->move(public_path('images/candidats'), $filename);
+            $candidat->photo_url = 'images/candidats/' . $filename;
 
-            // Upload dans public_html/images/candidats
-            $uploadPath = $_SERVER['DOCUMENT_ROOT'] . '/images/candidats';
-            if (!file_exists($uploadPath)) {
-                mkdir($uploadPath, 0755, true);
-            }
-
-            $request->file('photo_url')->move($uploadPath, $filename);
-            $photoPath = 'images/candidats/' . $filename;
-
-            // Extraire couleur dominante
-            $fullPath = $_SERVER['DOCUMENT_ROOT'] . '/' . $photoPath;
-            if (file_exists($fullPath)) {
-                try {
-                    $color = ColorThief::getColor($fullPath);
-                    $hex = sprintf("#%02x%02x%02x", $color[0], $color[1], $color[2]);
-                    $darker = sprintf("#%02x%02x%02x",
-                        max(0, $color[0] * 0.7),
-                        max(0, $color[1] * 0.7),
-                        max(0, $color[2] * 0.7)
-                    );
-                } catch (\Exception $e) {}
+            try {
+                $color = ColorThief::getColor(public_path($candidat->photo_url));
+                $candidat->couleur_dominante = sprintf("#%02x%02x%02x", $color[0], $color[1], $color[2]);
+                $candidat->couleur_dominante_sombre = sprintf("#%02x%02x%02x",
+                    max(0, $color[0] * 0.7),
+                    max(0, $color[1] * 0.7),
+                    max(0, $color[2] * 0.7)
+                );
+            } catch (\Exception $e) {
+                $candidat->couleur_dominante = '#ffffff';
+                $candidat->couleur_dominante_sombre = '#cccccc';
             }
         }
 
-        Candidat::create([
-            'nom_complet' => $validated['nom_complet'],
-            'description' => $validated['description'] ?? null,
-            'categorie_id' => $validated['categorie_id'],
-            'edition_id' => $validated['edition_id'],
-            'photo_url' => $photoPath,
-            'couleur_dominante' => $hex,
-            'couleur_dominante_sombre' => $darker,
-        ]);
+        $candidat->save();
 
-        return redirect()->route('candidats.index')->with('success', 'Candidat créé avec succès');
+        return redirect()->route('candidats.index')->with('success', 'Candidat créé avec succès.');
     }
 
-    public function update(Request $request, Candidat $candidat)
-    {
-        $validated = $request->validate([
-            'nom_complet' => 'sometimes|string|max:255',
-            'description' => 'sometimes|string',
-            'categorie_id' => 'sometimes|exists:categories,id',
-            'edition_id' => 'sometimes|exists:editions,id',
-            'photo_url' => 'sometimes|image|mimes:jpg,jpeg,png,gif|max:10000',
-        ]);
+    /**
+     * Met à jour un candidat existant.
+     */
+    public function update(Request $request, $uuid)
+{
+    $candidat = Candidat::where('uuid', $uuid)->firstOrFail();
 
-        if ($request->hasFile('photo_url')) {
-            // Supprimer ancienne image
-            if ($candidat->photo_url && file_exists($_SERVER['DOCUMENT_ROOT'].'/'.$candidat->photo_url)) {
-                unlink($_SERVER['DOCUMENT_ROOT'].'/'.$candidat->photo_url);
-            }
+    
+    $validated = $request->validate([
+        'nom_complet'  => 'required|string|max:255',
+        'description'  => 'nullable|string',
+        'categorie_id' => 'required|exists:categories,id',
+        'edition_id'   => 'required|exists:editions,id',
+        'photo_url'    => 'sometimes|image|mimes:jpg,jpeg,png,gif|max:10000',
+    ]);
 
-            $filename = uniqid() . '.' . $request->file('photo_url')->getClientOriginalExtension();
-            $uploadPath = $_SERVER['DOCUMENT_ROOT'] . '/images/candidats';
-            if (!file_exists($uploadPath)) {
-                mkdir($uploadPath, 0755, true);
-            }
+    $candidat->nom_complet = $validated['nom_complet'];
+    $candidat->description = $validated['description'] ?? $candidat->description;
+    $candidat->categorie_id = $validated['categorie_id'];
+    $candidat->edition_id = $validated['edition_id'];
 
-            $request->file('photo_url')->move($uploadPath, $filename);
-            $validated['photo_url'] = 'images/candidats/' . $filename;
-
-            // Couleur dominante
-            $fullPath = $_SERVER['DOCUMENT_ROOT'] . '/' . $validated['photo_url'];
-            if (file_exists($fullPath)) {
-                try {
-                    $color = ColorThief::getColor($fullPath);
-                    $validated['couleur_dominante'] = sprintf("#%02x%02x%02x", $color[0], $color[1], $color[2]);
-                    $validated['couleur_dominante_sombre'] = sprintf("#%02x%02x%02x",
-                        max(0, $color[0] * 0.7),
-                        max(0, $color[1] * 0.7),
-                        max(0, $color[2] * 0.7)
-                    );
-                } catch (\Exception $e) {}
-            }
+    if ($request->hasFile('photo_url')) {
+        if ($candidat->photo_url && file_exists(public_path($candidat->photo_url))) {
+            unlink(public_path($candidat->photo_url));
         }
 
-        $candidat->update($validated);
+        $filename = uniqid() . '.' . $request->file('photo_url')->getClientOriginalExtension();
+        $request->file('photo_url')->move(public_path('images/candidats'), $filename);
+        $candidat->photo_url = 'images/candidats/' . $filename;
 
-        return redirect()->route('candidats.index')->with('success', 'Candidat mis à jour avec succès');
+        try {
+            $color = ColorThief::getColor(public_path($candidat->photo_url));
+            $candidat->couleur_dominante = sprintf("#%02x%02x%02x", $color[0], $color[1], $color[2]);
+            $candidat->couleur_dominante_sombre = sprintf("#%02x%02x%02x",
+                max(0, $color[0] * 0.7),
+                max(0, $color[1] * 0.7),
+                max(0, $color[2] * 0.7)
+            );
+        } catch (\Exception $e) {
+            $candidat->couleur_dominante = '#ffffff';
+            $candidat->couleur_dominante_sombre = '#cccccc';
+        }
     }
 
+    $candidat->save();
+
+    return redirect()->route('candidats.index')->with('success', 'Candidat mis à jour avec succès.');
+}
+
+    /**
+     * Supprime un candidat.
+     */
     public function destroy(Candidat $candidat)
     {
-        if ($candidat->photo_url && file_exists($_SERVER['DOCUMENT_ROOT'].'/'.$candidat->photo_url)) {
-            unlink($_SERVER['DOCUMENT_ROOT'].'/'.$candidat->photo_url);
+        if ($candidat->photo_url && file_exists(public_path($candidat->photo_url))) {
+            unlink(public_path($candidat->photo_url));
         }
 
         $candidat->delete();
 
-        return redirect()->route('candidats.index')->with('success', 'Candidat supprimé avec succès');
+        return redirect()->route('candidats.index')->with('success', 'Candidat supprimé avec succès.');
     }
 }

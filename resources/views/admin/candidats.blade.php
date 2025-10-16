@@ -16,7 +16,7 @@
   @include('components.aside-admin')
 
   <!-- Overlay (mobile only) -->
-  <div id="overlay" 
+  <div id="overlay"
        class="fixed inset-0 bg-black bg-opacity-50 hidden z-40 md:hidden"
        onclick="toggleSidebar()"></div>
 
@@ -57,7 +57,7 @@
     <div class="p-6">
       <div class="flex justify-between items-center mb-6">
         <h2 class="text-xl font-bold">Liste des candidats par catégorie</h2>
-        <a href="{{ route('candidats.create') }}" 
+        <a href="{{ route('candidats.create') }}"
            class="px-4 py-2 bg-[#A28224] text-white rounded shadow ">
           + Ajouter un candidat
         </a>
@@ -67,7 +67,7 @@
         <div class="mb-8">
           <h3 class="text-lg font-semibold mb-4">{{ $Categorie->nom_categorie }}</h3>
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            
+
             @forelse($Categorie->candidats as $Candidat)
               <div class="candidate-card relative rounded-2xl shadow-lg p-4 flex flex-col items-center text-center transition"
                    style="background: linear-gradient(135deg, {{ $Candidat->couleur_dominante ?? '#A28224' }}, {{ $Candidat->couleur_dominante_sombre ?? '#7a5c12' }});">
@@ -87,16 +87,16 @@
 
                 <!-- Actions -->
                 <div class="mt-4 flex gap-2">
-                  <a href="{{ route('candidats.edit', $Candidat->id) }}" 
+                  <a href="{{ route('candidats.edit', $Candidat->uuid) }}"
                      class="px-3 py-1 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600">
                     Modifier
                   </a>
-                  <form method="POST" 
+                  <form method="POST"
                         action="{{ route('candidats.destroy', $Candidat->id) }}"
                         onsubmit="return confirm('Voulez-vous vraiment supprimer ce candidat ?');">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" 
+                    <button type="submit"
                             class="px-3 py-1 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600">
                       Supprimer
                     </button>
