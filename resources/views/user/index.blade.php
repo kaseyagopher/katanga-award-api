@@ -167,23 +167,26 @@
 
     @foreach($categories as $categorie)
         <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4 text-white">{{ strtoupper( $categorie->nom_categorie) }}</h2>
+            <h2 class="text-2xl font-semibold mb-4 text-white">{{ mb_strtoupper( $categorie->nom_categorie) }}</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 @forelse($categorie->candidats as $candidat)
-                    <div class="candidate-card relative rounded-2xl shadow-lg p-4 flex flex-col items-center text-center transition"
-                         style="background: linear-gradient(135deg, {{ $candidat->couleur_dominante }}, {{ $candidat->couleur_dominante_sombre }});">
-                        <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-md mb-3">
-                            <img src="{{ asset($candidat->photo_url) ?? 'https://via.placeholder.com/150' }}"
-                                 alt="{{ $candidat->nom_complet }}"
-                                 class="w-full h-full object-cover candidate-photo">
-                        </div>
-                        <h3 class="text-lg font-bold text-white drop-shadow">{{ $candidat->nom_complet }}</h3>
-                        <p class="text-sm text-yellow-100 m-2 italic">Humouriste</p>
-                        <a href="{{ route('user.candidat.show', $candidat->id) }}"
-                           class="bg-[#fbcd43] text-black  px-4 m-2  rounded-2xl hover:bg-[#A28224] transition">
-                           Voir plus
-                        </a>
-                    </div>
+                    <div class="candidate-card relative rounded-2xl shadow-lg p-4 flex flex-col items-center text-center transition-transform duration-500 ease-in-out hover:scale-105"
+     style="background: linear-gradient(135deg, {{ $candidat->couleur_dominante }}, {{ $candidat->couleur_dominante_sombre }});">
+
+    <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-md mb-3">
+        <img src="{{ asset($candidat->photo_url) ?? 'https://via.placeholder.com/150' }}"
+             alt="{{ $candidat->nom_complet }}"
+             class="w-full h-full object-cover">
+    </div>
+
+    <h3 class="text-lg font-bold text-white drop-shadow">{{ $candidat->nom_complet }}</h3>
+    <p class="text-sm text-yellow-100 m-2 italic">Nominé</p>
+    <a href="{{ route('user.candidat.show', $candidat->id) }}"
+       class="bg-[#fbcd43] text-black px-4 m-2 rounded-2xl hover:bg-[#A28224] transition">
+       Voir plus
+    </a>
+</div>
+
                 @empty
                     <p class="col-span-full text-center bg-gray-200 p-4 rounded">Aucun candidat</p>
                 @endforelse
@@ -203,9 +206,9 @@
       </p>
 
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-10 items-center justify-center">
-        @foreach (['tfm.jpg', 'Baraka.jpg', 'bgfibanque.jpg', 'aircongo.jpg',
+        @foreach (['tfm.jpg', 'Baraka.jpg', 'bgfibanque.jpg',
                    'novotel.jpg', 'ntayrock.jpg', 'mbegu.jpg', 'loft_key.jpg',
-                   'morco.jpg', 'malaika.jpg'] as $image)
+                   'morco.jpg', 'malaika.jpg','inpp.jpg','mannel.jpg', 'silocongo.jpg', 'topmarket.jpg','tsm.jpg'] as $image)
           <div class="flex justify-center">
             <a href="{{ asset($image) }}" target="_blank" class="block group">
               <img src="{{ asset($image) }}" alt="Sponsor"

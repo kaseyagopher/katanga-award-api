@@ -20,8 +20,10 @@
           <span class="text-white font-bold" >KATANGA</span><span class="text-[#e3b017] font-bold"> AWARDS</span>
         </a>
         </div>
-      <a href="{{ route('user.index') }}"
-         class="text-[#fbcd43] font-semibold hover:text-[#A28224] transition">← Retour</a>
+      <a href="{{ Auth::check() ? route('user.index') : route('login') }}"
+   class="text-[#fbcd43] font-semibold hover:text-[#A28224] transition">
+   ← Retour
+</a>
     </div>
   </nav>
 
@@ -31,7 +33,7 @@
 
       <!-- Photo du candidat -->
       <div class="flex justify-center mb-6">
-        <div class="w-full max-w-xs mx-auto overflow-hidden border-4 border-[#fbcd43] shadow-lg rounded-xl">
+        <div class="w-full max-w-xs mx-auto overflow-hidden border-2 border-[#fbcd43] shadow-lg rounded-xl">
   <img src="{{ asset($candidat->photo_url) }}"
        alt="{{ $candidat->nom_complet }}"
        class="w-full h-auto object-cover">
@@ -112,8 +114,8 @@
     const shareBtn = document.getElementById('shareBtn');
     shareBtn.addEventListener('click', async () => {
       const shareData = {
-        title: 'Vote pour {{ $candidat->nom_complet }} - Katanga Award',
-        text: 'Découvre le profil de {{ $candidat->nom_complet }} sur Katanga Award et vote pour lui !',
+        title: 'Vote pour {{ $candidat->nom_complet }} - Katanga Awards',
+        text: 'Découvre le profil de {{ $candidat->nom_complet }} sur Katanga Awards et vote pour lui !',
         url: "{{ url()->current() }}"
       };
 
