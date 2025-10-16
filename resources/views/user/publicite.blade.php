@@ -27,7 +27,14 @@
 <body class="flex items-center justify-center h-screen relative overflow-hidden bg-black">
 
   <!-- Vidéo -->
-  <video id="introVideo" autoplay muted playsinline class="absolute inset-0 w-full h-full object-contain bg-black z-0">
+  <video
+    id="introVideo"
+    autoplay
+    muted
+    playsinline
+    preload="auto"
+    class="absolute inset-0 w-full h-full object-contain bg-black z-0"
+  >
     <source src="{{ asset('TVC_KATANGA AWARDS 16 - SHORT.mp4') }}" type="video/mp4">
     Votre navigateur ne supporte pas la lecture vidéo.
   </video>
@@ -72,7 +79,6 @@
     const redirectUrl = "{{ route('user.index') }}";
     let duration = 0;
 
-    // Quand la vidéo charge, on récupère sa durée
     video.addEventListener('loadedmetadata', () => {
       duration = Math.floor(video.duration);
       timerElement.textContent = duration;
@@ -84,20 +90,17 @@
       }, 500);
     });
 
-    // Fin d’intro
     function endIntro() {
       document.body.classList.add('fade-out');
       setTimeout(() => window.location.href = redirectUrl, 800);
     }
 
-    // Toggle du son
     soundToggle.addEventListener('click', () => {
       video.muted = !video.muted;
       soundIcon.textContent = video.muted ? "volume_off" : "volume_up";
       if (!video.paused) video.play();
     });
 
-    // Événements
     video.addEventListener('ended', endIntro);
     skipButton.addEventListener('click', endIntro);
   </script>

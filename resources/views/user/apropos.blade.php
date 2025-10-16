@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Katanga Award | À propos</title>
+  <title>Katanga Awards | À propos</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -148,7 +148,7 @@
     <section class="bg-[#111] border border-[#A28224]/30 rounded-2xl p-8 animate-fade-in">
       <h2 class="text-2xl font-semibold text-[#fbcd43] mb-4">Notre Histoire</h2>
       <p class="text-gray-300 leading-relaxed">
-        Créé pour honorer les talents et inspirer une génération, le <span class="text-[#A28224] font-semibold">Katanga Award</span>
+        Créé pour honorer les talents et inspirer une génération, le <span class="text-[#A28224] font-semibold">Katanga Awards</span>
         est devenu une cérémonie incontournable dans le paysage culturel et social.
         Chaque édition rassemble des milliers de participants, célébrant nos héros et modèles de réussite.
       </p>
@@ -158,7 +158,7 @@
     <section class="animate-fade-in">
       <h2 class="text-2xl font-semibold text-center text-[#fbcd43] mb-8">Galerie des Éditions Précédentes</h2>
       <p class="text-center text-gray-300 max-w-3xl mx-auto mb-8">
-        Revivez quelques moments forts des précédentes éditions du <span class="text-[#A28224] font-semibold">Katanga Award</span>.
+        Revivez quelques moments forts des précédentes éditions du <span class="text-[#A28224] font-semibold">Katanga Awards</span>.
       </p>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         <div class="overflow-hidden rounded-xl border border-[#A28224]/30 hover:scale-105 transition transform">
@@ -206,7 +206,7 @@
 
      <!-- Call to Action -->
     <section class="text-center animate-fade-in">
-      <h2 class="text-2xl font-semibold  mb-4">Rejoignez l’aventure Katanga Award</h2>
+      <h2 class="text-2xl font-semibold  mb-4">Rejoignez l’aventure Katanga Awards</h2>
       <p class="text-gray-300 mb-6">Célébrez l’excellence et soutenez ceux qui façonnent l’avenir.</p>
       <a href="{{ route('user.index') }}" class="bg-[#fbcd43] text-black px-6 py-3 rounded-lg font-semibold hover:bg-[#e3b017] transition shadow-lg">
         Participez au vote
