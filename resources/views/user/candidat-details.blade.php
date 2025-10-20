@@ -106,7 +106,7 @@
 
   <!-- FOOTER -->
   <footer class="bg-[#111] border-t border-[#A28224] py-4 mt-auto text-center text-gray-400 text-sm">
-    © 2025 Katanga Award. Tous droits réservés.
+    © 2025 Produit par Synergie UP.
   </footer>
 
   <!-- SCRIPT PARTAGE -->
