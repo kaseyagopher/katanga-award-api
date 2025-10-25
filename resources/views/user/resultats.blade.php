@@ -26,6 +26,6 @@
       Veuillez revenir plus tard.
     </p>
   </div>
-
+  
 </body>
 </html>

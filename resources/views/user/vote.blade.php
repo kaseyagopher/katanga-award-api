@@ -128,7 +128,7 @@
           @endif
         </div>
       @endforeach
-
+      <input type="hidden" id="device_token" name="device_token" value="">
       <input type="hidden" name="user_id" value="{{ auth()->id() }}">
       <input type="hidden" name="edition_id" value="{{ $edition->id }}">
 
@@ -157,5 +157,18 @@
         icon.textContent = menu.classList.contains('hidden') ? 'menu' : 'close';
     });
   </script>
+  <script>
+  // 1️⃣ Vérifie si un token existe déjà dans le localStorage
+  let deviceToken = localStorage.getItem("device_token");
+
+  // 2️⃣ Si non, on le crée
+  if (!deviceToken) {
+    deviceToken = self.crypto?.randomUUID?.() || Math.random().toString(36).substring(2);
+    localStorage.setItem("device_token", deviceToken);
+  }
+
+  // 3️⃣ On remplit le champ caché dans le formulaire
+  document.getElementById("device_token").value = deviceToken;
+</script>
 </body>
 </html>

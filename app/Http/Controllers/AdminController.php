@@ -18,23 +18,21 @@ class AdminController extends Controller
      */
     public function index()
     {
-        // Edition active (supposons que 'statut' = 1 => active)
+
         $editionActive = Edition::where('statut', 1)->first();
 
-        // Nombre total de candidats, catégories, éditions et votes
+
         $nbCandidats = Candidat::count();
         $nbCategories = Categorie::count();
         $nbEditions = Edition::count();
         $nbVotes = \App\Models\Vote::count();
 
-        // Top 3 candidats avec nombre de votes
         $topCandidats = Candidat::with('categorie')
             ->withCount('votes')
             ->orderBy('votes_count', 'desc')
             ->take(3)
             ->get();
 
-        // Graphique votes par catégorie pour l'édition active
         $categoriesLabels = [];
         $categoriesVotes = [];
 
@@ -51,7 +49,6 @@ class AdminController extends Controller
             }
         }
 
-        // Derniers votes
         $recentVotes = \App\Models\Vote::with(['user','candidat.categorie'])
             ->latest()
             ->take(10)
@@ -71,9 +68,7 @@ class AdminController extends Controller
     }
 
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -82,24 +77,19 @@ class AdminController extends Controller
             'pseudo' => ['required', 'string', 'max:50', 'unique:admins,pseudo'],
         ]);
 
-        // Hash du mot de passe avant sauvegarde
         $validated['password'] = Hash::make($validated['password']);
 
         $admin = Admin::create($validated);
 
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(Admin $admin)
     {
         return $admin;
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, Admin $admin)
     {
         $validated = $request->validate([
@@ -108,7 +98,6 @@ class AdminController extends Controller
             'pseudo' => ['sometimes', 'string', 'max:50', 'unique:admins,pseudo,' . $admin->id],
         ]);
 
-        // Hash du mot de passe si fourni
         if (isset($validated['password'])) {
             $validated['password'] = Hash::make($validated['password']);
         }
@@ -118,13 +107,9 @@ class AdminController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(Admin $admin)
     {
         $admin->delete();
-
-
     }
 }
