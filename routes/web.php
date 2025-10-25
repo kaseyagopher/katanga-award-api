@@ -13,7 +13,7 @@ use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\VoteAdminController;
 use App\Http\Controllers\VoteSummaryController;
 
-Route::prefix('katanga-awards')->group(function () {
+Route::prefix('katanga-award')->group(function () {
 
     Route::get('/', function () {
         return to_route('login');
