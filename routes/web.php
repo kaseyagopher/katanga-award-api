@@ -10,9 +10,10 @@ use App\Http\Controllers\EditionController;
 use App\Http\Controllers\CandidatController;
 use App\Http\Controllers\ResultatController;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\VoteAdminController;
 use App\Http\Controllers\VoteSummaryController;
 
-Route::prefix('katanga-award')->group(function () {
+Route::prefix('katanga-awards')->group(function () {
 
     Route::get('/', function () {
         return to_route('login');
@@ -34,6 +35,8 @@ Route::prefix('katanga-award')->group(function () {
         Route::resource('candidats', CandidatController::class);
         Route::get('/resultats', [ResultatController::class, 'index'])->name('resultats.index');
         Route::get('/resultats/data', [ResultatController::class, 'data'])->name('resultats.data');
+        Route::get('/votes', [VoteAdminController::class, 'index'])->name('admin.gestion-votes');
+    Route::delete('/votes/{id}', [VoteAdminController::class, 'destroy'])->name('admin-vote-destroy');
     });
 
     Route::prefix('user')->group(function(){

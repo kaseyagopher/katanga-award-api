@@ -35,17 +35,15 @@
     </header>
 
     <main class="p-6">
-      <!-- Titre + bouton Ajouter -->
+ 
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-2xl font-bold">Liste des éditions</h2>
 
-        <!-- <-- IMPORTANT : c'est un bouton JS (ouvre le modal) -->
         <button id="showFormBtn" class="px-4 py-2 bg-[#A28224] text-white rounded shadow hover:bg-yellow-700">
           + Ajouter une édition
         </button>
       </div>
 
-      <!-- Grid des cartes -->
       <div id="editionList" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         @forelse ($Editions as $Edition)
           <div data-id="{{ $Edition->id }}" class="bg-white rounded-xl shadow-md p-5 flex flex-col justify-between">
@@ -81,7 +79,6 @@
     </main>
   </div>
 
-  <!-- Modal Form (create / edit) -->
   <div id="editionFormContainer" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
     <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
       <h2 id="formTitle" class="text-xl font-bold mb-4">Ajouter une édition</h2>
@@ -116,14 +113,12 @@
         </div>
       </form>
 
-      <!-- Close X -->
       <button id="closeX" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800" title="Fermer">&times;</button>
     </div>
   </div>
 
-  <!-- JS: gestion modal + fetch create/edit/delete -->
   <script>
-    // Toggle sidebar helper (reste de ton code)
+
     function toggleSidebar() {
       const sb = document.getElementById("sidebar");
       if (sb) sb.classList.toggle("-translate-x-full");
@@ -132,7 +127,6 @@
 
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-    // Elements
     const showFormBtn = document.getElementById('showFormBtn');
     const editionFormContainer = document.getElementById('editionFormContainer');
     const closeFormBtn = document.getElementById('closeFormBtn');
@@ -150,7 +144,6 @@
 
     let isEditing = false;
 
-    // Ouvrir modal pour ajouter
     showFormBtn.addEventListener('click', () => {
       isEditing = false;
       formTitle.textContent = "Ajouter une édition";
@@ -161,7 +154,6 @@
       editionFormContainer.classList.remove('hidden');
     });
 
-    // Fermer modal
     function closeModal() {
       editionFormContainer.classList.add('hidden');
       formErrors.textContent = "";
@@ -172,9 +164,8 @@
       if (e.target === editionFormContainer) closeModal();
     });
 
-    // Déléguation: edit / delete sur les cartes
     editionList.addEventListener('click', async (e) => {
-      // Edit
+
       if (e.target.closest('.editBtn')) {
         const btn = e.target.closest('.editBtn');
         const id = btn.getAttribute('data-id');
@@ -205,7 +196,6 @@
         return;
       }
 
-      // Delete
       if (e.target.closest('.deleteBtn')) {
         const btn = e.target.closest('.deleteBtn');
         const id = btn.getAttribute('data-id');
@@ -223,7 +213,6 @@
           });
           const data = await res.json();
           if (res.ok && data.success) {
-            // retirer la carte
             const card = document.querySelector(`div[data-id='${id}']`);
             if (card) card.remove();
             alert("✅ Édition supprimée.");
@@ -237,7 +226,7 @@
       }
     });
 
-    // Submit form (create / update)
+
     editionForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       formErrors.textContent = "";

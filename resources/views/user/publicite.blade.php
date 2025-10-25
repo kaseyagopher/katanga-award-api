@@ -22,15 +22,11 @@
 
 <body class="flex items-center justify-center h-screen relative overflow-hidden bg-black">
 
-  <!-- Image en arrière-plan -->
   <img src="{{ asset('KATANGA AWARD AFFICHE CARRE PORTRAIT[1].jpg') }}"
        alt="Katanga Award"
        class="absolute inset-0 w-full h-full object-contain z-0">
 
-  <!-- Overlay -->
   <div class="absolute inset-0 z-10"></div>
-
-
 
   <script>
     const skipButton = document.getElementById('skipButton');
@@ -41,7 +37,6 @@
       setTimeout(() => window.location.href = redirectUrl, 800);
     }
 
-    // Redirection automatique après 5 secondes
     setTimeout(endIntro, 5000);
 
     skipButton.addEventListener('click', endIntro);

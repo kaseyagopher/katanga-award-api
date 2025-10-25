@@ -13,7 +13,7 @@
 <body class="flex min-h-screen bg-gray-100 font-sans">
 
   <!-- Sidebar -->
-  <div id="sidebar" 
+  <div id="sidebar"
        class="fixed inset-y-0 left-0 w-64 bg-black text-white p-6 transform -translate-x-full
               md:translate-x-0 transition-transform duration-200 ease-in-out z-50 flex flex-col">
 
@@ -97,6 +97,15 @@
         <span class="material-icons">emoji_events</span>
         Résultats
       </a>
+      <a href="{{ route('admin.gestion-votes') }}"
+       class="flex items-center gap-2 px-3 py-2 rounded
+              {{ Route::currentRouteName() === 'admin.gestion-votes'
+                  ? 'bg-[#A28224] text-white hover:bg-[#A28224]/90'
+                  : 'hover:bg-[#A28224] hover:text-white' }}">
+      <span class="material-icons">manage_accounts</span>
+      Gest. votes
+    </a>
+
     </nav>
 
     <!-- Déconnexion -->
@@ -111,12 +120,12 @@
   </div>
 
   <!-- Overlay pour mobile -->
-  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40 md:hidden" 
+  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40 md:hidden"
        onclick="toggleSidebar()"></div>
 
   <!-- Contenu principal -->
   <div class="flex-1 flex flex-col md:ml-64">
-    
+
     <!-- Header mobile -->
     <!-- Header mobile -->
 <header class="bg-white shadow p-4 flex items-center justify-between md:hidden">
@@ -130,7 +139,7 @@
 
   <!-- Liens rapides -->
   <div class="flex items-center gap-4">
-    
+
   </div>
 </header>
 
@@ -166,7 +175,7 @@
         @if($editionActive)
           <p><span class="font-semibold">Titre :</span> {{ $editionActive->titre }}</p>
           <p><span class="font-semibold">Thème :</span> {{ $editionActive->theme }}</p>
-          <p><span class="font-semibold">Statut :</span> 
+          <p><span class="font-semibold">Statut :</span>
             <span class="px-2 py-1 rounded text-white {{ $editionActive->statut ? 'bg-green-600' : 'bg-red-600' }}">
               {{ $editionActive->statut ? 'Active' : 'Clôturée' }}
             </span>
@@ -182,11 +191,11 @@
   <div class="space-y-4">
     @foreach($topCandidats as $candidat)
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-3 border rounded-lg bg-white shadow-sm hover:shadow-md transition">
-        
+
         <!-- Infos candidat -->
         <div class="flex items-center gap-4">
-          <img src="{{ asset($candidat->photo_url) }}" 
-               alt="{{ $candidat->nom_complet }}" 
+          <img src="{{ asset($candidat->photo_url) }}"
+               alt="{{ $candidat->nom_complet }}"
                class="w-12 h-12 rounded-full object-cover">
           <div>
             <div class="font-semibold text-gray-800">{{ $candidat->nom_complet }}</div>
@@ -223,9 +232,9 @@
         <ul class="divide-y divide-gray-200">
           @foreach($recentVotes as $vote)
             <li class="py-2 text-sm">
-              <span class="font-semibold">{{ $vote->user->name }}</span> a voté pour 
-              <span class="font-semibold">{{ $vote->candidat->nom_complet }}</span> 
-              ({{ $vote->candidat->categorie->nom }}) – 
+              <span class="font-semibold">{{ $vote->user->name }}</span> a voté pour
+              <span class="font-semibold">{{ $vote->candidat->nom_complet }}</span>
+              ({{ $vote->candidat->categorie->nom }}) –
               <span class="text-gray-500">{{ $vote->created_at->diffForHumans() }}</span>
             </li>
           @endforeach

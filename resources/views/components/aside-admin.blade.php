@@ -86,6 +86,16 @@
       <span class="material-icons">emoji_events</span>
       Résultats
     </a>
+
+    <a href="{{ route('admin.gestion-votes') }}"
+       class="flex items-center gap-2 px-3 py-2 rounded
+              {{ Route::currentRouteName() === 'admin.gestion-votes'
+                  ? 'bg-[#A28224] text-white hover:bg-[#A28224]/90'
+                  : 'hover:bg-[#A28224] hover:text-white' }}">
+      <span class="material-icons">manage_accounts</span>
+      Gest. votes
+    </a>
+
   </nav>
 
   <!-- Déconnexion -->
