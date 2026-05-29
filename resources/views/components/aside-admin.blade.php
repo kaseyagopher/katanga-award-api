@@ -1,110 +1,96 @@
+@php
+  $routeName = Route::currentRouteName() ?? '';
+  $navClass = fn (bool $active) => $active
+    ? 'bg-ka-gold text-white shadow-md shadow-ka-gold/20'
+    : 'text-neutral-300 hover:bg-ka-gold/90 hover:text-white';
+@endphp
+
 <aside id="sidebar"
-       class="fixed inset-y-0 left-0 w-64 bg-black text-white p-6 transform -translate-x-full
-              md:translate-x-0 transition-transform duration-200 ease-in-out z-50 flex flex-col">
+       class="fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-black text-white transform -translate-x-full border-r-2 border-ka-yellow transition-transform duration-200 ease-in-out md:translate-x-0">
 
-  <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
-    <span class="material-icons">admin_panel_settings</span>
-    Admin
-  </h2>
+  {{-- En-tête --}}
+  <div class="flex items-center gap-3 border-b border-white/10 px-5 py-5">
+    <img src="{{ asset('logo kataward.png') }}" alt="Katanga Awards" class="h-10 w-10 rounded-lg object-contain bg-white/5 p-0.5">
+    <div class="min-w-0">
+      <p class="text-[10px] font-semibold uppercase tracking-widest text-ka-yellow">Katanga</p>
+      <p class="truncate text-lg font-bold leading-tight">Awards Admin</p>
+    </div>
+  </div>
 
-  <!-- Liens de navigation -->
-  <nav class="space-y-4 flex-1">
-    <!-- Dashboard -->
+  {{-- Navigation --}}
+  <nav class="admin-scrollbar flex-1 space-y-1 overflow-y-auto px-3 py-4">
     <a href="{{ route('admin.dashboard') }}"
-       class="flex items-center gap-2 px-3 py-2 rounded
-              {{ Route::currentRouteName() === 'admin.dashboard'
-                  ? 'bg-[#A28224] text-white hover:bg-[#A28224]'
-                  : 'hover:bg-[#A28224] hover:text-white' }}">
-      <span class="material-icons">dashboard</span>
+       class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition {{ $navClass($routeName === 'admin.dashboard') }}">
+      <span class="material-icons text-[20px]">dashboard</span>
       Tableau de bord
     </a>
 
-    <!-- Candidats -->
     <a href="{{ route('candidats.index') }}"
-       class="flex items-center gap-2 px-3 py-2 rounded
-              {{ Route::currentRouteName() === 'candidats.index'
-                  ? 'bg-[#A28224] text-white hover:bg-[#A28224]'
-                  : 'hover:bg-[#A28224] hover:text-white' }}">
-      <span class="material-icons">groups</span>
+       class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition {{ $navClass($routeName === 'candidats.index' || str_starts_with($routeName, 'candidats.')) }}">
+      <span class="material-icons text-[20px]">groups</span>
       Candidats
     </a>
 
-    <!-- Catégories avec menu déroulant -->
-    <div x-data="{ open: false }" class="space-y-1">
-      <button @click="open = !open"
-              class="w-full flex justify-between items-center px-3 py-2 rounded hover:bg-[#A28224]
-              {{ Str::startsWith(Route::currentRouteName(), 'categories.')
-                  ? 'bg-[#A28224] text-white hover:bg-[#A28224]'
-                  : 'hover:bg-[#A28224] hover:text-white' }}">
-        <span class="flex items-center gap-2">
-          <span class="material-icons">category</span>
+    <div x-data="{ open: {{ str_starts_with($routeName, 'categories.') ? 'true' : 'false' }} }" class="space-y-0.5">
+      <button type="button" @click="open = !open"
+              class="flex w-full items-center justify-between gap-2 rounded-lg px-3 py-2.5 text-sm font-medium transition {{ $navClass(str_starts_with($routeName, 'categories.')) }}">
+        <span class="flex items-center gap-3">
+          <span class="material-icons text-[20px]">category</span>
           Catégories
         </span>
-        <svg :class="{'rotate-180': open}" class="w-4 h-4 transition-transform" fill="none"
-             stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M19 9l-7 7-7-7" />
-        </svg>
+        <span class="material-icons text-[18px] transition-transform" :class="open && 'rotate-180'">expand_more</span>
       </button>
-
-      <div x-show="open" class="pl-8 space-y-1" x-cloak>
+      <div x-show="open" class="ml-4 space-y-0.5 border-l border-ka-gold/40 pl-3" x-cloak>
         <a href="{{ route('categories.index') }}"
-           class="flex items-center gap-2 px-3 py-2 rounded text-sm
-                  {{ Route::currentRouteName() === 'categories.index'
-                      ? 'bg-[#A28224] text-white hover:bg-[#A28224]'
-                      : 'hover:bg-[#A28224] hover:text-white' }}">
-          <span class="material-icons text-sm">list</span>
+           class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition {{ $navClass($routeName === 'categories.index') }}">
+          <span class="material-icons text-[16px]">list</span>
           Liste
         </a>
         <a href="{{ route('categories.create') }}"
-           class="flex items-center gap-2 px-3 py-2 rounded text-sm
-                  {{ Route::currentRouteName() === 'categories.create'
-                      ? 'bg-[#A28224] text-white hover:bg-[#A28224]'
-                      : 'hover:bg-[#A28224] hover:text-white' }}">
-          <span class="material-icons text-sm">add_circle</span>
+           class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition {{ $navClass($routeName === 'categories.create') }}">
+          <span class="material-icons text-[16px]">add_circle</span>
           Ajouter
         </a>
       </div>
     </div>
 
-    <!-- Editions -->
     <a href="{{ route('editions.index') }}"
-       class="flex items-center gap-2 px-3 py-2 rounded
-              {{ Route::currentRouteName() === 'editions.index'
-                  ? 'bg-[#A28224] text-white hover:bg-[#A28224]/90'
-                  : 'hover:bg-[#A28224] hover:text-white' }}">
-      <span class="material-icons">edit</span>
+       class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition {{ $navClass(str_starts_with($routeName, 'editions.')) }}">
+      <span class="material-icons text-[20px]">event</span>
       Éditions
     </a>
 
-    <!-- Résultats -->
     <a href="{{ route('resultats.index') }}"
-       class="flex items-center gap-2 px-3 py-2 rounded
-              {{ Route::currentRouteName() === 'resultats.index'
-                  ? 'bg-[#A28224] text-white hover:bg-[#A28224]/90'
-                  : 'hover:bg-[#A28224] hover:text-white' }}">
-      <span class="material-icons">emoji_events</span>
+       class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition {{ $navClass($routeName === 'resultats.index') }}">
+      <span class="material-icons text-[20px]">emoji_events</span>
       Résultats
     </a>
 
     <a href="{{ route('admin.gestion-votes') }}"
-       class="flex items-center gap-2 px-3 py-2 rounded
-              {{ Route::currentRouteName() === 'admin.gestion-votes'
-                  ? 'bg-[#A28224] text-white hover:bg-[#A28224]/90'
-                  : 'hover:bg-[#A28224] hover:text-white' }}">
-      <span class="material-icons">manage_accounts</span>
-      Gest. votes
+       class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition {{ $navClass($routeName === 'admin.gestion-votes') }}">
+      <span class="material-icons text-[20px]">how_to_vote</span>
+      Gestion des votes
     </a>
-
   </nav>
 
-  <!-- Déconnexion -->
-  <form method="GET" action="{{ route('admin.logout') }}" class="mt-auto">
-    @csrf
-    <button type="submit"
-            class="flex items-center gap-2 w-full text-left px-3 py-2 rounded bg-red-500 hover:bg-red-600">
-      <span class="material-icons">logout</span>
-      Se déconnecter
-    </button>
-  </form>
+  {{-- Pied --}}
+  <div class="border-t border-white/10 p-4 space-y-3">
+    @auth('admin')
+      <div class="flex items-center gap-2 rounded-lg bg-white/5 px-3 py-2">
+        <span class="material-icons text-ka-yellow text-xl">shield</span>
+        <div class="min-w-0">
+          <p class="truncate text-xs font-semibold text-white">{{ Auth::guard('admin')->user()->pseudo }}</p>
+          <p class="truncate text-[10px] text-neutral-400">{{ Auth::guard('admin')->user()->email }}</p>
+        </div>
+      </div>
+    @endauth
+
+    <form method="GET" action="{{ route('admin.logout') }}">
+      <button type="submit"
+              class="flex w-full items-center justify-center gap-2 rounded-lg bg-red-600 px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 focus:ring-offset-black">
+        <span class="material-icons text-[18px]">logout</span>
+        Se déconnecter
+      </button>
+    </form>
+  </div>
 </aside>

@@ -1,137 +1,54 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Détails du candidat | Katanga Awards</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="icon" type="image/png" href="{{ asset('logo kataward.png') }}">
-</head>
+@extends('layouts.user')
 
-<body class="bg-black text-white min-h-screen flex flex-col">
+@section('title', $candidat->nom_complet . ' — Katanga Awards')
+@section('main-class', 'max-w-lg mx-auto px-4 sm:px-6 py-8')
 
-  <!-- NAVBAR -->
-  <nav class="bg-[#111] border-b-2 border-[#fbcd43] shadow-md">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
-      <div class="flex items-center space-x-2 px-4 py-1">
-          <a href="{{ route('user.index') }}" class="flex items-center space-x-2">
-          <img src="{{ asset('logo_officiel.jpg') }}" alt="Katanga Award" class="h-10 w-auto">
-          <span class="text-white font-bold" >KATANGA</span><span class="text-[#e3b017] font-bold"> AWARDS</span>
-        </a>
-        </div>
-      <a href="{{ Auth::check() ? route('user.index') : route('login') }}"
-   class="text-[#fbcd43] font-semibold hover:text-[#A28224] transition">
-   ← Retour
-</a>
+@section('content')
+  <article class="rounded-3xl border-2 border-ka-gold/40 bg-ka-card overflow-hidden shadow-ka-glow">
+    <div class="aspect-[4/5] max-h-[420px] overflow-hidden ring-b-2 ring-ka-yellow">
+      <img src="{{ asset($candidat->photo_url) }}" alt="{{ $candidat->nom_complet }}"
+           class="w-full h-full object-cover zoomable cursor-pointer">
     </div>
-  </nav>
+    <div class="p-6 sm:p-8 text-center">
+      <span class="inline-block rounded-full bg-ka-gold/20 px-3 py-1 text-xs font-bold uppercase tracking-wide text-ka-yellow mb-3">
+        {{ $candidat->categorie->nom_categorie ?? 'Nominé' }}
+      </span>
+      <h1 class="text-2xl sm:text-3xl font-bold text-white">{{ $candidat->nom_complet }}</h1>
+      @if($edition ?? null)
+        <p class="text-sm text-neutral-500 mt-1">{{ $edition->titre }}</p>
+      @endif
 
-  <!-- CONTENU PRINCIPAL -->
-  <main class="flex-1 flex items-center justify-center p-6">
-    <div class="max-w-3xl w-full bg-[#111] rounded-2xl shadow-lg p-8 text-center border border-[#fbcd43]/30">
-
-      <!-- Photo du candidat -->
-      <div class="flex justify-center mb-6">
-        <div class="w-full max-w-xs mx-auto overflow-hidden border-2 border-[#fbcd43] shadow-lg rounded-xl">
-  <img src="{{ asset($candidat->photo_url) }}"
-       alt="{{ $candidat->nom_complet }}"
-       class="w-full h-auto object-cover">
-</div>
+      <div class="mt-6 rounded-xl bg-black/50 border border-ka-gold/20 p-5 text-left text-sm text-neutral-300 leading-relaxed">
+        {{ $candidat->description ?? 'Aucune description.' }}
       </div>
 
-      <!-- Nom et catégorie -->
-
-      <h1 class="text-2xl font-bold mb-2 text-[#fbcd43]">{{ $candidat->nom_complet }}</h1>
-      <p class="text-gray-300 italic mb-6">
-        Categorie : {{ $candidat->categorie->nom_categorie ?? 'Catégorie non définie' }}
-        <br>
-
-            <strong>Katanga Awards Éd. </strong> {{ $edition->titre ?? $editionActive->titre ?? 'En cours' }}
-
-      </p>
-
-      <!-- Description -->
-      <div class="bg-[#222] rounded-xl p-6 border border-[#fbcd43]/20 text-left mb-6">
-        <p class="text-gray-300 leading-relaxed">
-
-          {{ $candidat->description ?? 'Aucune description disponible pour ce candidat.' }}
-        </p>
-      </div>
-
-      <!-- BOUTONS ACTION -->
-      <div class="flex flex-wrap justify-center gap-4 mt-6">
-
-        <!-- BOUTON VOTER -->
-        @php
-          $editionActive = \App\Models\Edition::where('statut', true)->first();
-          $aVote = false;
-          if($editionActive && Auth::guard('web')->check()) {
-              $aVote = \App\Models\Vote::where('user_id', Auth::guard('web')->id())
-                                        ->where('edition_id', $editionActive->id)
-                                        ->exists();
-          }
-        @endphp
-
-        @if(Auth::guard('web')->check())
-          @if($editionActive && !$aVote)
-            <a href="{{route('user.vote')}}" class="bg-[#fbcd43] text-black font-semibold px-6 py-2 rounded-md hover:bg-[#A28224] transition">
-                Voter
-            </a>
-          @elseif($editionActive)
-            <button class="bg-gray-500 text-white font-semibold px-6 py-2 rounded-md cursor-not-allowed">
-              Vous avez déjà voté
-            </button>
-          @else
-            <button class="bg-gray-500 text-white font-semibold px-6 py-2 rounded-md cursor-not-allowed">
-              Aucune édition active
-            </button>
-          @endif
-        @else
-          <a href="{{ route('login') }}"
-             class="bg-[#fbcd43] text-black font-semibold px-6 py-2 rounded-md hover:bg-[#A28224] transition">
-             Connectez-vous pour voter
-          </a>
+      <div class="mt-8 flex flex-col gap-3">
+        @if($editionActive ?? $edition ?? null)
+          <x-ka.button :href="route('user.vote')" variant="primary" size="lg" class="w-full">
+            <span class="material-icons">payments</span>
+            Voter · {{ number_format($votePrice ?? 0, 0, ',', ' ') }} {{ $voteCurrency ?? 'CDF' }}
+          </x-ka.button>
         @endif
-
-        <!-- BOUTON PARTAGER -->
-        <button id="shareBtn"
-                class="flex items-center gap-2 bg-[#fbcd43] text-black font-semibold px-6 py-2 rounded-md hover:bg-[#A28224] transition">
-          <span class="material-icons">share</span> Partager
-        </button>
-
+        <div class="flex gap-3">
+          <x-ka.button type="button" variant="outline" size="sm" class="flex-1" id="shareBtn">
+            <span class="material-icons text-[18px]">share</span>
+            Partager
+          </x-ka.button>
+          <x-ka.button :href="route('user.index')" variant="ghost" size="sm" class="flex-1">
+            Retour
+          </x-ka.button>
+        </div>
       </div>
     </div>
-  </main>
+  </article>
+@endsection
 
-  <!-- FOOTER -->
-  <footer class="bg-[#111] border-t border-[#A28224] py-4 mt-auto text-center text-gray-400 text-sm">
-    © 2025 Produit par Synergie UP.
-  </footer>
-
-  <!-- SCRIPT PARTAGE -->
-  <script>
-    const shareBtn = document.getElementById('shareBtn');
-    shareBtn.addEventListener('click', async () => {
-      const shareData = {
-        title: 'Votez pour {{ $candidat->nom_complet }} - Katanga Awards',
-        text: 'Découvrez le profil de {{ $candidat->nom_complet }} sur Katanga Awards et votez pour lui !',
-        url: "{{ url()->current() }}"
-      };
-
-      if (navigator.share) {
-        try {
-          await navigator.share(shareData);
-        } catch (err) {
-          console.log('Partage annulé', err);
-        }
-      } else {
-        // Fallback WhatsApp si partage natif non supporté
-        const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareData.text + ' ' + shareData.url)}`;
-        window.open(whatsappUrl, '_blank');
-      }
-    });
-  </script>
-
-</body>
-</html>
+@push('scripts')
+<script>
+  document.getElementById('shareBtn')?.addEventListener('click', async () => {
+    const d = { title: '{{ $candidat->nom_complet }}', text: 'Soutenez {{ $candidat->nom_complet }} !', url: location.href };
+    if (navigator.share) { try { await navigator.share(d); } catch(e) {} }
+    else window.open('https://wa.me/?text=' + encodeURIComponent(d.text + ' ' + d.url), '_blank');
+  });
+</script>
+@endpush

@@ -3,70 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Admin</title>
+  <title>Connexion Admin — Katanga Awards</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { ka: { gold: '#A28224', yellow: '#fbcd43' } } } } }
+  </script>
   <link rel="icon" type="image/png" href="{{ asset('logo kataward.png') }}">
 </head>
-<body class="min-h-screen flex items-center justify-center bg-gray-100">
+<body class="min-h-screen flex items-center justify-center bg-black p-4">
 
-  <div class="w-full max-w-4xl bg-white shadow-lg rounded-lg flex flex-col md:flex-row overflow-hidden">
-    
-    <!-- Image -->
-    <div class="w-full md:w-1/2 bg-gray-200">
-      <img src="{{asset('image-katanga-login.jpg')}}" 
-           alt="Illustration" 
-           class="w-full h-48 md:h-full object-cover">
+  <div class="w-full max-w-4xl overflow-hidden rounded-2xl shadow-2xl flex flex-col md:flex-row border-2 border-ka-yellow/30">
+    <div class="w-full md:w-1/2 relative min-h-[200px] md:min-h-0">
+      <img src="{{ asset('image-katanga-login.jpg') }}" alt="Katanga Awards"
+           class="absolute inset-0 h-full w-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent md:bg-gradient-to-r"></div>
+      <div class="absolute bottom-6 left-6 right-6 text-white">
+        <img src="{{ asset('logo kataward.png') }}" alt="" class="h-12 w-12 mb-3 rounded-lg">
+        <p class="text-ka-yellow text-xs font-semibold uppercase tracking-widest">Katanga Awards</p>
+        <h1 class="text-2xl font-bold">Espace administration</h1>
+      </div>
     </div>
 
-    <!-- Formulaire -->
-    <div class="w-full md:w-1/2 p-8 px-6 sm:px-10">
-      <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Connexion Admin</h2>
+    <div class="w-full md:w-1/2 bg-white p-8 sm:p-10">
+      <h2 class="text-2xl font-bold text-neutral-900 mb-1">Connexion</h2>
+      <p class="text-sm text-neutral-500 mb-6">Accédez au tableau de bord admin</p>
 
-      {{-- Messages flash --}}
       @if(session('success'))
-        <p class="mb-4 text-green-600 text-sm font-medium bg-green-100 border border-green-300 p-2 rounded">
-          {{ session('success') }}
-        </p>
+        <p class="mb-4 rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-800">{{ session('success') }}</p>
       @endif
-
       @if(session('error'))
-        <p class="mb-4 text-red-600 text-sm font-medium bg-red-100 border border-red-300 p-2 rounded">
-          {{ session('error') }}
-        </p>
+        <p class="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">{{ session('error') }}</p>
       @endif
 
-      {{-- Formulaire --}}
-      <form method="POST" action="" class="space-y-5">
+      <form method="POST" action="{{ url('/katanga-award/loginAdmin') }}" class="space-y-5">
         @csrf
-
         <div>
-          <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Admin</label>
+          <label for="email" class="block text-sm font-medium text-neutral-700 mb-1">Email</label>
           <input type="email" name="email" id="email" required value="{{ old('email') }}"
-                 class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A28224] focus:border-[#A28224]">
+                 class="w-full rounded-lg border border-neutral-300 px-3 py-2.5 focus:border-ka-gold focus:outline-none focus:ring-2 focus:ring-ka-gold/30">
           @error('email')
-            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
           @enderror
         </div>
-
         <div>
-          <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Mot de passe</label>
+          <label for="password" class="block text-sm font-medium text-neutral-700 mb-1">Mot de passe</label>
           <input type="password" name="password" id="password" required
-                 class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A28224] focus:border-[#A28224]">
+                 class="w-full rounded-lg border border-neutral-300 px-3 py-2.5 focus:border-ka-gold focus:outline-none focus:ring-2 focus:ring-ka-gold/30">
           @error('password')
-            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
           @enderror
         </div>
-
-        <div>
-          <button type="submit"
-                  class="w-full py-2 px-4 bg-[#A28224] text-white font-semibold rounded-lg shadow hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#A28224]">
-            Se connecter
-          </button>
-        </div>
+        <button type="submit"
+                class="w-full rounded-lg bg-ka-gold py-3 text-sm font-semibold text-white shadow-lg shadow-ka-gold/25 hover:bg-ka-gold/90 focus:outline-none focus:ring-2 focus:ring-ka-gold focus:ring-offset-2">
+          Se connecter
+        </button>
       </form>
     </div>
-
   </div>
-
 </body>
 </html>

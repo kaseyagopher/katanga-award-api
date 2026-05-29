@@ -17,7 +17,7 @@ class CandidatController extends Controller
     public function index()
     {
         $candidats = Candidat::with('categorie', 'edition')->get();
-        $Categories = Categorie::all();
+        $Categories = Categorie::with('candidats')->get();
         $editions = Edition::all();
 
         return view('admin.candidats', compact('candidats', 'Categories', 'editions'));

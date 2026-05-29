@@ -1,174 +1,137 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Katanga Awards | Vote</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="icon" type="image/png" href="{{ asset('logo kataward.png') }}">
-</head>
-<body class="bg-black min-h-screen flex flex-col relative">
+@extends('layouts.user')
 
-  <!-- NAVBAR -->
-  <nav class="bg-dark shadow-md">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b-2 border-[#fbcd43]">
-      <div class="flex justify-between h-16 items-center">
+@section('title', 'Vote — Katanga Awards')
+@section('main-class', 'max-w-2xl mx-auto px-4 sm:px-6 py-8')
 
-        <!-- Liens Desktop -->
-        <div class="hidden md:flex items-center space-x-4">
-          <a href="{{ route('user.index') }}"
-             class="text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md
-             {{ Route::currentRouteName() === 'user.index' ? 'text-[#A28224]' : '' }}">
-             Accueil
-          </a>
-
-          <a href="{{ route('user.apropos') }}"
-             class="text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md
-             {{ Route::currentRouteName() === 'user.apropos' ? 'text-[#A28224]' : '' }}">
-             À propos
-          </a>
-          <a href="{{ route('user.contact') }}"
-             class="text-gray-300 hover:text-[#A28224] font-semibold px-3 py-2 rounded-md
-             {{ Route::currentRouteName() === 'user.contact' ? 'text-[#A28224]' : '' }}">
-             Contact
-          </a>
-        </div>
-
-        <!-- Logo au centre -->
-        <div class="flex items-center space-x-2 px-4 py-1">
-          <a href="{{ route('user.index') }}" class="flex items-center space-x-2">
-          <img src="{{ asset('logo_officiel.jpg') }}" alt="Katanga Award" class="h-10 w-auto">
-          <span class="text-white font-bold" >Katanga</span><span class="text-[#e3b017] font-bold"> Awards</span>
-        </a>
-        </div>
-
-        <!-- Boutons utilisateur -->
-        <div class="flex items-center space-x-2">
-          @if(Auth::guard('web')->check())
-              <strong class="px-4 truncate max-w-[120px] text-[#fbcd43] text-right">
-                  {{ Auth::guard('web')->user()->numero ?? Auth::guard('web')->user()->email }}
-              </strong>
-          @else
-              <p class="text-orange-500 font-semibold">Pas connecté</p>
-          @endif
-        </div>
-
-        <!-- Hamburger Mobile -->
-        <div class="md:hidden flex items-center">
-          <button id="mobile-menu-button" class="text-white focus:outline-none">
-            <span class="material-icons">menu</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Menu Mobile -->
-      <div id="mobile-menu" class="hidden md:hidden mt-2 space-y-2">
-        <a href="{{ route('user.index') }}"
-           class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md
-           {{ Route::currentRouteName() === 'user.index' ? 'text-[#A28224]' : '' }}">
-           Accueil
-        </a>
-
-        <a href="{{ route('user.apropos') }}"
-           class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md
-           {{ Route::currentRouteName() === 'user.apropos' ? 'text-[#A28224]' : '' }}">
-           À propos
-        </a>
-        <a href="{{ route('user.contact') }}"
-           class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md
-           {{ Route::currentRouteName() === 'user.contact' ? 'text-[#A28224]' : '' }}">
-           Contact
-        </a>
-      </div>
-    </div>
-  </nav>
-
-  <!-- CONTENU PRINCIPAL -->
-  <main class="flex-1 max-w-5xl mx-auto p-6">
-    <h1 class="text-2xl font-bold mb-6 text-center text-white">Formulaire de vote</h1>
-
-    @if ($errors->any())
-      <div class="mb-4 p-4 bg-red-900 border border-red-700 text-red-200 rounded">
-          <ul class="list-disc list-inside">
-              @foreach ($errors->all() as $error)
-                  <li>{{ $error }}</li>
-              @endforeach
-          </ul>
-      </div>
-    @endif
-
-    <form action="{{ route('vote.store') }}" method="POST">
-      @csrf
-
-      @foreach($Categories as $Categorie)
-        <div class="border border-[#A28224] p-4 rounded-lg mb-4 bg-[#111]">
-          <h2 class="text-lg font-semibold mb-3 text-[#fbcd43]">{{ $Categorie->nom_categorie }}</h2>
-
-          @if($Categorie->Candidats->count() > 0)
-            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-              @foreach($Categorie->Candidats as $Candidat)
-                <label class="flex flex-col items-center cursor-pointer select-none">
-                  <input type="radio"
-                         name="votes[{{ $Categorie->id }}]"
-                         value="{{ $Candidat->id }}"
-                         class="hidden peer">
-                  <div class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2 text-center shadow-sm hover:shadow-md transition
-                              peer-checked:bg-[#A28224] peer-checked:text-white">
-                    <img src="{{ asset($Candidat->photo_url) }}"
-                         alt="{{ $Candidat->nom_complet }}"
-                         class="w-20 h-20 object-cover rounded mb-1 mx-auto">
-                    <span class="text-sm font-medium text-white truncate block">{{ $Candidat->nom_complet }}</span>
-                  </div>
-                </label>
-              @endforeach
-            </div>
-          @else
-            <p class="text-gray-400">Aucun candidat pour cette catégorie</p>
-          @endif
-        </div>
-      @endforeach
-      <input type="hidden" id="device_token" name="device_token" value="">
-      <input type="hidden" name="user_id" value="{{ auth()->id() }}">
-      <input type="hidden" name="edition_id" value="{{ $edition->id }}">
-
-      <button type="submit"
-              class="mt-4 bg-[#e3b017] text-black font-semibold px-6 py-2 rounded hover:bg-[#A28224] transition">
-          Confirmer Vote
-      </button>
-    </form>
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="bg-[#111] border-t border-[#A28224] mt-auto">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-center items-center text-sm text-gray-400">
-        <p class="text-center">© 2025 Produit par Synergie UP.</p>
-    </div>
-  </footer>
-
-  <!-- SCRIPT NAVBAR -->
-  <script>
-    const btn = document.getElementById('mobile-menu-button');
-    const menu = document.getElementById('mobile-menu');
-    const icon = btn.querySelector('.material-icons');
-
-    btn.addEventListener('click', () => {
-        menu.classList.toggle('hidden');
-        icon.textContent = menu.classList.contains('hidden') ? 'menu' : 'close';
-    });
-  </script>
-  <script>
-  // 1️⃣ Vérifie si un token existe déjà dans le localStorage
-  let deviceToken = localStorage.getItem("device_token");
-
-  // 2️⃣ Si non, on le crée
-  if (!deviceToken) {
-    deviceToken = self.crypto?.randomUUID?.() || Math.random().toString(36).substring(2);
-    localStorage.setItem("device_token", deviceToken);
+@section('content')
+@php
+  $stepCount = $categories->count();
+  $totalSteps = $stepCount + 1;
+  $categoryIds = $categories->pluck('id')->values();
+  $candidatNames = [];
+  foreach ($categories as $cat) {
+      foreach ($cat->candidats as $can) {
+          $candidatNames[$can->id] = $can->nom_complet;
+      }
   }
+@endphp
 
-  // 3️⃣ On remplit le champ caché dans le formulaire
-  document.getElementById("device_token").value = deviceToken;
-</script>
-</body>
-</html>
+<div x-data="{
+  step: 0,
+  total: {{ $totalSteps }},
+  selections: {},
+  categoryIds: @js($categoryIds),
+  candidatNames: @js($candidatNames),
+  get progress() { return Math.round(((this.step + 1) / this.total) * 100); },
+  canNext() {
+    if (this.step >= {{ $stepCount }}) return true;
+    const catId = this.categoryIds[this.step];
+    return !!this.selections[catId];
+  },
+  next() { if (this.step < this.total - 1 && this.canNext()) this.step++; },
+  prev() { if (this.step > 0) this.step--; }
+}">
+
+  {{-- En-tête --}}
+  <div class="text-center mb-8">
+    <p class="text-xs font-semibold uppercase tracking-widest text-ka-yellow mb-2">Vote payant</p>
+    <h1 class="text-2xl sm:text-3xl font-bold text-white">Parcours de vote</h1>
+    <p class="mt-2 text-sm text-neutral-400">{{ $edition->titre }}</p>
+    <p class="mt-3 inline-flex items-center gap-2 rounded-full border border-ka-gold/40 bg-ka-gold/10 px-4 py-1.5 text-sm text-ka-yellow">
+      <span class="material-icons text-base">payments</span>
+      {{ number_format($votePrice ?? config('vote.price_cdf'), 0, ',', ' ') }} {{ $voteCurrency ?? config('vote.currency_label') }} par catégorie
+    </p>
+  </div>
+
+  {{-- Progression --}}
+  <div class="mb-8">
+    <div class="flex justify-between text-xs text-neutral-500 mb-2">
+      <span>Étape <span x-text="step + 1"></span> / <span x-text="total"></span></span>
+      <span x-text="progress + '%'"></span>
+    </div>
+    <div class="h-2 rounded-full bg-neutral-800 overflow-hidden">
+      <div class="h-full bg-gradient-to-r from-ka-gold via-ka-yellow to-ka-amber transition-all duration-300"
+           :style="'width:' + progress + '%'"></div>
+    </div>
+  </div>
+
+  <form action="{{ route('vote.store') }}" method="POST">
+    @csrf
+    <input type="hidden" name="edition_id" value="{{ $edition->id }}">
+
+    @foreach($categories as $index => $categorie)
+      <div x-show="step === {{ $index }}" x-cloak
+           class="rounded-2xl border border-ka-gold/40 bg-ka-card p-5 sm:p-6 shadow-lg">
+        <h2 class="flex items-center gap-2 text-xl font-bold text-ka-yellow mb-1">
+          <span class="material-icons">category</span>
+          {{ $categorie->nom_categorie }}
+        </h2>
+        <p class="text-sm text-neutral-500 mb-5">Sélectionnez un nominé</p>
+
+        <div class="grid grid-cols-2 gap-3">
+          @foreach($categorie->candidats as $candidat)
+            <label class="cursor-pointer">
+              <input type="radio"
+                     name="votes[{{ $categorie->id }}]"
+                     value="{{ $candidat->id }}"
+                     x-model="selections[{{ $categorie->id }}]"
+                     class="peer sr-only"
+                     required>
+              <div class="flex flex-col items-center rounded-xl border-2 border-neutral-700 bg-black/40 p-3 transition
+                          peer-checked:border-ka-yellow peer-checked:bg-ka-gold/15 peer-checked:shadow-ka-glow
+                          hover:border-ka-gold/50">
+                <img src="{{ asset($candidat->photo_url) }}" alt=""
+                     class="h-20 w-20 rounded-full object-cover border-2 border-neutral-600 mb-2
+                            peer-checked:border-ka-yellow">
+                <span class="text-xs font-semibold text-white text-center line-clamp-2">{{ $candidat->nom_complet }}</span>
+              </div>
+            </label>
+          @endforeach
+        </div>
+      </div>
+    @endforeach
+
+    {{-- Récapitulatif --}}
+    <div x-show="step === {{ $stepCount }}" x-cloak
+         class="rounded-2xl border-2 border-ka-yellow bg-ka-gold/10 p-5 sm:p-6">
+      <h2 class="text-xl font-bold text-ka-yellow mb-4 flex items-center gap-2">
+        <span class="material-icons">fact_check</span>
+        Vérifiez votre sélection
+      </h2>
+      <ul class="space-y-3 mb-6">
+        @foreach($categories as $categorie)
+          <li class="flex justify-between gap-2 text-sm border-b border-ka-gold/20 pb-2">
+            <span class="text-neutral-400">{{ $categorie->nom_categorie }}</span>
+            <span class="text-white font-medium text-right"
+                  x-text="candidatNames[selections[{{ $categorie->id }}]] || '—'"></span>
+          </li>
+        @endforeach
+      </ul>
+      <div class="flex justify-between items-center rounded-xl bg-black/50 p-4 mb-6">
+        <span class="text-neutral-300">Total estimé</span>
+        <span class="text-2xl font-bold text-ka-yellow">
+          {{ number_format($categories->count() * ($votePrice ?? config('vote.price_cdf')), 0, ',', ' ') }}
+          {{ $voteCurrency ?? config('vote.currency_label') }}
+        </span>
+      </div>
+      <x-ka.button type="submit" variant="primary" size="lg" class="w-full">
+        <span class="material-icons">arrow_forward</span>
+        Continuer vers le paiement
+      </x-ka.button>
+    </div>
+
+    {{-- Navigation --}}
+    <div class="flex justify-between mt-6 gap-3" x-show="step < {{ $stepCount }}">
+      <button type="button" @click="prev()" x-show="step > 0"
+              class="px-5 py-2.5 rounded-xl border border-neutral-700 text-neutral-300 hover:border-ka-gold hover:text-ka-yellow transition">
+        Précédent
+      </button>
+      <div class="flex-1" x-show="step === 0"></div>
+      <button type="button" @click="next()" :disabled="!canNext()"
+              class="ml-auto px-6 py-2.5 rounded-xl bg-ka-gold text-white font-semibold disabled:opacity-40 hover:bg-ka-amber hover:text-black transition">
+        Suivant
+      </button>
+    </div>
+  </form>
+</div>
+@endsection

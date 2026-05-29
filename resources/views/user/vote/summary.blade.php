@@ -1,87 +1,49 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Récapitulatif du vote - Katanga Awards</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/png" href="{{ asset('logo katawards.png') }}">
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-    }
+@extends('layouts.user')
 
-    /* Animation du loader (même principe que sur index) */
-    @keyframes fadeOut {
-      from { opacity: 1; }
-      to { opacity: 0; visibility: hidden; }
-    }
-  </style>
-</head>
-<body class="bg-black min-h-screen flex flex-col items-center p-4 text-white transition-colors duration-500">
+@section('title', 'Confirmation — Katanga Awards')
+@section('main-class', 'max-w-3xl mx-auto px-4 sm:px-6 py-8')
 
-  <!-- En-tête -->
-  <div class="flex flex-col items-center mb-8">
-    <img src="{{ asset('image-katanga-login.jpg') }}" alt="Katanga Awards" class="w-24 mb-2">
-    <h1 class="text-3xl sm:text-4xl font-extrabold text-[#fbcd43] mb-1">Katanga Awards</h1>
-    <p class="text-gray-300 text-sm sm:text-base text-center">
-      Récapitulatif de votre vote pour l'édition <strong class="text-[#e3b017]">{{ $editionActive->titre ?? 'en cours' }}</strong>
-    </p>
+@section('content')
+  <div class="text-center mb-10">
+    <div class="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-green-500/20 ring-4 ring-green-500/30">
+      <span class="material-icons text-5xl text-green-400">check_circle</span>
+    </div>
+    <h1 class="text-3xl font-bold ka-gradient-text">Vote confirmé !</h1>
+    <p class="mt-2 text-neutral-400">{{ $editionActive->titre ?? '' }}</p>
+    <p class="mt-2 font-mono text-xs text-ka-gold/80">{{ $paymentReference }}</p>
   </div>
 
-  <!-- Conteneur principal -->
-  <div class="bg-[#111] shadow-xl rounded-2xl p-6 max-w-6xl w-full text-center border border-[#A28224]/50">
-    <h2 class="text-2xl font-bold mb-6 text-[#fbcd43]">Merci pour votre vote !</h2>
+  <div class="rounded-2xl border-2 border-ka-gold/40 bg-ka-card p-6 sm:p-8 shadow-ka-glow">
+    <div class="flex flex-col sm:flex-row justify-between gap-4 mb-8 pb-6 border-b border-ka-gold/20">
+      <div>
+        <p class="text-sm text-neutral-500">Montant payé</p>
+        <p class="text-3xl font-bold text-ka-yellow">{{ number_format($totalPaid, 0, ',', ' ') }} CDF</p>
+      </div>
+      <div class="text-sm text-neutral-400 self-end">{{ $votes->count() }} vote(s)</div>
+    </div>
 
-    <!-- Grille des votes -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
       @foreach($votes as $vote)
-        <div class="vote-block border border-[#A28224]/40 rounded-xl p-4 bg-[#A28224]/10 hover:bg-[#A28224]/20 transition transform hover:scale-105 hover:shadow-lg duration-300">
-
-          <!-- Badge catégorie -->
-          <span class="inline-block bg-[#fbcd43] text-black text-xs px-3 py-1 rounded-full mb-2 font-semibold">
-            {{ $vote->categorie->nom_categorie }}
-          </span>
-
-          <!-- Contenu du candidat -->
-          <div class="flex flex-col items-center mb-2">
-            <img src="{{ asset($vote->candidat->photo_url) ?? 'https://via.placeholder.com/100' }}"
-                 alt="{{ $vote->candidat->nom_complet }}"
-                 class="w-24 h-24 rounded-full mb-2 object-cover border-4 border-[#fbcd43]">
+        <div class="rounded-xl border border-ka-gold/30 bg-black/40 p-4 flex gap-4 items-center">
+          <img src="{{ asset($vote->candidat->photo_url) }}" alt=""
+               class="h-16 w-16 rounded-full object-cover ring-2 ring-ka-yellow shrink-0">
+          <div>
+            <span class="text-[10px] uppercase tracking-wide text-ka-gold font-bold">{{ $vote->categorie->nom_categorie }}</span>
+            <p class="font-bold text-white mt-0.5">{{ $vote->candidat->nom_complet }}</p>
+            <p class="text-xs text-neutral-500 mt-1">{{ number_format($vote->montant, 0, ',', ' ') }} CDF</p>
           </div>
-
-          <!-- Edition et nominée -->
-          <p class="text-gray-200 text-sm mb-1">
-            <strong>Katanga Awards Éd. </strong> {{ $vote->edition->titre ?? $editionActive->titre ?? 'En cours' }}
-          </p>
-          <p class="text-gray-200 text-sm">
-            <strong>Nominé(e) :</strong> {{ $vote->candidat->nom_complet }}
-          </p>
         </div>
       @endforeach
     </div>
 
-    <!-- Info et boutons -->
-    <p class="mt-6 text-gray-400 text-sm">
-      Vous pouvez faire une capture d'écran de cette page pour partager vos votes.
-    </p>
-
-    <div class="mt-4 flex flex-col sm:flex-row justify-center gap-4">
-      <a href="{{ route('user.apropos') }}"
-         class="bg-[#fbcd43] text-black font-semibold px-6 py-2 rounded hover:bg-[#A28224] transition">
-        Nous lire plus
-      </a>
+    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+      <x-ka.button :href="route('user.index')" variant="primary">
+        <span class="material-icons text-[18px]">home</span>
+        Accueil
+      </x-ka.button>
+      <x-ka.button :href="route('user.vote')" variant="outline">
+        Nouveau vote
+      </x-ka.button>
     </div>
   </div>
-
-  <!-- FOOTER -->
-  <footer class="bg-[#111] border-t border-[#A28224] mt-10 w-full">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-center items-center text-sm text-gray-400">
-        <p class="text-center">© 2025 Produit par Synergie UP.</p>
-    </div>
-  </footer>
-
-</body>
-</html>
+@endsection

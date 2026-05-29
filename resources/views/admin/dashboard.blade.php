@@ -1,279 +1,171 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard - Vote en ligne</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+@extends('layouts.admin')
+
+@section('title', 'Tableau de bord')
+@section('page-title', 'Tableau de bord')
+@section('page-subtitle', 'Vue d\'ensemble de l\'édition en cours')
+
+@push('head')
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://unpkg.com/alpinejs" defer></script>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="icon" type="image/png" href="{{ asset('logo kataward.png') }}">
-</head>
-<body class="flex min-h-screen bg-gray-100 font-sans">
+@endpush
 
-  <!-- Sidebar -->
-  <div id="sidebar"
-       class="fixed inset-y-0 left-0 w-64 bg-black text-white p-6 transform -translate-x-full
-              md:translate-x-0 transition-transform duration-200 ease-in-out z-50 flex flex-col">
+@section('content')
+  {{-- Statistiques --}}
+  <section class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4 mb-8">
+    <div class="relative overflow-hidden rounded-2xl bg-black p-6 text-white shadow-lg">
+      <div class="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-ka-gold/20"></div>
+      <span class="material-icons text-ka-yellow mb-3">groups</span>
+      <p class="text-sm text-neutral-400">Candidats</p>
+      <p class="text-3xl font-bold mt-1">{{ $nbCandidats ?? 0 }}</p>
+    </div>
+    <div class="relative overflow-hidden rounded-2xl bg-ka-gold p-6 text-white shadow-lg shadow-ka-gold/25">
+      <div class="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-white/10"></div>
+      <span class="material-icons text-ka-yellow mb-3">category</span>
+      <p class="text-sm text-white/80">Catégories</p>
+      <p class="text-3xl font-bold mt-1">{{ $nbCategories ?? 0 }}</p>
+    </div>
+    <div class="relative overflow-hidden rounded-2xl bg-neutral-900 p-6 text-white shadow-lg border border-ka-gold/30">
+      <span class="material-icons text-ka-yellow mb-3">event</span>
+      <p class="text-sm text-neutral-400">Éditions</p>
+      <p class="text-3xl font-bold mt-1">{{ $nbEditions ?? 0 }}</p>
+    </div>
+    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-ka-amber to-ka-gold p-6 text-black shadow-lg">
+      <span class="material-icons mb-3">how_to_vote</span>
+      <p class="text-sm font-medium opacity-80">Votes enregistrés</p>
+      <p class="text-3xl font-bold mt-1">{{ $nbVotes ?? 0 }}</p>
+    </div>
+  </section>
 
-    <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
-      <span class="material-icons">admin_panel_settings</span>
-      Admin
-    </h2>
-
-    <!-- Liens navigation -->
-    <nav class="space-y-4 flex-1">
-      <a href="{{ route('admin.dashboard') }}"
-         class="flex items-center gap-2 px-3 py-2 rounded
-                {{ Route::currentRouteName() === 'admin.dashboard'
-                    ? 'bg-[#A28224] text-white'
-                    : 'hover:bg-[#A28224] hover:text-white' }}">
-        <span class="material-icons">dashboard</span>
-        Tableau de bord
-      </a>
-
-      <a href="{{ route('candidats.index') }}"
-         class="flex items-center gap-2 px-3 py-2 rounded
-                {{ Route::currentRouteName() === 'candidats.index'
-                    ? 'bg-[#A28224] text-white'
-                    : 'hover:bg-[#A28224] hover:text-white' }}">
-        <span class="material-icons">groups</span>
-        Candidats
-      </a>
-
-      <!-- Catégories avec sous-menu -->
-      <div x-data="{ open: false }" class="space-y-1">
-        <button @click="open = !open"
-                class="w-full flex justify-between items-center px-3 py-2 rounded
-                       {{ Str::startsWith(Route::currentRouteName(), 'categories.')
-                          ? 'bg-[#A28224] text-white'
-                          : 'hover:bg-[#A28224] hover:text-white' }}">
-          <span class="flex items-center gap-2">
-            <span class="material-icons">category</span>
-            Catégories
-          </span>
-          <svg :class="{'rotate-180': open}" class="w-4 h-4 transition-transform" fill="none"
-               stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-
-        <div x-show="open" class="pl-8 space-y-1" x-cloak>
-          <a href="{{ route('categories.index') }}"
-             class="flex items-center gap-2 px-3 py-2 rounded text-sm
-                    {{ Route::currentRouteName() === 'categories.index'
-                        ? 'bg-[#A28224] text-white'
-                        : 'hover:bg-[#A28224] hover:text-white' }}">
-            <span class="material-icons text-sm">list</span>
-            Liste
-          </a>
-          <a href="{{ route('categories.create') }}"
-             class="flex items-center gap-2 px-3 py-2 rounded text-sm
-                    {{ Route::currentRouteName() === 'categories.create'
-                        ? 'bg-[#A28224] text-white'
-                        : 'hover:bg-[#A28224] hover:text-white' }}">
-            <span class="material-icons text-sm">add_circle</span>
-            Ajouter
-          </a>
-        </div>
-      </div>
-
-      <a href="{{ route('editions.index') }}"
-         class="flex items-center gap-2 px-3 py-2 rounded
-                {{ Route::currentRouteName() === 'editions.index'
-                    ? 'bg-[#A28224] text-white'
-                    : 'hover:bg-[#A28224] hover:text-white' }}">
-        <span class="material-icons">edit</span>
-        Éditions
-      </a>
-
-      <a href="{{ route('resultats.index') }}"
-         class="flex items-center gap-2 px-3 py-2 rounded
-                {{ Route::currentRouteName() === 'resultats.index'
-                    ? 'bg-[#A28224] text-white'
-                    : 'hover:bg-[#A28224] hover:text-white' }}">
-        <span class="material-icons">emoji_events</span>
-        Résultats
-      </a>
-      <a href="{{ route('admin.gestion-votes') }}"
-       class="flex items-center gap-2 px-3 py-2 rounded
-              {{ Route::currentRouteName() === 'admin.gestion-votes'
-                  ? 'bg-[#A28224] text-white hover:bg-[#A28224]/90'
-                  : 'hover:bg-[#A28224] hover:text-white' }}">
-      <span class="material-icons">manage_accounts</span>
-      Gest. votes
-    </a>
-
-    </nav>
-
-    <!-- Déconnexion -->
-    <form method="GET" action="{{ route('admin.logout') }}" class="mt-auto">
-      @csrf
-      <button type="submit"
-              class="flex items-center gap-2 w-full text-left px-3 py-2 rounded bg-red-500 hover:bg-red-600">
-        <span class="material-icons">logout</span>
-        Se déconnecter
-      </button>
-    </form>
-  </div>
-
-  <!-- Overlay pour mobile -->
-  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40 md:hidden"
-       onclick="toggleSidebar()"></div>
-
-  <!-- Contenu principal -->
-  <div class="flex-1 flex flex-col md:ml-64">
-
-    <!-- Header mobile -->
-    <!-- Header mobile -->
-<header class="bg-white shadow p-4 flex items-center justify-between md:hidden">
-  <!-- Bouton menu -->
-  <button onclick="toggleSidebar()" class="text-blue-700 focus:outline-none">
-    <span class="material-icons">menu</span>
-  </button>
-
-  <!-- Titre -->
-  <h1 class="text-lg font-bold">Admin</h1>
-
-  <!-- Liens rapides -->
-  <div class="flex items-center gap-4">
-
-  </div>
-</header>
-
-    <!-- Contenu -->
-    <main class="p-4 sm:p-6 lg:p-8 space-y-8">
-      <h1 class="text-2xl sm:text-3xl font-bold mb-4">Tableau de bord Admin</h1>
-
-      <!-- Section cartes -->
-      <section>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div class="bg-black text-white p-6 rounded-lg shadow">
-            <div class="text-sm">Nombre de candidats</div>
-            <div class="text-2xl font-bold">{{ $nbCandidats ?? 0 }}</div>
-          </div>
-          <div class="bg-[#A28224] text-white p-6 rounded-lg shadow">
-            <div class="text-sm">Nombre de catégories</div>
-            <div class="text-2xl font-bold">{{ $nbCategories ?? 0 }}</div>
-          </div>
-          <div class="bg-blue-600 text-white p-6 rounded-lg shadow">
-            <div class="text-sm">Nombre d’éditions</div>
-            <div class="text-2xl font-bold">{{ $nbEditions ?? 0 }}</div>
-          </div>
-          <div class="bg-green-600 text-white p-6 rounded-lg shadow">
-            <div class="text-sm">Votes enregistrés</div>
-            <div class="text-2xl font-bold">{{ $nbVotes ?? 0 }}</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Édition active -->
-      <section class="bg-white p-6 rounded-lg shadow">
-        <h2 class="text-lg sm:text-xl font-bold mb-2">Édition en cours</h2>
-        @if($editionActive)
-          <p><span class="font-semibold">Titre :</span> {{ $editionActive->titre }}</p>
-          <p><span class="font-semibold">Thème :</span> {{ $editionActive->theme }}</p>
-          <p><span class="font-semibold">Statut :</span>
-            <span class="px-2 py-1 rounded text-white {{ $editionActive->statut ? 'bg-green-600' : 'bg-red-600' }}">
-              {{ $editionActive->statut ? 'Active' : 'Clôturée' }}
-            </span>
-          </p>
-        @else
-          <p>Aucune édition active pour le moment.</p>
-        @endif
-      </section>
-
-      <!-- Top candidats -->
-      <section class="bg-white p-6 rounded-lg shadow">
-  <h2 class="text-lg sm:text-xl font-bold mb-4">Top 3 Candidats</h2>
-  <div class="space-y-4">
-    @foreach($topCandidats as $candidat)
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-3 border rounded-lg bg-white shadow-sm hover:shadow-md transition">
-
-        <!-- Infos candidat -->
-        <div class="flex items-center gap-4">
-          <img src="{{ asset($candidat->photo_url) }}"
-               alt="{{ $candidat->nom_complet }}"
-               class="w-12 h-12 rounded-full object-cover">
+  <div class="grid grid-cols-1 gap-6 xl:grid-cols-3">
+    {{-- Édition active --}}
+    <section class="xl:col-span-1 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+      <h2 class="flex items-center gap-2 text-lg font-bold text-neutral-900 mb-4">
+        <span class="material-icons text-ka-gold">flag</span>
+        Édition en cours
+      </h2>
+      @if($editionActive)
+        <dl class="space-y-3 text-sm">
           <div>
-            <div class="font-semibold text-gray-800">{{ $candidat->nom_complet }}</div>
-            <div class="text-sm text-gray-500 flex items-center gap-1">
-              <span class="material-icons text-[#A28224] text-base">category</span>
-              {{ $candidat->categorie->nom_categorie }}
+            <dt class="text-neutral-500">Titre</dt>
+            <dd class="font-semibold text-neutral-900">{{ $editionActive->titre }}</dd>
+          </div>
+          <div>
+            <dt class="text-neutral-500">Thème</dt>
+            <dd class="text-neutral-800">{{ $editionActive->theme }}</dd>
+          </div>
+          <div>
+            <dt class="text-neutral-500 mb-1">Statut</dt>
+            <dd>
+              <span class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold {{ $editionActive->statut ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                <span class="material-icons text-[14px]">{{ $editionActive->statut ? 'check_circle' : 'lock' }}</span>
+                {{ $editionActive->statut ? 'Active' : 'Clôturée' }}
+              </span>
+            </dd>
+          </div>
+        </dl>
+      @else
+        <p class="text-sm text-neutral-500 rounded-lg bg-neutral-50 p-4 text-center">Aucune édition active.</p>
+      @endif
+    </section>
+
+    {{-- Top candidats --}}
+    <section class="xl:col-span-2 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+      <h2 class="flex items-center gap-2 text-lg font-bold text-neutral-900 mb-4">
+        <span class="material-icons text-ka-yellow">emoji_events</span>
+        Top 3 candidats
+      </h2>
+      <div class="space-y-3">
+        @forelse($topCandidats as $index => $candidat)
+          <div class="flex items-center gap-4 rounded-xl border border-neutral-100 bg-neutral-50/50 p-4 transition hover:border-ka-gold/40 hover:shadow-md">
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-black text-sm font-bold text-ka-yellow">
+              {{ $index + 1 }}
+            </span>
+            <img src="{{ $candidat->photo_url ? asset($candidat->photo_url) : 'https://via.placeholder.com/80' }}"
+                 alt="{{ $candidat->nom_complet }}"
+                 class="h-14 w-14 shrink-0 rounded-full object-cover ring-2 ring-ka-gold">
+            <div class="min-w-0 flex-1">
+              <p class="font-semibold text-neutral-900 truncate">{{ $candidat->nom_complet }}</p>
+              <p class="text-sm text-neutral-500 flex items-center gap-1 truncate">
+                <span class="material-icons text-ka-gold text-base">category</span>
+                {{ $candidat->categorie->nom_categorie ?? '—' }}
+              </p>
+            </div>
+            <div class="shrink-0 text-right">
+              <p class="text-2xl font-bold text-ka-gold">{{ $candidat->votes_count }}</p>
+              <p class="text-xs text-neutral-500">votes</p>
             </div>
           </div>
-        </div>
-
-        <!-- Nombre de votes -->
-        <div class="text-lg font-bold text-blue-600 text-center sm:text-right flex items-center gap-1">
-          <span class="material-icons text-yellow-500 text-base">star</span>
-          {{ $candidat->votes_count }}
-        </div>
+        @empty
+          <p class="text-center text-sm text-neutral-500 py-8">Aucun candidat pour le moment.</p>
+        @endforelse
       </div>
-    @endforeach
-</div>
-
-</section>
-
-
-      <!-- Graphique votes par catégorie -->
-      <section class="bg-white p-6 rounded-lg shadow">
-        <h2 class="text-lg sm:text-xl font-bold mb-4">Répartition des votes par catégorie</h2>
-        <div class="w-full h-64 sm:h-80 md:h-96">
-          <canvas id="votesParCategorie"></canvas>
-        </div>
-      </section>
-
-      <!-- Activité récente -->
-      <section class="bg-white p-6 rounded-lg shadow">
-        <h2 class="text-lg sm:text-xl font-bold mb-4">Activité récente</h2>
-        <ul class="divide-y divide-gray-200">
-          @foreach($recentVotes as $vote)
-            <li class="py-2 text-sm">
-              <span class="font-semibold">{{ $vote->user->name }}</span> a voté pour
-              <span class="font-semibold">{{ $vote->candidat->nom_complet }}</span>
-              ({{ $vote->candidat->categorie->nom }}) –
-              <span class="text-gray-500">{{ $vote->created_at->diffForHumans() }}</span>
-            </li>
-          @endforeach
-        </ul>
-      </section>
-    </main>
+    </section>
   </div>
 
-  <script>
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      const overlay = document.getElementById('overlay');
-      sidebar.classList.toggle('-translate-x-full');
-      overlay.classList.toggle('hidden');
-    }
+  {{-- Graphique --}}
+  <section class="mt-6 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+    <h2 class="flex items-center gap-2 text-lg font-bold text-neutral-900 mb-4">
+      <span class="material-icons text-ka-gold">bar_chart</span>
+      Votes par catégorie
+    </h2>
+    <div class="h-64 sm:h-80">
+      <canvas id="votesParCategorie"></canvas>
+    </div>
+  </section>
 
-    // Graphique
-    const categories = @json($categoriesLabels ?? []);
-    const votes = @json($categoriesVotes ?? []);
+  {{-- Activité récente --}}
+  <section class="mt-6 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+    <h2 class="flex items-center gap-2 text-lg font-bold text-neutral-900 mb-4">
+      <span class="material-icons text-ka-gold">history</span>
+      Activité récente
+    </h2>
+    <ul class="divide-y divide-neutral-100">
+      @forelse($recentVotes as $vote)
+        <li class="flex flex-wrap items-center gap-2 py-3 text-sm">
+          <span class="material-icons text-neutral-400 text-base">payments</span>
+          <span class="font-medium text-neutral-800 font-mono text-xs">{{ $vote->payment_reference ?? 'Vote' }}</span>
+          <span class="text-neutral-500">→</span>
+          <span class="font-semibold text-ka-gold">{{ $vote->candidat->nom_complet ?? '—' }}</span>
+          @if($vote->candidat?->categorie)
+            <span class="text-neutral-400">({{ $vote->candidat->categorie->nom_categorie }})</span>
+          @endif
+          <span class="ml-auto text-xs text-neutral-400">{{ $vote->created_at->diffForHumans() }}</span>
+        </li>
+      @empty
+        <li class="py-8 text-center text-sm text-neutral-500">Aucun vote récent.</li>
+      @endforelse
+    </ul>
+  </section>
+@endsection
 
-    const ctx = document.getElementById('votesParCategorie').getContext('2d');
-    new Chart(ctx, {
+@push('scripts')
+<script>
+  const categories = @json($categoriesLabels ?? []);
+  const votes = @json($categoriesVotes ?? []);
+  const ctx = document.getElementById('votesParCategorie');
+  if (ctx && categories.length) {
+    new Chart(ctx.getContext('2d'), {
       type: 'bar',
       data: {
         labels: categories,
         datasets: [{
           label: 'Votes',
           data: votes,
-          backgroundColor: 'rgba(162, 130, 36, 0.8)',
+          backgroundColor: 'rgba(162, 130, 36, 0.85)',
+          borderColor: '#A28224',
+          borderWidth: 1,
+          borderRadius: 8,
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
         scales: {
-          y: { beginAtZero: true }
+          y: { beginAtZero: true, grid: { color: '#f0f0f0' } },
+          x: { grid: { display: false } }
         }
       }
     });
-  </script>
-</body>
-</html>
+  }
+</script>
+@endpush

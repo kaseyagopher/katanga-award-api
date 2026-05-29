@@ -16,17 +16,13 @@ use App\Http\Controllers\VoteSummaryController;
 Route::prefix('katanga-award')->group(function () {
 
     Route::get('/', function () {
-        return to_route('login');
+        return to_route('user.index');
     });
-
-    Route::get('/login', [AuthController::class, 'index'])->name('login');
-    Route::post('/login',[AuthController::class, 'loginUser']);
 
     Route::get('/loginAdmin',[AuthController::class, 'admin'])->name('admin.login');
     Route::post('/loginAdmin',[AuthController::class, 'loginAdmin']);
 
-    Route::get('/logout', [AuthController::class,'user_logout'])->name('user.logout');
-    Route::get('/logout',[AuthController::class, 'logout'])->name('admin.logout');
+    Route::get('/admin/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
     Route::prefix('admin')->group(function () {
         Route::get('/dashboard',[AdminController::class, 'index'])->name('admin.dashboard');
@@ -48,10 +44,10 @@ Route::prefix('katanga-award')->group(function () {
         Route::get('/candidat/{candidat:uuid}', [UserController::class, 'showCandidat'])->name('user.candidat.show');
 
         Route::get('/publicite',[UserController::class,'publicite'])->name('user.publicite');
-        Route::post('/vote',[VoteController::class, 'store'])->name('vote.store');
-        Route::get('/vote/summary', [VoteSummaryController::class, 'show'])
-            ->name('vote.summary')
-            ->middleware('auth:web');
+        Route::post('/vote', [VoteController::class, 'store'])->name('vote.store');
+        Route::get('/vote/paiement', [VoteController::class, 'payment'])->name('vote.payment');
+        Route::post('/vote/paiement', [VoteController::class, 'processPayment'])->name('vote.payment.process');
+        Route::get('/vote/summary', [VoteSummaryController::class, 'show'])->name('vote.summary');
     });
 
     Route::fallback(function () {

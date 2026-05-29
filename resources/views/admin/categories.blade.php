@@ -1,133 +1,73 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard - Vote en ligne</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://unpkg.com/alpinejs" defer></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="icon" type="image/png" href="{{ asset('logo kataward.png') }}">
-  <script>
-    function toggleSidebar() {
-      document.getElementById("sidebar").classList.toggle("-translate-x-full");
-      document.getElementById("overlay").classList.toggle("hidden");
-    }
-  </script>
-</head>
-<body class="flex min-h-screen bg-gray-100 font-sans">
+@extends('layouts.admin')
 
-  <!-- Sidebar -->
-  @include('components.aside-admin')
+@section('title', 'Catégories')
+@section('page-title', 'Catégories')
+@section('page-subtitle', 'Gérer les catégories de l\'édition')
 
-  <!-- Overlay (mobile only) -->
-  <div id="overlay"
-       class="fixed inset-0 bg-black bg-opacity-50 hidden z-40 md:hidden"
-       onclick="toggleSidebar()"></div>
+@section('header-actions')
+  <a href="{{ route('categories.create') }}"
+     class="inline-flex items-center gap-2 rounded-lg bg-ka-gold px-4 py-2 text-sm font-semibold text-white shadow-md shadow-ka-gold/20 transition hover:bg-ka-gold/90 focus:outline-none focus:ring-2 focus:ring-ka-gold focus:ring-offset-2">
+    <span class="material-icons text-[18px]">add</span>
+    Nouvelle catégorie
+  </a>
+@endsection
 
-  <!-- Contenu principal -->
-  <div class="flex-1 flex flex-col md:ml-64">
-    <!-- Header (mobile only) -->
-    <header class="bg-white shadow p-4 flex items-center justify-between md:hidden">
-      <button onclick="toggleSidebar()" class="text-blue-700 focus:outline-none">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-             viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
-      <h1 class="text-lg font-bold">Admin Dashboard</h1>
-    </header>
+@section('content')
+  <x-admin.page-header title="Liste des catégories" subtitle="{{ $Categories->count() }} catégorie(s)">
+    <x-slot:actions>
+      <a href="{{ route('categories.create') }}"
+         class="inline-flex items-center gap-1 rounded-lg bg-ka-gold px-3 py-2 text-sm font-semibold text-white">
+        <span class="material-icons text-[18px]">add</span>
+        Ajouter
+      </a>
+    </x-slot:actions>
+  </x-admin.page-header>
 
-    <!-- Section Candidats -->
-    <div class="p-6">
-      <!-- Bouton Ajouter -->
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-xl font-bold">Liste des categories</h2>
-        <a href="{{ route('categories.create') }}"
-           class="px-4 py-2 bg-[#A28224] text-white rounded">
-          + Ajouter une categorie
-        </a>
-      </div>
-
-      <!-- Tableau -->
-      <div class="overflow-x-auto bg-white shadow-md rounded-lg">
-        <table class="min-w-full">
-          <thead class="bg-black text-white">
+  <div class="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
+    <div class="overflow-x-auto admin-scrollbar">
+      <table class="min-w-full text-sm">
+        <thead>
+          <tr class="bg-black text-left text-white">
+            <th class="px-6 py-4 font-semibold">#</th>
+            <th class="px-6 py-4 font-semibold">Catégorie</th>
+            <th class="px-6 py-4 font-semibold text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-neutral-100">
+          @forelse ($Categories as $Categorie)
+            <tr class="transition hover:bg-ka-gold/5">
+              <td class="px-6 py-4 text-neutral-500">{{ $Categorie->id }}</td>
+              <td class="px-6 py-4 font-medium text-neutral-900">{{ $Categorie->nom_categorie }}</td>
+              <td class="px-6 py-4">
+                <div class="flex justify-end gap-2">
+                  <a href="{{ route('categories.edit', $Categorie->id) }}"
+                     class="inline-flex items-center gap-1 rounded-lg bg-black px-3 py-1.5 text-xs font-semibold text-white hover:bg-neutral-800">
+                    <span class="material-icons text-[14px]">edit</span>
+                    Modifier
+                  </a>
+                  <form method="POST" action="{{ route('categories.destroy', $Categorie->id) }}"
+                        onsubmit="return confirm('Supprimer cette catégorie ?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit"
+                            class="inline-flex items-center gap-1 rounded-lg bg-red-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-red-700">
+                      <span class="material-icons text-[14px]">delete</span>
+                      Supprimer
+                    </button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          @empty
             <tr>
-              <th class="px-6 py-3 text-left text-sm font-semibold">#</th>
-              <th class="px-6 py-3 text-left text-sm font-semibold">Catégorie</th>
-              <th class="px-6 py-3 text-left text-sm font-semibold">Actions</th>
+              <td colspan="3" class="px-6 py-12 text-center text-neutral-500">
+                <span class="material-icons text-4xl text-neutral-300 mb-2 block">category</span>
+                Aucune catégorie. Créez-en une pour commencer.
+              </td>
             </tr>
-          </thead>
-          <tbody id="candidatList" class="divide-y divide-gray-200">
-            @forelse ($Categories as $Categorie)
-            <tr data-id="{{ $Categorie->id }}">
-                <td class="px-6 py-4">{{ $Categorie->id }}</td>
-                <td class="px-6 py-4">{{ $Categorie->nom_categorie}}</td>
-
-                <td class="px-6 py-4 text-sm flex gap-2">
-                    <!-- Bouton Modifier -->
-                    <a href="{{ route('categories.edit', $Categorie->id) }}"
-                       class="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
-                       Modifier
-                    </a>
-
-                    <!-- Bouton Supprimer -->
-                    <form method="POST"
-                          action="{{ route('categories.destroy', $Categorie->id) }}"
-                          onsubmit="return confirm('Voulez-vous vraiment supprimer ce candidat ?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"
-                                class="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600">
-                          Supprimer
-                        </button>
-                    </form>
-                </td>
-            </tr>
-            @empty
-            <tr>
-              <td colspan="4" class="p-4 bg-gray-200 text-center rounded">Aucune  categorie</td>
-            </tr>
-            @endforelse
-          </tbody>
-        </table>
-      </div>
+          @endforelse
+        </tbody>
+      </table>
     </div>
   </div>
-  <script>
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      const overlay = document.getElementById('overlay');
-      sidebar.classList.toggle('-translate-x-full');
-      overlay.classList.toggle('hidden');
-    }
-
-    // Graphique
-    const categories = @json($categoriesLabels ?? []);
-    const votes = @json($categoriesVotes ?? []);
-
-    const ctx = document.getElementById('votesParCategorie').getContext('2d');
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: categories,
-        datasets: [{
-          label: 'Votes',
-          data: votes,
-          backgroundColor: 'rgba(162, 130, 36, 0.8)',
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: { beginAtZero: true }
-        }
-      }
-    });
-  </script>
-</body>
-</html>
+@endsection

@@ -1,253 +1,154 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Katanga Awards | Accueil</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="icon" type="image/png" href="{{ asset('logo kataward.png') }}">
-  <style>
-    @keyframes fadeOut {
-      from { opacity: 1; }
-      to { opacity: 0; visibility: hidden; }
-    }
-    .carousel-item {
-      transition: transform 0.5s ease-in-out;
-    }
-    .overlay-text {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      pointer-events: none;
-    }
-  </style>
-</head>
+@extends('layouts.user', ['showLoader' => true])
 
-<body class="bg-black min-h-screen flex flex-col relative">
+@section('title', 'Accueil — Katanga Awards')
+@section('main-class', 'w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10')
 
-  <!-- Loader -->
-  <div id="loader" class="fixed inset-0 bg-black flex flex-col items-center justify-center z-50">
-    <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-[#A28224] mb-4"></div>
-    <h1 class="text-2xl font-bold text-[#fbcd43]">Katanga Awards</h1>
-  </div>
-
-  <!-- NAVBAR -->
-  <nav class="bg-dark shadow-md">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b-2 border-[#fbcd43]">
-      <div class="flex justify-between h-16 items-center">
-        <!-- Liens desktop -->
-        <div class="hidden md:flex items-center space-x-4">
-          <a href="{{ route('user.index') }}" class="text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Accueil</a>
-          <a href="{{ route('user.apropos') }}" class="text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">A propos</a>
-          <a href="{{ route('user.contact') }}" class="text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Contact</a>
-        </div>
-
-        <!-- Boutons utilisateur -->
-        <div class="flex items-center space-x-2">
-          @if(Auth::guard('web')->check())
-              @php
-                  $editionActive = \App\Models\Edition::where('statut', true)->first();
-                  $aVote = false;
-                  if($editionActive) {
-                      $aVote = \App\Models\Vote::where('user_id', Auth::guard('web')->id())
-                                                ->where('edition_id', $editionActive->id)
-                                                ->exists();
-                  }
-              @endphp
-
-              @if($editionActive && !$aVote)
-                  <a href="{{ route('user.vote') }}"
-                     class="bg-[#e3b017] text-black px-4 py-2 rounded-md hover:bg-[#A28224] focus:outline-none focus:ring-2 focus:ring-[#A28224]/50 whitespace-nowrap">
-                      Voter
-                  </a>
-              @elseif($editionActive)
-                  <span class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md cursor-not-allowed whitespace-nowrap">
-                      Vous avez déjà voté
-                  </span>
-              @else
-                  <span class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md cursor-not-allowed whitespace-nowrap">
-                      Pas d'édition active
-                  </span>
-              @endif
-          @else
-              <p class="text-orange-500 font-semibold">Pas connecté</p>
-          @endif
-        </div>
-
-        <div class="flex items-center space-x-2 px-4 py-1">
-          <span class="font-bold text-lg">
-              <span class="text-white">KATANGA</span>
-              <span class="text-[#e3b017]"> AWARDS</span>
-          </span>
-        </div>
-
-        <!-- Hamburger mobile -->
-        <div class="md:hidden flex items-center">
-            <button id="mobile-menu-button" class="text-white focus:outline-none">
-                <span class="material-icons">menu</span>
-            </button>
-        </div>
-      </div>
-
-      <!-- Menu mobile -->
-      <div id="mobile-menu" class="hidden md:hidden mt-2 space-y-2">
-        <a href="{{ route('user.index') }}" class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Accueil</a>
-        <a href="{{ route('user.apropos') }}" class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">À propos</a>
-        <a href="{{ route('user.contact') }}" class="block text-white hover:text-[#A28224] font-semibold px-3 py-2 rounded-md">Contact</a>
-      </div>
-    </div>
-  </nav>
-
-  <!-- CONTENU PRINCIPAL -->
-  <main class="flex-1 w-full mx-auto p-6">
-    <div class="w-full relative">
-      <div class="overlay-text z-10">
-        <h1 class="text-4xl sm:text-5xl font-bold text-[#fbcd43] drop-shadow-lg">Bienvenue à Katanga Awards <br><span class="text-white">(16<sup>ème</sup> ÉDITION)</span></h1>
-        <p class="mt-2 text-white/80 text-center text-lg sm:text-xl">Découvrez nos candidats et votez en ligne</p>
-      </div>
-
-      <!-- Carousel -->
-      <div id="carousel" class="overflow-hidden rounded-xl relative z-0">
-        <div class="carousel-inner flex relative">
-          @foreach (['affiche_officiel.jpg','IMG_6309.JPG','photo_2025-10-08_15-11-01.jpg','photo_2025-10-08_15-10-57.jpg','photo_2025-10-08_15-18-37.jpg','photo_2025-10-08_15-11-08.jpg'] as $slide)
-          <div class="carousel-item flex-shrink-0 w-full relative">
-            <img src="{{ asset($slide) }}" class="w-full h-64 object-cover rounded-xl" alt="Slide">
-            <div class="absolute inset-0 bg-black/60 rounded-xl"></div>
-          </div>
-          @endforeach
-        </div>
-      </div>
-
-      <!-- Contrôles carousel -->
-      <button id="prev" class="absolute top-1/2 left-2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 z-20">&#10094;</button>
-      <button id="next" class="absolute top-1/2 right-2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 z-20">&#10095;</button>
-
-      <div class="flex justify-center space-x-2 mt-4 relative z-20">
-        @for($i = 0; $i < 5; $i++)
-          <button class="indicator w-3 h-3 rounded-full bg-gray-400"></button>
-        @endfor
-      </div>
-    </div>
-
-    <!-- Candidats par catégorie -->
-    @php
-      $categories = \App\Models\Categorie::with(['candidats' => fn($q) => $q->orderBy('nom_complet')])->get();
-    @endphp
-
-    @foreach($categories as $categorie)
-      <section class="mb-8">
-        <h2 class="text-2xl m-4 pb-2 font-semibold mb-4 text-white">{{ mb_strtoupper($categorie->nom_categorie) }}</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          @forelse($categorie->candidats as $candidat)
-            <div class="candidate-card relative rounded-2xl shadow-lg p-4 flex flex-col items-center text-center transition-transform duration-500 ease-in-out hover:scale-105"
-                 style="background: linear-gradient(135deg, {{ $candidat->couleur_dominante }}, {{ $candidat->couleur_dominante_sombre }});">
-
-              <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-md mb-3">
-                <img src="{{ asset($candidat->photo_url) }}" alt="{{ $candidat->nom_complet }}" class="w-full h-full object-cover zoomable">
-              </div>
-
-              <h3 class="text-lg font-bold text-white drop-shadow">{{ mb_strtoupper($candidat->nom_complet) }}</h3>
-              <p class="text-sm text-yellow-100 m-2 italic">Nominé(e)</p>
-              <a href="{{ route('user.candidat.show', $candidat->uuid) }}" class="bg-[#fbcd43] text-black px-4 m-2 rounded-2xl hover:bg-[#A28224] transition">Voir plus</a>
-            </div>
-          @empty
-            <p class="col-span-full text-center bg-gray-200 p-4 rounded">Aucun candidat</p>
-          @endforelse
-        </div>
-      </section>
-    @endforeach
-
-    <!-- Sponsors -->
-    <section class="mt-16 text-center">
-      <h2 class="text-3xl font-semibold text-[#fbcd43] mb-8">Nos Sponsors - 16<sup>ème</sup> Édition</h2>
-      <p class="text-gray-300 mb-10 max-w-3xl mx-auto">
-        Nous remercions chaleureusement nos partenaires et sponsors pour leur soutien à cette 16<sup>ème</sup> édition du
-        <span class="text-[#A28224] font-semibold">Katanga Awards</span>.
-      </p>
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-10 items-center justify-center">
-        @foreach (['tfm.jpg','Baraka.jpg','bgfibanque.jpg','novotel.jpg','ntayrock.jpg','mbegu.jpg','loft_key.jpg','morco.jpg','malaika.jpg','inpp.jpg','mannel.jpg','silocongo.jpg','topmarket.jpg','tsm.jpg'] as $image)
-          <div class="flex justify-center">
-            <img src="{{ asset($image) }}" alt="Sponsor" class="h-28 sm:h-32 md:h-36 object-contain rounded-xl shadow-md grayscale hover:grayscale-0 hover:scale-105 transition duration-500 ease-in-out zoomable">
+@section('content')
+  {{-- Hero --}}
+  <section class="relative mb-12 overflow-hidden rounded-3xl ring-2 ring-ka-gold/30 shadow-ka-glow">
+    <div id="carousel" class="relative">
+      <div class="carousel-inner flex transition-transform duration-500 ease-out">
+        @foreach (['affiche_officiel.jpg','IMG_6309.JPG','photo_2025-10-08_15-11-01.jpg','photo_2025-10-08_15-10-57.jpg','photo_2025-10-08_15-18-37.jpg','photo_2025-10-08_15-11-08.jpg'] as $slide)
+          <div class="carousel-item min-w-full shrink-0 relative aspect-[21/9] sm:aspect-[2.5/1] min-h-[220px]">
+            <img src="{{ asset($slide) }}" class="absolute inset-0 w-full h-full object-cover" alt="">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/30"></div>
           </div>
         @endforeach
       </div>
+      <div class="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-4 pointer-events-none">
+        @if($edition ?? null)
+          <span class="mb-3 inline-block rounded-full border border-ka-yellow/50 bg-black/60 px-4 py-1 text-xs font-semibold uppercase tracking-widest text-ka-yellow backdrop-blur">
+            {{ $edition->titre }} · {{ $edition->theme }}
+          </span>
+        @endif
+        <h1 class="text-3xl sm:text-5xl font-bold ka-gradient-text drop-shadow-lg max-w-3xl">
+          Katanga Awards
+        </h1>
+        <p class="mt-3 text-white/90 text-base sm:text-lg max-w-xl">
+          Soutenez vos nominés — chaque vote compte
+        </p>
+        @if($editionActive ?? null)
+          <div class="mt-6 pointer-events-auto">
+            <x-ka.button :href="route('user.vote')" variant="primary" size="lg">
+              <span class="material-icons">payments</span>
+              Voter · {{ number_format($votePrice ?? 0, 0, ',', ' ') }} {{ $voteCurrency ?? 'CDF' }}
+            </x-ka.button>
+          </div>
+        @endif
+      </div>
+      <button type="button" id="prev" class="absolute left-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/70 p-2 text-ka-yellow hover:bg-ka-gold hover:text-white transition" aria-label="Précédent">&#10094;</button>
+      <button type="button" id="next" class="absolute right-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/70 p-2 text-ka-yellow hover:bg-ka-gold hover:text-white transition" aria-label="Suivant">&#10095;</button>
+    </div>
+    <div id="carousel-dots" class="absolute bottom-4 left-0 right-0 z-20 flex justify-center gap-2"></div>
+  </section>
+
+  {{-- Stats --}}
+  @if($edition ?? null)
+    <section class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-12">
+      <div class="rounded-2xl border border-ka-gold/30 bg-ka-card p-4 text-center">
+        <p class="text-2xl font-bold text-ka-yellow">{{ $categories->count() }}</p>
+        <p class="text-xs text-neutral-400 mt-1">Catégories</p>
+      </div>
+      <div class="rounded-2xl border border-ka-gold/30 bg-ka-card p-4 text-center">
+        <p class="text-2xl font-bold text-ka-yellow">{{ $categories->sum(fn($c) => $c->candidats->count()) }}</p>
+        <p class="text-xs text-neutral-400 mt-1">Nominés</p>
+      </div>
+      <div class="rounded-2xl border border-ka-gold/30 bg-ka-card p-4 text-center">
+        <p class="text-2xl font-bold text-ka-yellow">{{ number_format($totalVotes ?? 0, 0, ',', ' ') }}</p>
+        <p class="text-xs text-neutral-400 mt-1">Votes</p>
+      </div>
+      <div class="rounded-2xl border border-ka-gold/30 bg-ka-card p-4 text-center col-span-2 sm:col-span-1">
+        <p class="text-lg font-bold text-ka-amber">{{ number_format($votePrice ?? 0, 0, ',', ' ') }}</p>
+        <p class="text-xs text-neutral-400 mt-1">{{ $voteCurrency ?? 'CDF' }} / vote</p>
+      </div>
     </section>
-  </main>
+  @endif
 
-  <!-- FOOTER -->
-  <footer class="bg-[#111] border-t border-[#A28224] mt-auto">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-center items-center text-sm text-gray-400">
-        <p class="text-center">© 2025 Produit par Synergie UP.</p>
+  {{-- Nominés avec filtre --}}
+  @if($categories->isNotEmpty())
+    <section x-data="{ cat: 'all' }">
+      <x-ka.section-heading subtitle="Les nominés" icon="groups">
+        Choisissez votre catégorie
+      </x-ka.section-heading>
+
+      <div class="flex flex-wrap gap-2 mb-8">
+        <button type="button" @click="cat = 'all'"
+                :class="cat === 'all' ? 'bg-ka-gold text-white' : 'bg-ka-card text-neutral-400 border border-neutral-800'"
+                class="rounded-full px-4 py-2 text-sm font-semibold transition">
+          Toutes
+        </button>
+        @foreach($categories as $c)
+          <button type="button" @click="cat = '{{ $c->id }}'"
+                  :class="cat === '{{ $c->id }}' ? 'bg-ka-gold text-white' : 'bg-ka-card text-neutral-400 border border-neutral-800'"
+                  class="rounded-full px-4 py-2 text-sm font-semibold transition">
+            {{ $c->nom_categorie }}
+          </button>
+        @endforeach
+      </div>
+
+      @foreach($categories as $categorie)
+        <div x-show="cat === 'all' || cat === '{{ $categorie->id }}'" x-cloak class="mb-12">
+          <h3 class="flex items-center gap-2 text-lg font-bold text-ka-yellow mb-5 border-l-4 border-ka-gold pl-3">
+            {{ mb_strtoupper($categorie->nom_categorie) }}
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            @foreach($categorie->candidats as $candidat)
+              <x-ka.candidat-card :candidat="$candidat" :categorie="$categorie->nom_categorie" :show-vote-link="false" />
+            @endforeach
+          </div>
+        </div>
+      @endforeach
+    </section>
+  @else
+    <div class="rounded-2xl border border-dashed border-ka-gold/40 bg-ka-card p-12 text-center">
+      <span class="material-icons text-5xl text-ka-gold/50">event_busy</span>
+      <p class="mt-4 text-neutral-400">Aucune édition active ou aucun nominé pour le moment.</p>
     </div>
-  </footer>
+  @endif
 
-  <!-- ✅ MODAL DE VISUALISATION D'IMAGE -->
-  <div id="imageModal" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 backdrop-blur-sm">
-    <div class="relative">
-      <img id="modalImage" src="" alt="Aperçu" class="max-w-[90vw] max-h-[85vh] rounded-lg shadow-lg transition-transform duration-300 transform scale-100 hover:scale-105">
-      <button id="closeModal" class="absolute -top-4 -right-4 bg-white text-gray-800 rounded-full w-10 h-10 text-2xl font-bold shadow-md hover:bg-gray-200 flex items-center justify-center">&times;</button>
+  {{-- Sponsors --}}
+  <section class="mt-20 pt-12 border-t border-ka-gold/20">
+    <x-ka.section-heading subtitle="Partenaires" icon="handshake">
+      Nos sponsors
+    </x-ka.section-heading>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 items-center">
+      @foreach (['tfm.jpg','Baraka.jpg','bgfibanque.jpg','novotel.jpg','ntayrock.jpg','mbegu.jpg','loft_key.jpg','morco.jpg','malaika.jpg','inpp.jpg','mannel.jpg','silocongo.jpg','topmarket.jpg','tsm.jpg'] as $image)
+        <div class="flex justify-center rounded-xl bg-white/5 p-4 hover:bg-ka-gold/10 transition">
+          <img src="{{ asset($image) }}" alt="Sponsor" class="h-16 sm:h-20 object-contain grayscale hover:grayscale-0 transition duration-500 zoomable cursor-pointer">
+        </div>
+      @endforeach
     </div>
-  </div>
+  </section>
+@endsection
 
-  <!-- SCRIPTS -->
-  <script>
-    const btn = document.getElementById('mobile-menu-button');
-    const menu = document.getElementById('mobile-menu');
-    const icon = btn.querySelector('.material-icons');
-    btn.addEventListener('click', () => {
-      menu.classList.toggle('hidden');
-      icon.textContent = menu.classList.contains('hidden') ? 'menu' : 'close';
+@push('scripts')
+<script>
+  const carousel = document.querySelector('#carousel .carousel-inner');
+  const items = document.querySelectorAll('.carousel-item');
+  const dotsContainer = document.getElementById('carousel-dots');
+  let index = 0;
+  if (carousel && items.length) {
+    items.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'h-2 rounded-full bg-neutral-600 transition-all';
+      dot.addEventListener('click', () => show(i));
+      dotsContainer.appendChild(dot);
     });
-
-    window.addEventListener("load", () => {
-      const loader = document.getElementById("loader");
-      loader.style.animation = "fadeOut 1s forwards";
-    });
-
-    // Carousel
-    const carousel = document.querySelector('#carousel .carousel-inner');
-    const items = document.querySelectorAll('.carousel-item');
-    const prev = document.getElementById('prev');
-    const next = document.getElementById('next');
-    const indicators = document.querySelectorAll('.indicator');
-    let index = 0;
-
-    function showSlide(i) {
+    const dots = dotsContainer.querySelectorAll('button');
+    function show(i) {
       index = (i + items.length) % items.length;
       carousel.style.transform = `translateX(${-index * 100}%)`;
-      indicators.forEach((dot, idx) => dot.classList.toggle('bg-white', idx === index));
-    }
-
-    prev.addEventListener('click', () => showSlide(index - 1));
-    next.addEventListener('click', () => showSlide(index + 1));
-    indicators.forEach((dot, idx) => dot.addEventListener('click', () => showSlide(idx)));
-    setInterval(() => showSlide(index + 1), 4000);
-    showSlide(index);
-
-    // ✅ Visualisation des images (candidats + sponsors)
-    const modal = document.getElementById('imageModal');
-    const modalImage = document.getElementById('modalImage');
-    const closeModal = document.getElementById('closeModal');
-
-    document.querySelectorAll('.zoomable').forEach(img => {
-      img.classList.add('cursor-pointer', 'transition', 'hover:opacity-80');
-      img.addEventListener('click', e => {
-        e.preventDefault();
-        e.stopPropagation();
-        modalImage.src = img.src;
-        modal.classList.remove('hidden');
+      dots.forEach((d, idx) => {
+        d.classList.toggle('bg-ka-yellow', idx === index);
+        d.classList.toggle('w-6', idx === index);
+        d.classList.toggle('w-2', idx !== index);
       });
-    });
-
-    closeModal.addEventListener('click', () => modal.classList.add('hidden'));
-    modal.addEventListener('click', e => {
-      if (e.target === modal) modal.classList.add('hidden');
-    });
-  </script>
-</body>
-</html>
+    }
+    document.getElementById('prev')?.addEventListener('click', () => show(index - 1));
+    document.getElementById('next')?.addEventListener('click', () => show(index + 1));
+    setInterval(() => show(index + 1), 5000);
+    show(0);
+  }
+</script>
+@endpush

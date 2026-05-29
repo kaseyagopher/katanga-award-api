@@ -6,6 +6,7 @@ use App\Models\Vote;
 use App\Models\Edition;
 use App\Models\Categorie;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Candidat extends Model
 {

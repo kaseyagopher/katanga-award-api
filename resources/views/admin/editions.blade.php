@@ -1,369 +1,207 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="csrf-token" content="{{ csrf_token() }}" />
-  <title>Admin Dashboard - Éditions</title>
-  <link rel="icon" type="image/png" href="{{ asset('flavicon-katanga-award.jpg') }}">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="icon" type="image/png" href="{{ asset('logo kataward.png') }}">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://unpkg.com/alpinejs" defer></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="flex min-h-screen bg-gray-100 font-sans">
+@extends('layouts.admin')
 
-  <!-- Sidebar -->
-  @include('components.aside-admin')
+@section('title', 'Éditions')
+@section('page-title', 'Éditions')
+@section('page-subtitle', 'Gérer les éditions du prix')
 
-  <!-- Overlay (mobile only) -->
-  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40 md:hidden" onclick="toggleSidebar()"></div>
+@section('header-actions')
+  <button type="button" id="showFormBtn"
+          class="inline-flex items-center gap-2 rounded-lg bg-ka-gold px-4 py-2 text-sm font-semibold text-white shadow-md hover:bg-ka-gold/90">
+    <span class="material-icons text-[18px]">add</span>
+    Nouvelle édition
+  </button>
+@endsection
 
-  <!-- Contenu principal -->
-  <div class="flex-1 flex flex-col md:ml-64">
-    <!-- Header (mobile only) -->
-    <header class="bg-white shadow p-4 flex items-center justify-between md:hidden">
-      <button onclick="toggleSidebar()" class="text-blue-700 focus:outline-none">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-             viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
-      <h1 class="text-lg font-bold">Admin Dashboard</h1>
-    </header>
-
-    <main class="p-6">
- 
-      <div class="flex items-center justify-between mb-6">
-        <h2 class="text-2xl font-bold">Liste des éditions</h2>
-
-        <button id="showFormBtn" class="px-4 py-2 bg-[#A28224] text-white rounded shadow hover:bg-yellow-700">
-          + Ajouter une édition
-        </button>
-      </div>
-
-      <div id="editionList" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        @forelse ($Editions as $Edition)
-          <div data-id="{{ $Edition->id }}" class="bg-white rounded-xl shadow-md p-5 flex flex-col justify-between">
-            <div>
-              <h3 class="text-lg font-bold text-gray-800">{{ $Edition->titre }}</h3>
-              <p class="text-sm text-gray-600">{{ $Edition->theme }}</p>
-            </div>
-
-            <div class="mt-4">
-              @if($Edition->statut == 1)
-                <span class="px-3 py-1 text-xs font-semibold bg-green-100 text-green-700 rounded-full">✅ Active</span>
-              @else
-                <span class="px-3 py-1 text-xs font-semibold bg-red-100 text-red-700 rounded-full">🔒 Clôturée</span>
-              @endif
-            </div>
-
-            <div class="mt-4 flex gap-2">
-              @if($Edition->statut == 1)
-                <button class="editBtn flex-1 px-3 py-1 bg-black text-white rounded text-center" data-id="{{ $Edition->id }}">
-                  Modifier
-                </button>
-
-                <button class="deleteBtn flex-1 px-3 py-1 bg-red-500 text-white rounded" data-id="{{ $Edition->id }}">
-                  Supprimer
-                </button>
-              @endif
-            </div>
+@section('content')
+  <div id="editionList" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    @forelse ($Editions as $Edition)
+      <article data-id="{{ $Edition->id }}" class="flex flex-col rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm transition hover:border-ka-gold/40 hover:shadow-md">
+        <div class="flex-1">
+          <h3 class="text-lg font-bold text-neutral-900">{{ $Edition->titre }}</h3>
+          <p class="mt-1 text-sm text-neutral-600">{{ $Edition->theme }}</p>
+        </div>
+        <div class="mt-4">
+          @if($Edition->statut == 1)
+            <span class="inline-flex items-center gap-1 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-800">
+              <span class="material-icons text-[14px]">check_circle</span> Active
+            </span>
+          @else
+            <span class="inline-flex items-center gap-1 rounded-full bg-neutral-100 px-3 py-1 text-xs font-semibold text-neutral-600">
+              <span class="material-icons text-[14px]">lock</span> Clôturée
+            </span>
+          @endif
+        </div>
+        @if($Edition->statut == 1)
+          <div class="mt-4 flex gap-2">
+            <button type="button" class="editBtn flex-1 rounded-lg bg-black px-3 py-2 text-sm font-semibold text-white hover:bg-neutral-800" data-id="{{ $Edition->id }}">
+              Modifier
+            </button>
+            <button type="button" class="deleteBtn flex-1 rounded-lg bg-red-600 px-3 py-2 text-sm font-semibold text-white hover:bg-red-700" data-id="{{ $Edition->id }}">
+              Supprimer
+            </button>
           </div>
-        @empty
-          <div class="col-span-full p-6 bg-gray-200 text-center rounded">Aucune édition</div>
-        @endforelse
+        @endif
+      </article>
+    @empty
+      <div class="col-span-full rounded-2xl border-2 border-dashed border-neutral-200 py-16 text-center text-neutral-500">
+        <span class="material-icons text-5xl text-neutral-300 mb-2">event</span>
+        <p>Aucune édition. Cliquez sur « Nouvelle édition ».</p>
       </div>
-    </main>
+    @endforelse
   </div>
 
-  <div id="editionFormContainer" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
-      <h2 id="formTitle" class="text-xl font-bold mb-4">Ajouter une édition</h2>
+  {{-- Modal --}}
+  <div id="editionFormContainer" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 p-4 backdrop-blur-sm" role="dialog">
+    <div class="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+      <button type="button" id="closeX" class="absolute right-4 top-4 text-neutral-400 hover:text-neutral-800 text-2xl leading-none" title="Fermer">&times;</button>
+      <h2 id="formTitle" class="text-xl font-bold text-neutral-900 mb-5 pr-8">Ajouter une édition</h2>
 
       <form id="editionForm" class="space-y-4">
         @csrf
         <input type="hidden" id="editionId" name="editionId" value="">
 
         <div>
-          <label for="titre" class="block font-medium mb-1">Titre</label>
-          <input type="number" id="titre" name="titre" required class="w-full px-3 py-2 border rounded" />
+          <label for="titre" class="mb-1 block text-sm font-medium text-neutral-700">Titre</label>
+          <input type="text" id="titre" name="titre" required
+                 class="w-full rounded-lg border border-neutral-300 px-3 py-2 focus:border-ka-gold focus:outline-none focus:ring-2 focus:ring-ka-gold/30" />
         </div>
-
         <div>
-          <label for="theme" class="block font-medium mb-1">Thème</label>
-          <input type="text" id="theme" name="theme" required class="w-full px-3 py-2 border rounded" />
+          <label for="theme" class="mb-1 block text-sm font-medium text-neutral-700">Thème</label>
+          <input type="text" id="theme" name="theme" required
+                 class="w-full rounded-lg border border-neutral-300 px-3 py-2 focus:border-ka-gold focus:outline-none focus:ring-2 focus:ring-ka-gold/30" />
         </div>
-
         <div>
-          <label for="statut" class="block font-medium mb-1">Statut</label>
-          <select id="statut" name="statut" required class="w-full px-3 py-2 border rounded">
+          <label for="statut" class="mb-1 block text-sm font-medium text-neutral-700">Statut</label>
+          <select id="statut" name="statut" required
+                  class="w-full rounded-lg border border-neutral-300 px-3 py-2 focus:border-ka-gold focus:outline-none focus:ring-2 focus:ring-ka-gold/30">
             <option value="1">Active</option>
             <option value="0">Non active</option>
           </select>
         </div>
-
         <div id="formErrors" class="text-sm text-red-600"></div>
-
-        <div class="flex justify-end gap-2">
-          <button type="button" id="closeFormBtn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Annuler</button>
-          <button type="submit" id="submitBtn" class="px-4 py-2 bg-[#A28224] text-white rounded">Enregistrer</button>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" id="closeFormBtn" class="rounded-lg bg-neutral-200 px-4 py-2 text-sm font-medium hover:bg-neutral-300">Annuler</button>
+          <button type="submit" id="submitBtn" class="rounded-lg bg-ka-gold px-4 py-2 text-sm font-semibold text-white hover:bg-ka-gold/90">Enregistrer</button>
         </div>
       </form>
-
-      <button id="closeX" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800" title="Fermer">&times;</button>
     </div>
   </div>
+@endsection
 
-  <script>
+@push('scripts')
+<script>
+  const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  const showFormBtn = document.getElementById('showFormBtn');
+  const editionFormContainer = document.getElementById('editionFormContainer');
+  const closeFormBtn = document.getElementById('closeFormBtn');
+  const closeX = document.getElementById('closeX');
+  const editionForm = document.getElementById('editionForm');
+  const editionList = document.getElementById('editionList');
+  const formTitle = document.getElementById('formTitle');
+  const formErrors = document.getElementById('formErrors');
+  const submitBtn = document.getElementById('submitBtn');
+  const editionIdInput = document.getElementById('editionId');
+  const titreInput = document.getElementById('titre');
+  const themeInput = document.getElementById('theme');
+  const statutInput = document.getElementById('statut');
+  let isEditing = false;
 
-    function toggleSidebar() {
-      const sb = document.getElementById("sidebar");
-      if (sb) sb.classList.toggle("-translate-x-full");
-      document.getElementById("overlay").classList.toggle("hidden");
-    }
+  function openModal() {
+    editionFormContainer.classList.remove('hidden');
+    editionFormContainer.classList.add('flex');
+  }
+  function closeModal() {
+    editionFormContainer.classList.add('hidden');
+    editionFormContainer.classList.remove('flex');
+    formErrors.textContent = '';
+  }
 
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  showFormBtn.addEventListener('click', () => {
+    isEditing = false;
+    formTitle.textContent = 'Ajouter une édition';
+    editionForm.reset();
+    editionIdInput.value = '';
+    submitBtn.textContent = 'Enregistrer';
+    openModal();
+  });
+  closeFormBtn.addEventListener('click', closeModal);
+  closeX.addEventListener('click', closeModal);
+  editionFormContainer.addEventListener('click', (e) => { if (e.target === editionFormContainer) closeModal(); });
 
-    const showFormBtn = document.getElementById('showFormBtn');
-    const editionFormContainer = document.getElementById('editionFormContainer');
-    const closeFormBtn = document.getElementById('closeFormBtn');
-    const closeX = document.getElementById('closeX');
-    const editionForm = document.getElementById('editionForm');
-    const editionList = document.getElementById('editionList');
-    const formTitle = document.getElementById('formTitle');
-    const formErrors = document.getElementById('formErrors');
-    const submitBtn = document.getElementById('submitBtn');
-
-    const editionIdInput = document.getElementById('editionId');
-    const titreInput = document.getElementById('titre');
-    const themeInput = document.getElementById('theme');
-    const statutInput = document.getElementById('statut');
-
-    let isEditing = false;
-
-    showFormBtn.addEventListener('click', () => {
-      isEditing = false;
-      formTitle.textContent = "Ajouter une édition";
-      formErrors.textContent = "";
-      editionForm.reset();
-      editionIdInput.value = "";
-      submitBtn.textContent = "Enregistrer";
-      editionFormContainer.classList.remove('hidden');
-    });
-
-    function closeModal() {
-      editionFormContainer.classList.add('hidden');
-      formErrors.textContent = "";
-    }
-    closeFormBtn.addEventListener('click', closeModal);
-    closeX.addEventListener('click', closeModal);
-    editionFormContainer.addEventListener('click', (e) => {
-      if (e.target === editionFormContainer) closeModal();
-    });
-
-    editionList.addEventListener('click', async (e) => {
-
-      if (e.target.closest('.editBtn')) {
-        const btn = e.target.closest('.editBtn');
-        const id = btn.getAttribute('data-id');
-        if (!id) return;
-        isEditing = true;
-        formTitle.textContent = "Modifier l'édition";
-        submitBtn.textContent = "Modifier";
-        formErrors.textContent = "Chargement...";
-
-        try {
-          const res = await fetch(`editions/${id}/edit`, {
-            headers: { "Accept": "application/json" }
-          });
-          const data = await res.json();
-          if (res.ok && data.success) {
-            editionIdInput.value = data.edition.id;
-            titreInput.value = data.edition.titre ?? "";
-            themeInput.value = data.edition.theme ?? "";
-            statutInput.value = String(data.edition.statut ?? "1");
-            formErrors.textContent = "";
-            editionFormContainer.classList.remove('hidden');
-          } else {
-            formErrors.textContent = data.message || "Impossible de charger l'édition";
-          }
-        } catch (err) {
-          formErrors.textContent = "Erreur réseau : " + err.message;
-        }
-        return;
-      }
-
-      if (e.target.closest('.deleteBtn')) {
-        const btn = e.target.closest('.deleteBtn');
-        const id = btn.getAttribute('data-id');
-        if (!id) return;
-        if (!confirm("Voulez-vous vraiment supprimer cette édition ?")) return;
-
-        try {
-          const res = await fetch(`editions/${id}`, {
-            method: "DELETE",
-            headers: {
-              "X-CSRF-TOKEN": csrfToken,
-              "Accept": "application/json",
-              "X-Requested-With": "XMLHttpRequest"
-            }
-          });
-          const data = await res.json();
-          if (res.ok && data.success) {
-            const card = document.querySelector(`div[data-id='${id}']`);
-            if (card) card.remove();
-            alert("✅ Édition supprimée.");
-          } else {
-            alert("⚠️ Erreur : " + (data.message || "Impossible de supprimer"));
-          }
-        } catch (err) {
-          alert("❌ Erreur réseau : " + err.message);
-        }
-        return;
-      }
-    });
-
-
-    editionForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      formErrors.textContent = "";
-      submitBtn.disabled = true;
-      submitBtn.textContent = isEditing ? "Envoi..." : "Envoi...";
-
-      const formData = new FormData(editionForm);
-      // Append token too (sûreté)
-      formData.set('_token', csrfToken);
-
-      let url = "{{ route('editions.store') }}";
-      // par défaut POST (create)
-      if (isEditing) {
-        const id = editionIdInput.value;
-        url = `editions/${id}`;
-        formData.set('_method', 'PUT'); // Laravel
-      }
-
+  editionList.addEventListener('click', async (e) => {
+    if (e.target.closest('.editBtn')) {
+      const id = e.target.closest('.editBtn').getAttribute('data-id');
+      isEditing = true;
+      formTitle.textContent = "Modifier l'édition";
+      formErrors.textContent = 'Chargement...';
       try {
-        const res = await fetch(url, {
-          method: "POST",
-          headers: {
-            "X-CSRF-TOKEN": csrfToken,
-            "Accept": "application/json",
-            "X-Requested-With": "XMLHttpRequest"
-          },
-          body: formData
-        });
-
+        const res = await fetch(`editions/${id}/edit`, { headers: { Accept: 'application/json' } });
         const data = await res.json();
-
         if (res.ok && data.success) {
-          // Construire badge & boutons selon statut
-          const statutBadge = data.edition.statut == 1
-            ? `<span class="px-3 py-1 text-xs font-semibold bg-green-100 text-green-700 rounded-full">✅ Active</span>`
-            : `<span class="px-3 py-1 text-xs font-semibold bg-red-100 text-red-700 rounded-full">🔒 Clôturée</span>`;
-
-          const actionBtns = data.edition.statut == 1
-            ? `<button class="editBtn flex-1 px-3 py-1 bg-black text-white rounded text-center" data-id="${data.edition.id}">Modifier</button>
-               <button class="deleteBtn flex-1 px-3 py-1 bg-red-500 text-white rounded" data-id="${data.edition.id}">Supprimer</button>`
-            : '';
-
-          if (isEditing) {
-            // Mettre à jour la carte existante
-            const card = document.querySelector(`div[data-id='${data.edition.id}']`);
-            if (card) {
-              card.innerHTML = `
-                <div>
-                  <h3 class="text-lg font-bold text-gray-800">${escapeHtml(data.edition.titre)}</h3>
-                  <p class="text-sm text-gray-600">${escapeHtml(data.edition.theme || '')}</p>
-                </div>
-                <div class="mt-4">${statutBadge}</div>
-                <div class="mt-4 flex gap-2">${actionBtns}</div>
-              `;
-            }
-            alert("✅ Édition modifiée avec succès");
-          } else {
-            // Créer une nouvelle carte
-            const div = document.createElement('div');
-            div.dataset.id = data.edition.id;
-            div.className = "bg-white rounded-xl shadow-md p-5 flex flex-col justify-between";
-            div.innerHTML = `
-              <div>
-                <h3 class="text-lg font-bold text-gray-800">${escapeHtml(data.edition.titre)}</h3>
-                <p class="text-sm text-gray-600">${escapeHtml(data.edition.theme || '')}</p>
-              </div>
-              <div class="mt-4">${statutBadge}</div>
-              <div class="mt-4 flex gap-2">${actionBtns}</div>
-            `;
-            editionList.prepend(div); // mettre en haut
-            alert("✅ Édition ajoutée avec succès");
-          }
-
-          editionForm.reset();
-          editionIdInput.value = "";
-          isEditing = false;
-          closeModal();
+          editionIdInput.value = data.edition.id;
+          titreInput.value = data.edition.titre ?? '';
+          themeInput.value = data.edition.theme ?? '';
+          statutInput.value = String(data.edition.statut ?? '1');
+          formErrors.textContent = '';
+          openModal();
         } else {
-          // erreurs de validation 422 / autres messages
-          if (res.status === 422 && data.errors) {
-            const messages = Object.values(data.errors).flat().join(' · ');
-            formErrors.textContent = messages;
-          } else {
-            formErrors.textContent = data.message || "Une erreur est survenue";
-          }
+          formErrors.textContent = data.message || "Impossible de charger l'édition";
         }
-
       } catch (err) {
-        formErrors.textContent = "Erreur réseau : " + err.message;
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Enregistrer";
+        formErrors.textContent = 'Erreur réseau : ' + err.message;
       }
-    });
-
-    // Petit helper pour échapper le HTML (sécurité)
-    function escapeHtml(unsafe) {
-      if (!unsafe) return '';
-      return String(unsafe)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+      return;
     }
-  </script>
-  <script>
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      const overlay = document.getElementById('overlay');
-      sidebar.classList.toggle('-translate-x-full');
-      overlay.classList.toggle('hidden');
-    }
-
-    // Graphique
-    const categories = @json($categoriesLabels ?? []);
-    const votes = @json($categoriesVotes ?? []);
-
-    const ctx = document.getElementById('votesParCategorie').getContext('2d');
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: categories,
-        datasets: [{
-          label: 'Votes',
-          data: votes,
-          backgroundColor: 'rgba(162, 130, 36, 0.8)',
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: { beginAtZero: true }
+    if (e.target.closest('.deleteBtn')) {
+      const id = e.target.closest('.deleteBtn').getAttribute('data-id');
+      if (!confirm('Supprimer cette édition ?')) return;
+      try {
+        const res = await fetch(`editions/${id}`, {
+          method: 'DELETE',
+          headers: { 'X-CSRF-TOKEN': csrfToken, Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          document.querySelector(`article[data-id='${id}']`)?.remove();
+        } else {
+          alert(data.message || 'Impossible de supprimer');
         }
+      } catch (err) {
+        alert('Erreur réseau : ' + err.message);
       }
-    });
-  </script>
-</body>
-</html>
+    }
+  });
+
+  editionForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    formErrors.textContent = '';
+    submitBtn.disabled = true;
+    const formData = new FormData(editionForm);
+    formData.set('_token', csrfToken);
+    let url = "{{ route('editions.store') }}";
+    if (isEditing) {
+      formData.set('_method', 'PUT');
+      url = `editions/${editionIdInput.value}`;
+    }
+    try {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'X-CSRF-TOKEN': csrfToken, Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+        body: formData
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        location.reload();
+      } else if (res.status === 422 && data.errors) {
+        formErrors.textContent = Object.values(data.errors).flat().join(' · ');
+      } else {
+        formErrors.textContent = data.message || 'Une erreur est survenue';
+      }
+    } catch (err) {
+      formErrors.textContent = 'Erreur réseau : ' + err.message;
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+</script>
+@endpush

@@ -19,16 +19,43 @@ class UserController extends Controller
      */
     public function index()
     {
-        $Categories = Categorie::all();
-        return view('user.index', compact('Categories'));
+        $edition = Edition::where('statut', 1)->first();
+
+        $categories = $edition
+            ? Categorie::where('edition_id', $edition->id)
+                ->with(['candidats' => fn ($q) => $q->orderBy('nom_complet')])
+                ->orderBy('nom_categorie')
+                ->get()
+                ->filter(fn ($c) => $c->candidats->isNotEmpty())
+                ->values()
+            : collect();
+
+        return view('user.index', compact('categories', 'edition'));
     }
 
     public function vote()
     {
-        $Categories = Categorie::with('Candidats')->get(); // on charge aussi les candidats
-        $edition = Edition::latest()->first(); // par exemple l'édition active
+        $edition = Edition::where('statut', 1)->first();
 
-        return view('user.vote', compact('Categories', 'edition'));
+        if (! $edition) {
+            return redirect()->route('user.index')->with('error', 'Aucune édition active. Le vote est fermé.');
+        }
+
+        $categories = Categorie::where('edition_id', $edition->id)
+            ->with(['candidats' => fn ($q) => $q->orderBy('nom_complet')])
+            ->orderBy('nom_categorie')
+            ->get()
+            ->filter(fn ($c) => $c->candidats->isNotEmpty())
+            ->values();
+
+        if ($categories->isEmpty()) {
+            return redirect()->route('user.index')->with('error', 'Aucun candidat disponible pour voter.');
+        }
+
+        return view('user.vote', [
+            'categories' => $categories,
+            'edition' => $edition,
+        ]);
     }
 
     public function store(Request $request)

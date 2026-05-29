@@ -12,8 +12,23 @@ class Vote extends Model
     protected $table = 'votes';
     
     protected $fillable = [
-        'user_id', 'candidat_id', 'categorie_id', 'edition_id', 'uuid'
+        'user_id',
+        'candidat_id',
+        'categorie_id',
+        'edition_id',
+        'uuid',
+        'montant',
+        'payment_reference',
+        'payment_method',
+        'payment_status',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'montant' => 'decimal:2',
+        ];
+    }
 
 
     // Un vote est effectué pour un seul candidat.
