@@ -82,6 +82,7 @@
 
     <main class="flex-1 p-4 sm:p-6 lg:p-8 admin-scrollbar overflow-x-hidden">
       @include('components.admin.flash')
+      @include('components.admin.consultation-banner')
       @yield('content')
     </main>
   </div>

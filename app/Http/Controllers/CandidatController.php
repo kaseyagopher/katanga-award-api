@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Candidat;
 use App\Models\Categorie;
 use App\Models\Edition;
+use App\Support\AdminEditionContext;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use ColorThief\ColorThief;
@@ -16,8 +17,13 @@ class CandidatController extends Controller
      */
     public function index()
     {
-        $candidats = Candidat::with('categorie', 'edition')->get();
-        $Categories = Categorie::with('candidats')->get();
+        $editionViewing = AdminEditionContext::viewing();
+        $candidats = Candidat::with('categorie', 'edition')
+            ->when($editionViewing, fn ($q) => $q->where('edition_id', $editionViewing->id))
+            ->get();
+        $Categories = Categorie::with('candidats')
+            ->when($editionViewing, fn ($q) => $q->where('edition_id', $editionViewing->id))
+            ->get();
         $editions = Edition::all();
 
         return view('admin.candidats', compact('candidats', 'Categories', 'editions'));

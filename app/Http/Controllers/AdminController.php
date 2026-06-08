@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\Candidat;
 use App\Models\Categorie;
 use App\Models\Edition;
+use App\Support\AdminEditionContext;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Hash;
@@ -19,15 +20,17 @@ class AdminController extends Controller
     public function index()
     {
 
-        $editionActive = Edition::where('statut', 1)->first();
+        $editionActive = AdminEditionContext::active();
+        $editionViewing = AdminEditionContext::viewing();
+        $consultationEdition = AdminEditionContext::consultation();
 
-
-        $nbCandidats = Candidat::count();
-        $nbCategories = Categorie::count();
+        $nbCandidats = Candidat::when($editionViewing, fn ($q) => $q->where('edition_id', $editionViewing->id))->count();
+        $nbCategories = Categorie::when($editionViewing, fn ($q) => $q->where('edition_id', $editionViewing->id))->count();
         $nbEditions = Edition::count();
-        $nbVotes = \App\Models\Vote::count();
+        $nbVotes = \App\Models\Vote::when($editionViewing, fn ($q) => $q->where('edition_id', $editionViewing->id))->count();
 
         $topCandidats = Candidat::with('categorie')
+            ->when($editionViewing, fn ($q) => $q->where('edition_id', $editionViewing->id))
             ->withCount('votes')
             ->orderBy('votes_count', 'desc')
             ->take(3)
@@ -36,8 +39,8 @@ class AdminController extends Controller
         $categoriesLabels = [];
         $categoriesVotes = [];
 
-        if ($editionActive) {
-            $categories = Categorie::where('edition_id', $editionActive->id)
+        if ($editionViewing) {
+            $categories = Categorie::where('edition_id', $editionViewing->id)
                 ->with(['candidats' => function($q) {
                     $q->withCount('votes');
                 }])->get();
@@ -50,12 +53,15 @@ class AdminController extends Controller
         }
 
         $recentVotes = \App\Models\Vote::with(['user','candidat.categorie'])
+            ->when($editionViewing, fn ($q) => $q->where('edition_id', $editionViewing->id))
             ->latest()
             ->take(10)
             ->get();
 
         return view('admin.dashboard', compact(
             'editionActive',
+            'editionViewing',
+            'consultationEdition',
             'nbCandidats',
             'nbCategories',
             'nbEditions',

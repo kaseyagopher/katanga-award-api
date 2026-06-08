@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Support\AdminEditionContext;
 use Illuminate\Http\Request;
 
 class ResultatController extends Controller
@@ -13,7 +14,7 @@ class ResultatController extends Controller
 
 public function data()
 {
-    $edition = \App\Models\Edition::where('statut', 1)->first();
+    $edition = AdminEditionContext::viewing();
 
     if (!$edition) {
         return response()->json([]);

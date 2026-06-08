@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Categorie;
 use App\Models\Edition;
+use App\Support\AdminEditionContext;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,7 +15,11 @@ class CategorieController extends Controller
      */
     public function index()
     {
-        $Categories = Categorie::all();
+        $editionViewing = AdminEditionContext::viewing();
+        $Categories = Categorie::when($editionViewing, fn ($q) => $q->where('edition_id', $editionViewing->id))
+            ->orderBy('nom_categorie')
+            ->get();
+
         return view('admin.categories', compact('Categories'));
     }
 

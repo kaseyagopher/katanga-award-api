@@ -2,7 +2,13 @@
 
 @section('title', 'Tableau de bord')
 @section('page-title', 'Tableau de bord')
-@section('page-subtitle', 'Vue d\'ensemble de l\'édition en cours')
+@section('page-subtitle')
+  @if($consultationEdition ?? null)
+    Consultation : {{ $consultationEdition->titre }}
+  @else
+    Vue d'ensemble de l'édition en cours
+  @endif
+@endsection
 
 @push('head')
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -39,31 +45,31 @@
     {{-- Édition active --}}
     <section class="xl:col-span-1 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
       <h2 class="flex items-center gap-2 text-lg font-bold text-neutral-900 mb-4">
-        <span class="material-icons text-ka-gold">flag</span>
-        Édition en cours
+        <span class="material-icons text-ka-gold">{{ ($consultationEdition ?? null) ? 'visibility' : 'flag' }}</span>
+        {{ ($consultationEdition ?? null) ? 'Session consultée' : 'Session ouverte' }}
       </h2>
-      @if($editionActive)
+      @if($editionViewing ?? null)
         <dl class="space-y-3 text-sm">
           <div>
             <dt class="text-neutral-500">Titre</dt>
-            <dd class="font-semibold text-neutral-900">{{ $editionActive->titre }}</dd>
+            <dd class="font-semibold text-neutral-900">{{ $editionViewing->titre }}</dd>
           </div>
           <div>
             <dt class="text-neutral-500">Thème</dt>
-            <dd class="text-neutral-800">{{ $editionActive->theme }}</dd>
+            <dd class="text-neutral-800">{{ $editionViewing->theme }}</dd>
           </div>
           <div>
             <dt class="text-neutral-500 mb-1">Statut</dt>
             <dd>
-              <span class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold {{ $editionActive->statut ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                <span class="material-icons text-[14px]">{{ $editionActive->statut ? 'check_circle' : 'lock' }}</span>
-                {{ $editionActive->statut ? 'Active' : 'Clôturée' }}
+              <span class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold {{ $editionViewing->statut ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800' }}">
+                <span class="material-icons text-[14px]">{{ $editionViewing->statut ? 'check_circle' : 'visibility' }}</span>
+                {{ $editionViewing->statut ? 'Ouverte' : 'Clôturée (consultation)' }}
               </span>
             </dd>
           </div>
         </dl>
       @else
-        <p class="text-sm text-neutral-500 rounded-lg bg-neutral-50 p-4 text-center">Aucune édition active.</p>
+        <p class="text-sm text-neutral-500 rounded-lg bg-neutral-50 p-4 text-center">Aucune session active ni consultée.</p>
       @endif
     </section>
 
