@@ -127,7 +127,36 @@ class EditionController extends Controller
         }
     }
 
-    /** Réactiver une session passée en mode consultation (lecture seule). */
+    /** Réouvrir une session clôturée — les visiteurs peuvent voter à nouveau. */
+    public function reactivate(Request $request, Edition $edition)
+    {
+        try {
+            $this->verifyAdminPassword($request);
+
+            if ((int) $edition->statut !== 0) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Seule une session clôturée peut être réouverte.',
+                ], 422);
+            }
+
+            Edition::where('statut', 1)->where('id', '!=', $edition->id)->update(['statut' => 0]);
+            $edition->update(['statut' => 1]);
+            session()->forget('admin_consultation_edition_id');
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Session réouverte — les visiteurs peuvent voter à nouveau.',
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'errors' => $e->errors(),
+            ], 422);
+        }
+    }
+
+    /** Réactiver une session passée en mode consultation (lecture seule admin). */
     public function consult(Request $request, Edition $edition)
     {
         try {

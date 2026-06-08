@@ -28,6 +28,7 @@ Route::prefix('katanga-award')->group(function () {
         Route::get('/dashboard',[AdminController::class, 'index'])->name('admin.dashboard');
         Route::resource('editions', EditionController::class);
         Route::post('editions/{edition}/close', [EditionController::class, 'close'])->name('editions.close');
+        Route::post('editions/{edition}/reactivate', [EditionController::class, 'reactivate'])->name('editions.reactivate');
         Route::post('editions/{edition}/consult', [EditionController::class, 'consult'])->name('editions.consult');
         Route::post('editions/consultation/leave', [EditionController::class, 'leaveConsultation'])->name('editions.consultation.leave');
         Route::resource('categories', CategorieController::class);

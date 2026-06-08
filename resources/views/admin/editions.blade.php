@@ -2,7 +2,7 @@
 
 @section('title', 'Sessions')
 @section('page-title', 'Sessions / Éditions')
-@section('page-subtitle', 'Ouvrir, clôturer ou consulter une session de vote')
+@section('page-subtitle', 'Ouvrir, clôturer, réouvrir ou consulter une session de vote')
 
 @section('header-actions')
   <button type="button" id="showFormBtn"
@@ -50,8 +50,14 @@
           </div>
         @else
           <div class="mt-4 flex flex-col gap-2">
-            <button type="button" class="consultBtn w-full rounded-lg bg-ka-gold px-3 py-2 text-sm font-semibold text-white hover:bg-ka-gold/90" data-id="{{ $Edition->id }}" data-title="{{ $Edition->titre }}">
-              Consulter cette session
+            <button type="button" class="reactivateBtn w-full rounded-lg bg-green-600 px-3 py-2 text-sm font-semibold text-white hover:bg-green-700" data-id="{{ $Edition->id }}" data-title="{{ $Edition->titre }}">
+              <span class="inline-flex items-center justify-center gap-1">
+                <span class="material-icons text-[16px]">how_to_vote</span>
+                Réouvrir les votes (public)
+              </span>
+            </button>
+            <button type="button" class="consultBtn w-full rounded-lg border border-ka-gold/40 bg-ka-gold/10 px-3 py-2 text-sm font-semibold text-ka-gold hover:bg-ka-gold/20" data-id="{{ $Edition->id }}" data-title="{{ $Edition->titre }}">
+              Consulter (admin seulement)
             </button>
             <button type="button" class="deleteBtn w-full rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm font-semibold text-red-700 hover:bg-red-100" data-id="{{ $Edition->id }}">
               Supprimer
@@ -250,6 +256,16 @@
       return;
     }
 
+    if (e.target.closest('.reactivateBtn')) {
+      const btn = e.target.closest('.reactivateBtn');
+      openPasswordModal(
+        'Réouvrir les votes',
+        `« ${btn.dataset.title} » sera de nouveau active pour le public. Toute autre session ouverte sera clôturée.`,
+        { type: 'reactivate', id: btn.dataset.id }
+      );
+      return;
+    }
+
     if (e.target.closest('.consultBtn')) {
       const btn = e.target.closest('.consultBtn');
       openPasswordModal(
@@ -338,6 +354,19 @@
     return res.json().then(data => ({ res, data }));
   }
 
+  async function submitReactivate(id, password) {
+    const formData = new FormData();
+    formData.set('_token', csrfToken);
+    formData.set('password', password);
+
+    const res = await fetch("{{ url('/katanga-award/admin/editions') }}/" + id + "/reactivate", {
+      method: 'POST',
+      headers: { 'X-CSRF-TOKEN': csrfToken, Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+      body: formData
+    });
+    return res.json().then(data => ({ res, data }));
+  }
+
   async function submitConsult(id, password) {
     const formData = new FormData();
     formData.set('_token', csrfToken);
@@ -383,6 +412,17 @@
           passwordErrors.textContent = data.errors.password.join(' · ');
         } else {
           passwordErrors.textContent = data.message || 'Impossible de clôturer';
+        }
+      } else if (pendingAction?.type === 'reactivate') {
+        const { res, data } = await submitReactivate(pendingAction.id, password);
+        if (res.ok && data.success) {
+          location.reload();
+          return;
+        }
+        if (res.status === 422 && data.errors?.password) {
+          passwordErrors.textContent = data.errors.password.join(' · ');
+        } else {
+          passwordErrors.textContent = data.message || 'Impossible de réouvrir';
         }
       } else if (pendingAction?.type === 'consult') {
         const { res, data } = await submitConsult(pendingAction.id, password);
